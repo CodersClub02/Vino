@@ -1,18 +1,11 @@
 <template>
-
-    <div class="min-h-full">
-      <Disclosure as="nav" class="bg-black" v-slot="{ open }">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div class="flex h-16 items-center justify-between">
-            <div class="flex items-center">
-              <div class="flex-shrink-0">
-                <img class="h-14" src="vino-logo.png" alt="Vino" />
-              </div>
-              <div class="hidden md:block">
-                <div class="ml-10 flex items-baseline space-x-4">
-                  <a v-for="item in navigation" :key="item.name" :href="item.href" :class="[item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white', 'rounded-md px-3 py-2 text-sm font-medium']" :aria-current="item.current ? 'page' : undefined">{{ item.name }}</a>
-                </div>
-              </div>
+  <div class="min-h-full">
+    <Disclosure as="nav" class="bg-black" v-slot="{ open }">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="flex h-16 items-center justify-between">
+          <div class="flex items-center">
+            <div class="flex-shrink-0">
+              <img class="h-14" src="vino-logo.png" alt="Vino" />
             </div>
             <div class="hidden md:block">
               <div class="ml-10 flex items-baseline space-x-4">
