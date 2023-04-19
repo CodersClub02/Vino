@@ -68,7 +68,9 @@
                     <p class="mt-10 text-center text-sm text-gray-500">
                         Vous avez un compte?
                         {{ ' ' }}
-                        <a href="#" class="font-semibold leading-6 text-rose-800 hover:text-indigo-500">Cliquez ici</a>
+
+                        <router-link :to="{ name: 'Connecter' }"
+                            class="font-semibold leading-6 text-rose-800 hover:text-indigo-500">Cliquez ici</router-link>
                     </p>
                 </div>
             </div>
