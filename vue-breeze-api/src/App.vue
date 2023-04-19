@@ -1,4 +1,6 @@
 <script setup>
 </script>
 
-<template></template>
+<template>
+  <h1>Projet web 2</h1>
+</template>
