@@ -1,1 +1,6 @@
-Acc
+<script>
+</script>
+
+<template>
+    Acc
+</template>
