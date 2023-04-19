@@ -1,6 +1,7 @@
 <script setup>
+import Navigation from "./components/Navigation.vue";
 </script>
-
 <template>
-  <h1>Projet web 2</h1>
+  <Navigation />
+  <RouterView />
 </template>
