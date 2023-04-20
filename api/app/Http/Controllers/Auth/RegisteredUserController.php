@@ -38,4 +38,27 @@ class RegisteredUserController extends Controller
 
         return response()->noContent();
     }
+
+
+      /**
+     * Handle an incoming update request.
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function update(Request $request): Response
+    {
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ]);
+
+        Auth::user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        return response()->noContent();
+    }
 }

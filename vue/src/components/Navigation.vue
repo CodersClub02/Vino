@@ -4,7 +4,6 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
 
 import { useAuthStore } from "../stores/auth";
 const authUsager = useAuthStore();
-console.log(authUsager.user);
 
 </script>
 
@@ -46,16 +45,17 @@ console.log(authUsager.user);
                     class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                     <router-link :to="{ name: 'Accueil' }"
                       :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Accueil</router-link>
-                      
+
                   </MenuItems>
                 </transition>
               </Menu>
 
               <div class="-mr-2 flex space-x-2" v-else>
                 <!-- Mobile menu button -->
-                <router-link :to="{ name : 'Connecter' }"
-                  class="inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">se connecter</router-link>
-                <router-link :to="{ name : 'CreerCompte' }"
+                <router-link :to="{ name: 'Connecter' }"
+                  class="inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">se
+                  connecter</router-link>
+                <router-link :to="{ name: 'CreerCompte' }"
                   class="inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">s'inscrire</router-link>
               </div>
             </div>
@@ -71,9 +71,10 @@ console.log(authUsager.user);
           </div>
           <div class="-mr-2 flex md:hidden space-x-2" v-else>
             <!-- Mobile menu button -->
-            <router-link :to="{ name : 'Connecter' }"
-              class="inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">se connecter</router-link>
-            <router-link :to="{ name : 'CreerCompte' }"
+            <router-link :to="{ name: 'Connecter' }"
+              class="inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">se
+              connecter</router-link>
+            <router-link :to="{ name: 'CreerCompte' }"
               class="inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">s'inscrire</router-link>
           </div>
         </div>
@@ -87,7 +88,7 @@ console.log(authUsager.user);
         </div>
         <div class="border-t border-gray-700 pb-3 pt-4">
           <div class="flex items-center px-5">
-            
+
             <div class="flex-shrink-0">
               <img class="h-10 w-10 rounded-full" :src="ll" alt="" />
             </div>
@@ -103,13 +104,15 @@ console.log(authUsager.user);
           </div>
 
           <div class="mt-3 space-y-1 px-2">
-          
-              <button @click="authUsager.deconnecter()" class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">Déconnecter</button>
-     
+
+            <button @click="authUsager.deconnecter()"
+              class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">Déconnecter</button>
+
           </div>
-          
+
         </div>
 
       </DisclosurePanel>
-  </Disclosure>
-</div></template>
+    </Disclosure>
+  </div>
+</template>
