@@ -1,4 +1,26 @@
-<script>
+<script setup>
+import { ref } from "vue";
+import axios from "axios";
+import { useRouter } from "vue-router";
+
+const form = ref({
+  courriel: 'test@example.com',
+  mot_de_passe: 'password'
+})
+
+const router = useRouter()
+
+const connecter = async () => {
+  await axios.post('/login', {
+    email: form.value.courriel,
+    password: form.value.mot_de_passe
+  })
+
+  // aller dans la page d'accueil
+  router.push({name: 'Accueil'});
+
+}
+
 </script>
 
 <template>
@@ -15,11 +37,11 @@
               </div>
 
               <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                <form class="space-y-6" action="#" method="POST">
+                <form @submit.prevent="connecter" class="space-y-6">
                   <div>
                     <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Courriel</label>
                     <div class="mt-2">
-                      <input id="email" name="email" type="email" autocomplete="email" required="" class="block w-full rounded-md border-0 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-rose-800 sm:text-sm sm:leading-6" />
+                      <input id="email" name="courriel" v-model="form.courriel" type="email" autocomplete="email" required="" class="block w-full rounded-md border-0 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-rose-800 sm:text-sm sm:leading-6" />
                     </div>
                   </div>
 
@@ -31,7 +53,7 @@
                       </div>
                     </div>
                     <div class="mt-2">
-                      <input id="password" name="password" type="password" autocomplete="current-password" required="" class="block w-full rounded-md border-0 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-rose-800 sm:text-sm sm:leading-6" />
+                      <input id="password" name="mot_de_passe" v-model="form.mot_de_passe" type="password" autocomplete="current-password" required="" class="block w-full rounded-md border-0 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-rose-800 sm:text-sm sm:leading-6" />
                     </div>
                   </div>
 
@@ -43,7 +65,8 @@
                 <p class="mt-10 text-center text-sm text-gray-500">
                   Non inscrit?
                   {{ ' ' }}
-                  <a href="#" class="font-semibold leading-6 text-rose-800 hover:text-red-500">Créez votre compte</a>
+                  <router-link :to="{ name : 'CreerCompte' }" class="font-semibold leading-6 text-rose-800 hover:text-red-500">Créez votre compte</router-link>
+
                 </p>
               </div>
             </div>
