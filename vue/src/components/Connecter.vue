@@ -8,10 +8,6 @@ const form = ref({
   mot_de_passe: 'password'
 })
 
-const getToken = async () => {
-  await axios.get('/sanctum/csrf-cookie');
-}
-
 const router = useRouter()
 const connecter = async () => {
   await getToken();
