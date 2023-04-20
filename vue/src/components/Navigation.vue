@@ -21,9 +21,10 @@ const user = {
             </div>
             <div class="hidden md:block">
               <div class="ml-10 flex items-baseline space-x-4">
-                  <router-link :to="{ name : 'Accueil' }" :class="[false ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white', 'rounded-md px-3 py-2 text-sm font-medium']"
+                <router-link :to="{ name: 'Accueil' }"
+                  :class="[false ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white', 'rounded-md px-3 py-2 text-sm font-medium']"
                   :aria-current="false ? 'page' : undefined">Accueil</router-link>
-                  
+
               </div>
             </div>
           </div>
@@ -45,7 +46,8 @@ const user = {
                   leave-to-class="transform opacity-0 scale-95">
                   <MenuItems
                     class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                    <router-link :to="{ name : 'Accueil' }" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">sssss</router-link>
+                    <router-link :to="{ name: 'Accueil' }"
+                      :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">sssss</router-link>
                   </MenuItems>
                 </transition>
               </Menu>
@@ -65,8 +67,9 @@ const user = {
 
       <DisclosurePanel class="md:hidden">
         <div class="space-y-1 px-2 pb-3 pt-2 sm:px-3">
-          <router-link :to="{ name : 'Accueil' }" :class="[false ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white', 'rounded-md px-3 py-2 text-sm font-medium']"
-                  :aria-current="false ? 'page' : undefined">Accueil</router-link>
+          <router-link :to="{ name: 'Accueil' }"
+            :class="[false ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white', 'rounded-md px-3 py-2 text-sm font-medium']"
+            :aria-current="false ? 'page' : undefined">Accueil</router-link>
         </div>
         <div class="border-t border-gray-700 pb-3 pt-4">
           <div class="flex items-center px-5">
@@ -79,10 +82,10 @@ const user = {
             </div>
           </div>
           <div class="mt-3 space-y-1 px-2">
-              <router-link :to="{ name : 'Accueil' }" class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">sssss</router-link>
+            <router-link :to="{ name: 'Accueil' }"
+              class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">sssss</router-link>
           </div>
         </div>
       </DisclosurePanel>
-    </Disclosure>
-  </div>
-</template>
+  </Disclosure>
+</div></template>
