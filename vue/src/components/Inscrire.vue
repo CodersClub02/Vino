@@ -1,10 +1,8 @@
 <script setup>
 import { ref } from 'vue';
-import axios from 'axios';
-import { useRouter } from 'vue-router'
+import { useAuthStore } from '../stores/auth'
 
-
-const router = useRouter();
+const authStore = useAuthStore()
 const form = ref({
     nom: '',
     courriel: '',
@@ -12,15 +10,6 @@ const form = ref({
     confirmer_mot_de_passe: ''
 });
 
-const creerCompte = async () => {
-    await axios.post('/register', {
-        name: form.value.nom,
-        email: form.value.courriel,
-        password: form.value.mot_de_passe,
-        password_confirmation: form.value.confirmer_mot_de_passe
-    })
-    console.log("hi sdsdsdad");
-}
 </script>
 
 <template>
@@ -38,23 +27,33 @@ const creerCompte = async () => {
                 </div>
 
                 <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                    <form @submit.prevent="creerCompte" class="space-y-6">
+                    <form @submit.prevent="authStore.creerCompte(form)" class="space-y-6">
+
                         <div>
                             <label for="name" class="block text-sm font-medium leading-6 text-gray-900">Nom</label>
                             <div class="mt-2">
-                                <input id="name" name="nom" v-model="form.nom" type="text" required=""
+                                <input id="name" name="nom" v-model="form.nom" type="text"
                                     class="block w-full rounded-md border-0 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-rose-800 sm:text-sm sm:leading-6" />
                             </div>
+                            <div v-if="authStore.erreurs.name" class="mt-2">
+                                <span class="text-red-400 text-sm m-2 p-2">{{ authStore.erreurs.name[0] }}</span>
+
+                            </div>
                         </div>
+
 
                         <div>
                             <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Courriel</label>
                             <div class="mt-2">
                                 <input id="email" name="courriel" v-model="form.courriel" type="email" autocomplete="email"
-                                    required=""
                                     class="block w-full rounded-md border-0 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-rose-800 sm:text-sm sm:leading-6" />
                             </div>
+                            <div v-if="authStore.erreurs.email" class="mt-2">
+                                <span class="text-red-400 text-sm m-2 p-2">{{ authStore.erreurs.email[0] }}</span>
+
+                            </div>
                         </div>
+
 
                         <div>
                             <div class="flex items-center justify-between">
@@ -63,12 +62,16 @@ const creerCompte = async () => {
                             </div>
                             <div class="mt-2">
                                 <input id="password" name="mot_de_passe" v-model="form.mot_de_passe" type="password"
-                                    required=""
                                     class="block w-full rounded-md border-0 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-rose-800 sm:text-sm sm:leading-6" />
+                            </div>
+                            <div v-if="authStore.erreurs.password" class="mt-2">
+                                <span class="text-red-400 text-sm m-2 p-2">{{ authStore.erreurs.password[0] }}</span>
+
                             </div>
                         </div>
 
                         <div>
+
                             <div class="flex items-center justify-between">
                                 <label for="passwordConfirm"
                                     class="block text-sm font-medium leading-6 text-gray-900">Confirmez votre mot de
@@ -78,7 +81,7 @@ const creerCompte = async () => {
                             </div>
                             <div class="mt-2">
                                 <input id="passwordConfirm" name="confirmer_mot_de_Passe"
-                                    v-model="form.confirmer_mot_de_passe" type="password" required=""
+                                    v-model="form.confirmer_mot_de_passe" type="password"
                                     class="block w-full rounded-md border-0 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-rose-800 sm:text-sm sm:leading-6" />
                             </div>
                         </div>
