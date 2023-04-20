@@ -3,7 +3,7 @@ import { defineStore } from "pinia";
 import axios from "axios";
 
 export const useAuthStore = defineStore("auth", {
-    state: ()=>({
+    state: () => ({
         authUser: null
     }),
     getters: {
@@ -12,12 +12,23 @@ export const useAuthStore = defineStore("auth", {
     actions: {
         async getToken() {
             await axios.get('/sanctum/csrf-cookie');
-          },
-        async getUser(){
+        },
+        async getUser() {
             this.getToken()
-            await axios.get('/api/user')
-            this.authUser = data.data
+            const donnees = await axios.get('/api/user')
+            this.authUser = donnees.data
+        },
+        async creerCompte(donnees) {
+            await this.getToken()
+            await axios.post('/register', {
+                name: donnees.nom,
+                email: donnees.courriel,
+                password: donnees.mot_de_passe,
+                password_confirmation: donnees.confirmer_mot_de_passe
+            })
+            this.router.push('/')
         }
+
 
     }
 })

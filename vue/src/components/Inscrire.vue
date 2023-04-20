@@ -1,10 +1,8 @@
 <script setup>
 import { ref } from 'vue';
-import axios from 'axios';
-import { useRouter } from 'vue-router'
+import { useAuthStore } from '../stores/auth'
 
-
-const router = useRouter();
+const authStore = useAuthStore()
 const form = ref({
     nom: '',
     courriel: '',
@@ -12,15 +10,6 @@ const form = ref({
     confirmer_mot_de_passe: ''
 });
 
-const creerCompte = async () => {
-    await axios.post('/register', {
-        name: form.value.nom,
-        email: form.value.courriel,
-        password: form.value.mot_de_passe,
-        password_confirmation: form.value.confirmer_mot_de_passe
-    })
-    console.log("hi sdsdsdad");
-}
 </script>
 
 <template>
@@ -38,7 +27,7 @@ const creerCompte = async () => {
                 </div>
 
                 <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                    <form @submit.prevent="creerCompte" class="space-y-6">
+                    <form @submit.prevent="authStore.creerCompte(form)" class="space-y-6">
                         <div>
                             <label for="name" class="block text-sm font-medium leading-6 text-gray-900">Nom</label>
                             <div class="mt-2">
