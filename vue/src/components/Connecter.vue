@@ -1,24 +1,12 @@
 <script setup>
 import { ref } from "vue";
-import axios from "axios";
-import { useRouter } from "vue-router";
+import { useAuthStore } from "../stores/auth";
 
+const authStore = useAuthStore();
 const form = ref({
   courriel: 'test@example.com',
   mot_de_passe: 'password'
 })
-
-const router = useRouter()
-const connecter = async () => {
-  await getToken();
-  await axios.post('/login', {
-    email: form.value.courriel,
-    password: form.value.mot_de_passe
-  })
-  // aller dans la page d'accueil
-  router.push({name: 'Accueil'});
-
-}
 
 </script>
 
@@ -36,11 +24,16 @@ const connecter = async () => {
               </div>
 
               <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                <form @submit.prevent="connecter" class="space-y-6">
+                <form @submit.prevent="authStore.connecter(form)" class="space-y-6">
                   <div>
                     <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Courriel</label>
                     <div class="mt-2">
-                      <input id="email" name="courriel" v-model="form.courriel" type="email" autocomplete="email" required="" class="block w-full rounded-md border-0 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-rose-800 sm:text-sm sm:leading-6" />
+                      <input id="email" name="courriel" v-model="form.courriel" type="email" autocomplete="email" class="block w-full rounded-md border-0 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-rose-800 sm:text-sm sm:leading-6" />
+                    </div>
+                    <div v-if="authStore.errors.email" class="mt-2" >
+                      <span class="text-red-400 text-sm m-2 p-2">
+                        {{ authStore.errors.email[0] }}
+                      </span>
                     </div>
                   </div>
 
@@ -52,7 +45,12 @@ const connecter = async () => {
                       </div>
                     </div>
                     <div class="mt-2">
-                      <input id="password" name="mot_de_passe" v-model="form.mot_de_passe" type="password" autocomplete="current-password" required="" class="block w-full rounded-md border-0 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-rose-800 sm:text-sm sm:leading-6" />
+                      <input id="password" name="mot_de_passe" v-model="form.mot_de_passe" type="password" autocomplete="current-password" class="block w-full rounded-md border-0 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-rose-800 sm:text-sm sm:leading-6" />
+                    </div>
+                    <div v-if="authStore.errors.password" class="mt-2" >
+                      <span class="text-red-400 text-sm m-2 p-2">
+                        {{ authStore.errors.password[0] }}
+                      </span>
                     </div>
                   </div>
 
