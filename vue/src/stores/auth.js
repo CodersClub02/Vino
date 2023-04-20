@@ -33,6 +33,7 @@ export const useAuthStore = defineStore("auth", {
             } catch (error) {
                 
                 if(error.response.status == 404) {
+                    //to be reviewed
                     this.authErrors = error.response.data.message
                 }else if(error.response.status == 422) {
                     this.authErrors = error.response.data.errors
