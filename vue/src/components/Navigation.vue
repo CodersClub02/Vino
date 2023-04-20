@@ -1,3 +1,15 @@
+<script setup>
+import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItems } from '@headlessui/vue'
+import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
+
+const user = {
+  name: 'Hanane Boukhalfa',
+  email: 'hanane@example.com',
+  imageUrl:
+    'image.jpg',
+}
+</script>
+
 <template>
   <div class="min-h-full">
     <Disclosure as="nav" class="bg-black" v-slot="{ open }">
@@ -74,15 +86,3 @@
     </Disclosure>
   </div>
 </template>
-  
-<script setup>
-import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItems } from '@headlessui/vue'
-import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
-
-const user = {
-  name: 'Hanane Boukhalfa',
-  email: 'hanane@example.com',
-  imageUrl:
-    'image.jpg',
-}
-</script>

@@ -9,13 +9,12 @@ const form = ref({
 })
 
 const router = useRouter()
-
 const connecter = async () => {
+  await getToken();
   await axios.post('/login', {
     email: form.value.courriel,
     password: form.value.mot_de_passe
   })
-
   // aller dans la page d'accueil
   router.push({name: 'Accueil'});
 
