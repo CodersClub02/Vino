@@ -85,18 +85,16 @@ const authUsager = useAuthStore();
             </div>
             <div class="ml-3">
               <div class="text-base font-medium leading-none text-white">
-                {{ authUsager.user.name }}
+                <router-link :to="{ name: 'Profil' }">{{ authUsager.user.name }}</router-link>
+                
               </div>
             </div>
 
           </div>
 
-          <div class="mt-3 space-y-1 px-2 flex justify-end">
-
-            <button @click="authUsager.deconnecter()"
-              class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">Déconnecter</button>
-
-
+          <div class="mt-3 px-2 flex justify-between">
+            <router-link :to="{ name: 'Profil' }" class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">Profil</router-link>
+            <button @click="authUsager.deconnecter()" class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">Déconnecter</button>
           </div>
 
         </div>

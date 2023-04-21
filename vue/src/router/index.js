@@ -17,8 +17,9 @@ const router = createRouter({
 
 router.beforeEach(async (to, from) => {
     const authStore = useAuthStore();
-    console.log(authStore.user);
-    // use authStore Here
+    if(!authStore.user && (to.name != "Accueil" && to.name != "CreerCompte") ){
+        router.push({ name: 'Accueil', query: { redirect: from.path } });
+    }
 });
 
 export default router
