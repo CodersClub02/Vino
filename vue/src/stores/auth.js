@@ -35,7 +35,9 @@ export const useAuthStore = defineStore("auth", {
                 this.router.push({ name: 'Accueil' });
             } catch (error) {
 
-                if (error.response.status == 404) {
+                
+                if(error.response.status == 404) {
+                    //to be reviewed
                     this.authErrors = error.response.data.message
                 } else if (error.response.status == 422) {
                     this.authErrors = error.response.data.errors
@@ -46,24 +48,26 @@ export const useAuthStore = defineStore("auth", {
         async deconnecter() {
             await axios.post('/logout')
             this.authUser = null
-        }
-    },
 
-    async creerCompte(donnees) {
-        this.authErreurs = []
-        await this.getToken()
-        try {
-            await axios.post('/register', {
-                name: donnees.nom,
-                email: donnees.courriel,
-                password: donnees.mot_de_passe,
-                password_confirmation: donnees.confirmer_mot_de_passe
-            })
-            this.router.push('/')
+          }
+        },
+       
+        async creerCompte(donnees) {
+            this.authErreurs = []
+            await this.getToken()
+            try {
+                await axios.post('/register', {
+                    name: donnees.nom,
+                    email: donnees.courriel,
+                    password: donnees.mot_de_passe,
+                    password_confirmation: donnees.confirmer_mot_de_passe
+                })
+                this.router.push('/')
 
-        } catch (error) {
-            if (error.response.status == 422) {
-                this.authErreurs = error.response.data.errors
+            } catch (error) {
+                if (error.response.status == 422) {
+                    this.authErreurs = error.response.data.errors
+                }
             }
 
 
@@ -82,6 +86,7 @@ export const useAuthStore = defineStore("auth", {
             })
             this.router.push('/')
 
+
         } catch (error) {
             if (error.response.status == 422) {
                 this.authErreurs = error.response.data.errors
@@ -90,6 +95,5 @@ export const useAuthStore = defineStore("auth", {
 
         }
     }
-
 
 })
