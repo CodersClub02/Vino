@@ -34,7 +34,7 @@ const authUsager = useAuthStore();
                   <MenuButton
                     class="flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                     <span class="sr-only">Ouvrir le menu</span>
-                    <img class="h-8 w-8 rounded-full" :src="lll" alt="" />
+                    <img class="h-8 w-8 rounded-full" src="profil.png" alt="profil" />
                   </MenuButton>
                 </div>
                 <transition enter-active-class="transition ease-out duration-100"
@@ -43,20 +43,27 @@ const authUsager = useAuthStore();
                   leave-to-class="transform opacity-0 scale-95">
                   <MenuItems
                     class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <router-link :to="{ name: 'Profil' }"
+                      :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Mon
+                      Profil</router-link>
+
                     <router-link :to="{ name: 'Accueil' }"
                       :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Accueil</router-link>
+
+                    <button @click="authUsager.deconnecter()"
+                      class="block rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-700 hover:text-white">Déconnecter</button>
 
                   </MenuItems>
                 </transition>
               </Menu>
 
               <div class="-mr-2 flex space-x-2" v-else>
-                <!-- Mobile menu button -->
-                <router-link :to="{ name: 'Connecter' }"
-                  class="inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">se
+                <!-- desktop menu button -->
+                <router-link :to="{ name: 'Connecter' }" class="inline-flex items-center justify-center rounded-md p-2 text-white
+              hover:text-rose-400">Se
                   connecter</router-link>
-                <router-link :to="{ name: 'CreerCompte' }"
-                  class="inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">s'inscrire</router-link>
+                <router-link :to="{ name: 'CreerCompte' }" class="inline-flex items-center justify-center rounded-md p-2 text-white
+              hover:text-rose-400">S'inscrire</router-link>
               </div>
             </div>
           </div>
@@ -71,11 +78,11 @@ const authUsager = useAuthStore();
           </div>
           <div class="-mr-2 flex md:hidden space-x-2" v-else>
             <!-- Mobile menu button -->
-            <router-link :to="{ name: 'Connecter' }"
-              class="inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">se
+            <router-link :to="{ name: 'Connecter' }" class="inline-flex items-center justify-center rounded-md p-2 text-white
+              hover:text-rose-400">Se
               connecter</router-link>
-            <router-link :to="{ name: 'CreerCompte' }"
-              class="inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">s'inscrire</router-link>
+            <router-link :to="{ name: 'CreerCompte' }" class="inline-flex items-center justify-center rounded-md p-2 text-white
+              hover:text-rose-400">S'inscrire</router-link>
           </div>
         </div>
       </div>
@@ -90,14 +97,11 @@ const authUsager = useAuthStore();
           <div class="flex items-center px-5">
 
             <div class="flex-shrink-0">
-              <img class="h-10 w-10 rounded-full" :src="ll" alt="" />
+              <img class="h-10 w-10 rounded-full" src="profil.png" alt="profil" />
             </div>
             <div class="ml-3">
               <div class="text-base font-medium leading-none text-white">
                 {{ authUsager.user.name }}
-              </div>
-              <div class="text-sm font-medium leading-none text-gray-400">
-                {{ authUsager.user.email }}
               </div>
             </div>
 
