@@ -3,8 +3,7 @@ import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuIt
 import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
 
 import { useAuthStore } from "../stores/auth";
-const authUsager = useAuthStore();
-console.log(authUsager.user);
+const authStore = useAuthStore();
 
 </script>
 
@@ -30,7 +29,7 @@ console.log(authUsager.user);
             <div class="ml-4 flex items-center md:ml-6">
 
               <!-- Profile dropdown -->
-              <Menu as="div" class="relative ml-3" v-if="authUsager.user">
+              <Menu as="div" class="relative ml-3" v-if="authStore.user">
                 <div>
                   <MenuButton
                     class="flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
@@ -60,7 +59,7 @@ console.log(authUsager.user);
               </div>
             </div>
           </div>
-          <div class="-mr-2 flex md:hidden" v-if="authUsager.user">
+          <div class="-mr-2 flex md:hidden" v-if="authStore.user">
             <!-- Mobile menu button -->
             <DisclosureButton
               class="inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
@@ -79,7 +78,7 @@ console.log(authUsager.user);
         </div>
       </div>
 
-      <DisclosurePanel class="md:hidden" v-if="authUsager.user">
+      <DisclosurePanel class="md:hidden" v-if="authStore.user">
         <div class="space-y-1 px-2 pb-3 pt-2 sm:px-3">
           <router-link :to="{ name: 'Accueil' }"
             :class="[false ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white', 'rounded-md px-3 py-2 text-sm font-medium']"
@@ -93,10 +92,10 @@ console.log(authUsager.user);
             </div>
             <div class="ml-3">
               <div class="text-base font-medium leading-none text-white">
-                {{ authUsager.user.name }}
+                {{ authStore.user.name }}
               </div>
               <div class="text-sm font-medium leading-none text-gray-400">
-                {{ authUsager.user.email }}
+                {{ authStore.user.email }}
               </div>
             </div>
 
@@ -104,7 +103,7 @@ console.log(authUsager.user);
 
           <div class="mt-3 space-y-1 px-2">
           
-              <button @click="authUsager.deconnecter()" class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">Déconnecter</button>
+              <button @click="authStore.deconnecter()" class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">Déconnecter</button>
      
           </div>
           

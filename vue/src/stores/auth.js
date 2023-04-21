@@ -66,12 +66,7 @@ export const useAuthStore = defineStore("auth", {
                 if (error.response.status == 422) {
                     this.authErreurs = error.response.data.errors
                 }
-
-
             }
         }
 
-
-
-    }
 })
