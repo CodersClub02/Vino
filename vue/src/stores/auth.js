@@ -15,12 +15,16 @@ export const useAuthStore = defineStore("auth", {
     actions: {
         async getToken() {
             await axios.get('/sanctum/csrf-cookie')
-
         },
+
         async getUser() {
             await this.getToken()
-            const donnees = await axios.get('/api/user')
-            this.authUser = donnees.data
+            try {
+                const donnees = await axios.get('/api/user')
+                this.authUser = donnees.data
+            } catch (error) {
+                
+            }
         },
 
         async connecter(donnees) {
@@ -45,6 +49,7 @@ export const useAuthStore = defineStore("auth", {
 
             }
         },
+        
         async deconnecter() {
             await axios.post('/logout')
             this.authUser = null
@@ -69,6 +74,7 @@ export const useAuthStore = defineStore("auth", {
                 }
             }
         },
+        
         async modifierCompte(donnees) {
             this.authErreurs = []
             await this.getToken()
@@ -84,10 +90,7 @@ export const useAuthStore = defineStore("auth", {
                 if (error.response.status == 422) {
                     this.authErreurs = error.response.data.errors
                 }
-
-
             }
     }
-},
-
+}
 })
