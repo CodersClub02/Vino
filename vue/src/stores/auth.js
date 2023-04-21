@@ -22,6 +22,7 @@ export const useAuthStore = defineStore("auth", {
             const donnees = await axios.get('/api/user')
             this.authUser = donnees.data
         },
+
         async connecter(donnees) {
             this.authErrors = []
             try {
@@ -30,10 +31,10 @@ export const useAuthStore = defineStore("auth", {
                     email: donnees.courriel,
                     password: donnees.mot_de_passe
                 })
+                await this.getUser()
                 // aller dans la page d'accueil
                 this.router.push({ name: 'Accueil' });
             } catch (error) {
-
                 
                 if(error.response.status == 404) {
                     //to be reviewed
@@ -47,10 +48,8 @@ export const useAuthStore = defineStore("auth", {
         async deconnecter() {
             await axios.post('/logout')
             this.authUser = null
+          },
 
-          }
-        },
-       
         async creerCompte(donnees) {
             this.authErreurs = []
             await this.getToken()
@@ -61,41 +60,34 @@ export const useAuthStore = defineStore("auth", {
                     password: donnees.mot_de_passe,
                     password_confirmation: donnees.confirmer_mot_de_passe
                 })
-                this.router.push('/')
+                await this.getUser()
+                this.router.push({ name: 'Accueil' })
 
             } catch (error) {
                 if (error.response.status == 422) {
                     this.authErreurs = error.response.data.errors
                 }
             }
+        },
+        async modifierCompte(donnees) {
+            this.authErreurs = []
+            await this.getToken()
+            try {
+                await axios.put('/update', {
+                    name: donnees.nom,
+                    email: donnees.courriel,
+                    password: donnees.mot_de_passe,
+                    password_confirmation: donnees.confirmer_mot_de_passe
+                })
+
+            } catch (error) {
+                if (error.response.status == 422) {
+                    this.authErreurs = error.response.data.errors
+                }
 
 
-        }
-<<<<<<< HEAD
-=======
-    },
-
-    async modifierCompte(donnees) {
-        this.authErreurs = []
-        await this.getToken()
-        try {
-            await axios.put('/update', {
-                name: donnees.nom,
-                email: donnees.courriel,
-                password: donnees.mot_de_passe,
-                password_confirmation: donnees.confirmer_mot_de_passe
-            })
-            this.router.push('/')
-
-
-        } catch (error) {
-            if (error.response.status == 422) {
-                this.authErreurs = error.response.data.errors
             }
-
-
-        }
     }
+},
 
->>>>>>> 4a6058386a295c7f6f69ef5205e7c047efa17790
 })

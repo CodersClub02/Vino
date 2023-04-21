@@ -15,22 +15,16 @@ const authUsager = useAuthStore();
         <div class="flex h-16 items-center justify-between">
           <div class="flex items-center">
             <div class="flex-shrink-0">
+              <router-link :to="{ name: 'Accueil' }">
               <img class="h-14" src="vino-logo.png" alt="Vino" />
-            </div>
-            <div class="hidden md:block">
-              <div class="ml-10 flex items-baseline space-x-4">
-                <router-link :to="{ name: 'Accueil' }"
-                  :class="[false ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white', 'rounded-md px-3 py-2 text-sm font-medium']"
-                  :aria-current="false ? 'page' : undefined">Accueil</router-link>
-
-              </div>
+            </router-link>
             </div>
           </div>
           <div class="hidden md:block">
             <div class="ml-4 flex items-center md:ml-6">
 
               <!-- Profile dropdown -->
-              <Menu as="div" class="relative ml-3" v-if="authStore.user">
+              <Menu as="div" class="relative ml-3" v-if="authUsager.user">
                 <div>
                   <MenuButton
                     class="flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
@@ -45,15 +39,10 @@ const authUsager = useAuthStore();
                   <MenuItems
                     class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                     <router-link :to="{ name: 'Profil' }"
-                      :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Mon
-                      Profil</router-link>
+                      :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Mon Profil</router-link>
 
-                    <router-link :to="{ name: 'Accueil' }"
-                      :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Accueil</router-link>
 
-                    <button @click="authUsager.deconnecter()"
-                      class="block rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-700 hover:text-white">Déconnecter</button>
-
+                    <button @click="authUsager.deconnecter()" class="block px-4 py-2 text-sm text-gray-700">Déconnecter</button>
                   </MenuItems>
                 </transition>
               </Menu>
@@ -61,14 +50,13 @@ const authUsager = useAuthStore();
               <div class="-mr-2 flex space-x-2" v-else>
                 <!-- desktop menu button -->
                 <router-link :to="{ name: 'Connecter' }" class="inline-flex items-center justify-center rounded-md p-2 text-white
-              hover:text-rose-400">Se
-                  connecter</router-link>
+              hover:text-rose-400">Se connecter</router-link>
                 <router-link :to="{ name: 'CreerCompte' }" class="inline-flex items-center justify-center rounded-md p-2 text-white
               hover:text-rose-400">S'inscrire</router-link>
               </div>
             </div>
           </div>
-          <div class="-mr-2 flex md:hidden" v-if="authStore.user">
+          <div class="-mr-2 flex md:hidden" v-if="authUsager.user">
             <!-- Mobile menu button -->
             <DisclosureButton
               class="inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
@@ -88,7 +76,7 @@ const authUsager = useAuthStore();
         </div>
       </div>
 
-      <DisclosurePanel class="md:hidden" v-if="authStore.user">
+      <DisclosurePanel class="md:hidden" v-if="authUsager.user">
         <div class="space-y-1 px-2 pb-3 pt-2 sm:px-3">
           <router-link :to="{ name: 'Accueil' }"
             :class="[false ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white', 'rounded-md px-3 py-2 text-sm font-medium']"
@@ -102,7 +90,7 @@ const authUsager = useAuthStore();
             </div>
             <div class="ml-3">
               <div class="text-base font-medium leading-none text-white">
-                {{ authStore.user.name }}
+                {{ authUsager.user.name }}
               </div>
             </div>
 
