@@ -97,7 +97,7 @@ const form = ref({
                         Vous avez un compte?
                         {{ ' ' }}
 
-                        <router-link :to="{ name: 'Connecter' }"
+                        <router-link :to="{ name: 'Accueil' }"
                             class="font-semibold leading-6 text-rose-800 hover:text-indigo-500">Cliquez ici</router-link>
                     </p>
                 </div>

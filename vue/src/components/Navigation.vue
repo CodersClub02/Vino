@@ -49,8 +49,6 @@ const authUsager = useAuthStore();
 
               <div class="-mr-2 flex space-x-2" v-else>
                 <!-- desktop menu button -->
-                <router-link :to="{ name: 'Connecter' }" class="inline-flex items-center justify-center rounded-md p-2 text-white
-              hover:text-rose-400">Se connecter</router-link>
                 <router-link :to="{ name: 'CreerCompte' }" class="inline-flex items-center justify-center rounded-md p-2 text-white
               hover:text-rose-400">S'inscrire</router-link>
               </div>
@@ -67,9 +65,6 @@ const authUsager = useAuthStore();
           </div>
           <div class="-mr-2 flex md:hidden space-x-2" v-else>
             <!-- Mobile menu button -->
-            <router-link :to="{ name: 'Connecter' }" class="inline-flex items-center justify-center rounded-md p-2 text-white
-              hover:text-rose-400">Se
-              connecter</router-link>
             <router-link :to="{ name: 'CreerCompte' }" class="inline-flex items-center justify-center rounded-md p-2 text-white
               hover:text-rose-400">S'inscrire</router-link>
           </div>
@@ -96,7 +91,7 @@ const authUsager = useAuthStore();
 
           </div>
 
-          <div class="mt-3 space-y-1 px-2">
+          <div class="mt-3 space-y-1 px-2 flex justify-end">
 
             <button @click="authUsager.deconnecter()"
               class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">Déconnecter</button>
