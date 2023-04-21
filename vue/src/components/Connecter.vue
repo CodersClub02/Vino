@@ -11,17 +11,19 @@ const form = ref({
 </script>
 
 <template>
-    <header class="bg-white shadow">
-        <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-          <h1 class="text-3xl font-bold tracking-tight text-gray-900">Connecter</h1>
+  <header class="bg-white shadow">
+    <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+      <h1 class="text-3xl font-bold tracking-tight text-gray-900">Connecter</h1>
+    </div>
+  </header>
+  <main>
+    <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+      <div class="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+        <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+          <h2 class="text-rose-800 mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Entrez à
+            votre compte</h2>
         </div>
-    </header>
-    <main>
-       <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-            <div class="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-              <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-                <h2 class="text-rose-800 mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Entrez à votre compte</h2>
-              </div>
+
 
               <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                 <form @submit.prevent="authStore.connecter(form)" class="space-y-6">
@@ -54,20 +56,21 @@ const form = ref({
                     </div>
                   </div>
 
-                  <div>
-                    <button type="submit" class="flex w-full justify-center rounded-md bg-rose-800 px-3 p-3 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-800">Entrez</button>
-                  </div>
-                </form>
-
-                <p class="mt-10 text-center text-sm text-gray-500">
-                  Non inscrit?
-                  {{ ' ' }}
-                  <router-link :to="{ name : 'CreerCompte' }" class="font-semibold leading-6 text-rose-800 hover:text-red-500">Créez votre compte</router-link>
-
-                </p>
-              </div>
+            <div>
+              <button type="submit"
+                class="flex w-full justify-center rounded-md bg-rose-800 px-3 p-3 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-800">Entrez</button>
             </div>
+          </form>
 
-       </div>
-    </main>
-</template>
+          <p class="mt-10 text-center text-sm text-gray-500">
+            Non inscrit?
+            {{ ' ' }}
+            <router-link :to="{ name: 'CreerCompte' }"
+              class="font-semibold leading-6 text-rose-800 hover:text-red-500">Créez votre compte</router-link>
+
+          </p>
+        </div>
+    </div>
+
+  </div>
+</main></template>

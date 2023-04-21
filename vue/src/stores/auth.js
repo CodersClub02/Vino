@@ -3,7 +3,7 @@ import { defineStore } from "pinia";
 import axios from "axios";
 
 export const useAuthStore = defineStore("auth", {
-    
+
     state: () => ({
         authUser: null,
         authErreurs: []
@@ -15,36 +15,39 @@ export const useAuthStore = defineStore("auth", {
     actions: {
         async getToken() {
             await axios.get('/sanctum/csrf-cookie')
-          },
-        async getUser(){
+
+        },
+        async getUser() {
             await this.getToken()
             const donnees = await axios.get('/api/user')
             this.authUser = donnees.data
         },
-        async connecter(donnees){
+        async connecter(donnees) {
             this.authErrors = []
             try {
                 await this.getToken()
                 await axios.post('/login', {
-                  email: donnees.courriel,
-                  password: donnees.mot_de_passe
+                    email: donnees.courriel,
+                    password: donnees.mot_de_passe
                 })
                 // aller dans la page d'accueil
-                this.router.push({name: 'Accueil'});                
+                this.router.push({ name: 'Accueil' });
             } catch (error) {
+
                 
                 if(error.response.status == 404) {
                     //to be reviewed
                     this.authErrors = error.response.data.message
-                }else if(error.response.status == 422) {
+                } else if (error.response.status == 422) {
                     this.authErrors = error.response.data.errors
                 }
 
             }
-          },
-          async deconnecter(){
+        },
+        async deconnecter() {
             await axios.post('/logout')
             this.authUser = null
+
           }
         },
        
@@ -65,5 +68,34 @@ export const useAuthStore = defineStore("auth", {
                     this.authErreurs = error.response.data.errors
                 }
             }
+
+
         }
+<<<<<<< HEAD
+=======
+    },
+
+    async modifierCompte(donnees) {
+        this.authErreurs = []
+        await this.getToken()
+        try {
+            await axios.put('/update', {
+                name: donnees.nom,
+                email: donnees.courriel,
+                password: donnees.mot_de_passe,
+                password_confirmation: donnees.confirmer_mot_de_passe
+            })
+            this.router.push('/')
+
+
+        } catch (error) {
+            if (error.response.status == 422) {
+                this.authErreurs = error.response.data.errors
+            }
+
+
+        }
+    }
+
+>>>>>>> 4a6058386a295c7f6f69ef5205e7c047efa17790
 })
