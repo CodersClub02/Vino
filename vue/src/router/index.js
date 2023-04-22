@@ -1,13 +1,18 @@
+/**
+ * @author Hanane, Saddek
+ * @description gestion des url de l'application sur le navigateur
+ */
+
 import { createRouter, createWebHistory } from "vue-router";
 import { useAuthStore } from "../stores/auth";
 
 //() => import(".. lazyload components...
 const routes = [
     { path: "/", name: "Accueil", component: () => import("../components/Accueil.vue") },
-    { path: "/connecter", name: "Connecter", component: () => import("../components/Connecter.vue") },
     { path: "/creer-compte", name: "CreerCompte", component: () => import("../components/Inscrire.vue") },
     { path: "/profil", name: "Profil", component: () => import("../components/Profil.vue") },
     { path: "/ajouter-bouteille", name: "AjouterBouteille", component: () => import("../components/AjouterBouteille.vue") },
+    { path: '/:pathMatch(.*)*', name: 'not-found', component: () => import("../components/pageNonExistante.vue") },
 ]
 
 const router = createRouter({
@@ -15,10 +20,17 @@ const router = createRouter({
     routes
 })
 
+/**
+ * @author Saddek
+ * @description protection des pages avec authentification
+ * evidement le serveur API doit aussi enforcer ces mesures puisque il est
+ * l'ultime gardien
+ */
 router.beforeEach(async (to, from) => {
     const authStore = useAuthStore();
-    console.log(authStore.user);
-    // use authStore Here
+    if(!authStore.user && (to.name != "Accueil" && to.name != "CreerCompte") ){
+        router.push({ name: 'Accueil', query: { redirect: from.path } });
+    }
 });
 
 export default router
