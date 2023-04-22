@@ -30,7 +30,7 @@ const authUsager = useAuthStore();
             <div class="ml-4 flex items-center md:ml-6">
 
               <!-- Profile dropdown -->
-              <Menu as="div" class="relative ml-3" v-if="authStore.user">
+              <Menu as="div" class="relative ml-3" v-if="authUsager">
                 <div>
                   <MenuButton
                     class="flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
@@ -68,7 +68,7 @@ const authUsager = useAuthStore();
               </div>
             </div>
           </div>
-          <div class="-mr-2 flex md:hidden" v-if="authStore.user">
+          <div class="-mr-2 flex md:hidden" v-if="authUsager">
             <!-- Mobile menu button -->
             <DisclosureButton
               class="inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
@@ -88,7 +88,7 @@ const authUsager = useAuthStore();
         </div>
       </div>
 
-      <DisclosurePanel class="md:hidden" v-if="authStore.user">
+      <DisclosurePanel class="md:hidden" v-if="authUsager">
         <div class="space-y-1 px-2 pb-3 pt-2 sm:px-3">
           <router-link :to="{ name: 'Accueil' }"
             :class="[false ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white', 'rounded-md px-3 py-2 text-sm font-medium']"
@@ -102,7 +102,7 @@ const authUsager = useAuthStore();
             </div>
             <div class="ml-3">
               <div class="text-base font-medium leading-none text-white">
-                {{ authStore.user.name }}
+                {{ authUsager.name }}
               </div>
             </div>
 
