@@ -5,6 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use App\Models\Type;
 use App\Models\Pays;
+use App\Models\User;
 return new class extends Migration
 {
     /**
@@ -16,8 +17,9 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
 
-            $table->foreignIdFor(Type::class);
-            $table->foreignIdFor(Pays::class);
+            $table->foreignIdFor(Type::class)->constrained();
+            $table->foreignIdFor(Pays::class)->constrained();
+            $table->foreignIdFor(User::class)->constrained();
 
             $table->string('nom', 200);
             $table->string('code_saq', 50)->nullable();

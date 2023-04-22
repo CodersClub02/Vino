@@ -1,9 +1,20 @@
 <script setup>
+/**
+ * @author Hanane
+ * @description Vue de profil usager
+ */
+
 import { ref, onMounted } from 'vue';
 import { useAuthStore } from '../stores/auth'
 
 const authStore = useAuthStore()
 
+/**
+ * @author Hanane
+ * @returns void
+ * @description cacher et afficher le formulaire de changement d'information 
+ * sur profil
+ */
 let modifier = ref(false)
 function toggleModifier() {
     this.modifier = !this.modifier
@@ -27,7 +38,7 @@ onMounted(async () => {
 <template>
     <header class="bg-white shadow">
         <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-            <h1 class="text-3xl font-bold tracking-tight text-gray-900">Salut ....</h1>
+            <h1 class="text-3xl tracking-tight text-gray-900">Salut <span class="font-bold text-orange-400">{{ authStore.user.name }}</span></h1>
         </div>
     </header>
     <main>

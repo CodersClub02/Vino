@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('celliers', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->foreignIdFor(User::class);
+            $table->foreignIdFor(User::class)->constrained();
             $table->string('nom', 100);
         });
     }
