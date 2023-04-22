@@ -1,3 +1,8 @@
+/**
+ * @author Hanane, Saddek
+ * @description gestion des url de l'application sur le navigateur
+ */
+
 import { createRouter, createWebHistory } from "vue-router";
 import { useAuthStore } from "../stores/auth";
 
@@ -15,6 +20,12 @@ const router = createRouter({
     routes
 })
 
+/**
+ * @author Saddek
+ * @description protection des pages avec authentification
+ * evidement le serveur API doit aussi enforcer ces mesures puisque il est
+ * l'ultime gardien
+ */
 router.beforeEach(async (to, from) => {
     const authStore = useAuthStore();
     if(!authStore.user && (to.name != "Accueil" && to.name != "CreerCompte") ){

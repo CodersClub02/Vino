@@ -1,5 +1,10 @@
 <script setup>
-import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItems } from '@headlessui/vue'
+/**
+ * @author Saddek
+ * @description Vue de navigation principale de l'application
+ */
+
+ import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItems } from '@headlessui/vue'
 import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
 
 import { useAuthStore } from "../stores/auth";

@@ -1,4 +1,10 @@
 <script setup>
+/**
+ * @author Hanane
+ * @description Formulaire ajout de bouteille non disponible dans l'inventaire
+ * SAAQ sur le serveur
+ */
+
 import { ref } from 'vue';
 import { useAuthStore } from '../stores/auth'
 

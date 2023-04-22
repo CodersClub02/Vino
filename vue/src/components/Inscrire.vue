@@ -1,4 +1,8 @@
 <script setup>
+/**
+ * @author Hanane
+ * @description Formulaire ajout usager
+ */
 import { ref } from 'vue';
 import { useAuthStore } from '../stores/auth'
 

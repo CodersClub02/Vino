@@ -1,3 +1,9 @@
+<script>
+/**
+ * @author Saddek
+ * @description Si l'usager (ou bot) navigue vers une page qu'on a pas ...
+ */
+ </script>
 <template>
 
     <main class="grid min-h-full place-items-center bg-white px-6 py-24 sm:py-32 lg:px-8">

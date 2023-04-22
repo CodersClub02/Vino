@@ -1,9 +1,20 @@
 <script setup>
+/**
+ * @author Hanane
+ * @description Vue de profil usager
+ */
+
 import { ref, onMounted } from 'vue';
 import { useAuthStore } from '../stores/auth'
 
 const authStore = useAuthStore()
 
+/**
+ * @author Hanane
+ * @returns void
+ * @description cacher et afficher le formulaire de changement d'information 
+ * sur profil
+ */
 let modifier = ref(false)
 function toggleModifier() {
     this.modifier = !this.modifier

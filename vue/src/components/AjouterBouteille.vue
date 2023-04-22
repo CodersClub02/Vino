@@ -1,4 +1,9 @@
 <script setup>
+/**
+ * @author Hanane
+ * @description Formulaire ajout de bouteille
+ */
+
 import { ref } from 'vue';
 import { useAuthStore } from '../stores/auth'
 
