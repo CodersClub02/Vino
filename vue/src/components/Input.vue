@@ -19,7 +19,7 @@ defineProps({
 <template>
 <div>
     <div class="flex items-center justify-between">
-        <label for="email" class="block text-sm font-medium leading-6 text-gray-900">{{ label }}</label>
+        <label :for="$attrs['name']" class="block text-sm font-medium leading-6 text-gray-900">{{ label }}</label>
         <div class="text-sm">
         <slot></slot>
         </div>
@@ -27,6 +27,7 @@ defineProps({
 
     <div class="mt-2">
         <input 
+        :id="$attrs['name']"
         v-bind="$attrs"
         :value="modelValue"
         @input="$emit('update:modelValue', $event.target.value)"

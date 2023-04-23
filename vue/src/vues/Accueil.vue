@@ -4,7 +4,7 @@
  */
 import { ref } from "vue";
 import { useAuthStore } from "../stores/auth";
-import InputDeBase from "../components/InputDeBase.vue";
+import Input from "../components/Input.vue";
 
 const authStore = useAuthStore();
 
@@ -38,26 +38,24 @@ const form = ref({
 
                 <form @submit.prevent="authStore.connecter(form)" class="space-y-6">
 
-                  <InputDeBase
+                  <Input
                   v-bind:erreur="authStore.erreurs.email"
                   v-model="form.courriel"
                   label="Courriel"
-                  id="courriel"
                   name="courriel"
                   type="email"
                   autocomplete="email"
                   />
 
-                  <InputDeBase 
+                  <Input 
                   v-bind:erreur="authStore.erreurs.password"
                   v-model="form.mot_de_passe"
                   label="Mot de passe"
-                  id="mot_de_passe"
                   name="mot_de_passe"
                   type="password"
                   >
                     <router-link :to="{ name: 'CreerCompte' }" class="font-semibold text-rose-800 hover:text-red-500">Mot de passe oublié?</router-link>
-                  </InputDeBase>
+                  </Input>
                   
             <div>
               <button type="submit"
