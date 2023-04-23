@@ -4,7 +4,8 @@
  */
 import { ref } from "vue";
 import { useAuthStore } from "../stores/auth";
-import InputDeBase from "../components/InputDeBase.vue";
+import Input from "../components/Input.vue";
+import Button from "../components/Button.vue";
 
 const authStore = useAuthStore();
 
@@ -39,19 +40,17 @@ const form = ref({
 
           <form @submit.prevent="authStore.connecter(form)" class="space-y-6">
 
-            <InputDeBase v-bind:erreur="authStore.erreurs.email" v-model="form.courriel" label="Courriel" id="courriel"
+            <Input v-bind:erreur="authStore.erreurs.email" v-model="form.courriel" label="Courriel" id="courriel"
               name="courriel" type="email" autocomplete="email" />
 
-            <InputDeBase v-bind:erreur="authStore.erreurs.password" v-model="form.mot_de_passe" label="Mot de passe"
+            <Input v-bind:erreur="authStore.erreurs.password" v-model="form.mot_de_passe" label="Mot de passe"
               id="mot_de_passe" name="mot_de_passe" type="password">
-              <router-link :to="{ name: 'CreerCompte' }" class="font-semibold text-rose-800 hover:text-red-500">Mot de
-                passe oublié?</router-link>
-            </InputDeBase>
+            <router-link :to="{ name: 'CreerCompte' }" class="font-semibold text-rose-800 hover:text-red-500">Mot de
+              passe oublié?</router-link>
+            </Input>
 
-            <div>
-              <button type="submit"
-                class="flex w-full justify-center rounded-md bg-rose-800 px-3 p-3 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-800">Entrez</button>
-            </div>
+            <Button texteBouton="Se connecter" />
+
           </form>
 
           <p class="mt-10 text-center text-sm text-gray-500">

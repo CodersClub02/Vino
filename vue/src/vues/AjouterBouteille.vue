@@ -6,6 +6,7 @@
 
 import { ref } from 'vue';
 import { useAuthStore } from '../stores/auth'
+import Button from "../components/Button.vue"
 
 const authStore = useAuthStore()
 const form = ref({
@@ -27,11 +28,12 @@ const form = ref({
         </div>
     </header>
     <main>
-        
+
         <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
             <div class="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
                 <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-                    <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Information Bouteille</h2>
+                    <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Information
+                        Bouteille</h2>
                 </div>
 
                 <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
@@ -49,8 +51,8 @@ const form = ref({
                             </div>
                         </div>
 
-                         <!-- Champ Note -->
-                         <div>
+                        <!-- Champ Note -->
+                        <div>
                             <label for="note" class="block text-sm font-medium leading-6 text-gray-900">Note</label>
                             <div class="mt-2">
                                 <select id="note" name="note" v-model="form.note"
@@ -68,8 +70,8 @@ const form = ref({
                             </div>
                         </div>
 
-                         <!-- Champ Quantité -->
-                         <div>
+                        <!-- Champ Quantité -->
+                        <div>
                             <label for="quantite" class="block text-sm font-medium leading-6 text-gray-900">Quantité</label>
                             <div class="mt-2">
                                 <input id="quantite" name="quantite" type="number" v-model="form.quantite"
@@ -80,7 +82,7 @@ const form = ref({
                             </div>
                         </div>
 
-                            <!-- Champ Méllisme -->
+                        <!-- Champ Méllisme -->
                         <div>
                             <label for="mellisme" class="block text-sm font-medium leading-6 text-gray-900">Méllisme</label>
                             <div class="mt-2">
@@ -99,9 +101,10 @@ const form = ref({
                         </div>
 
                         <div>
-                            <label for="date_achat" class="block text-sm font-medium leading-6 text-gray-900">Date d'achat</label>
+                            <label for="date_achat" class="block text-sm font-medium leading-6 text-gray-900">Date
+                                d'achat</label>
                             <div class="mt-2">
-                                <input id="date_achat" name="date_achat" v-model="form.date_achat" type="date" 
+                                <input id="date_achat" name="date_achat" v-model="form.date_achat" type="date"
                                     class="block w-full rounded-md border-0 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-rose-800 sm:text-sm sm:leading-6" />
                             </div>
                             <div v-if="authStore.erreurs.date_achat" class="mt-2">
@@ -110,9 +113,10 @@ const form = ref({
                         </div>
 
                         <div>
-                            <label for="garder_jusqu_a" class="block text-sm font-medium leading-6 text-gray-900">Garder jusqu'à</label>
+                            <label for="garder_jusqu_a" class="block text-sm font-medium leading-6 text-gray-900">Garder
+                                jusqu'à</label>
                             <div class="mt-2">
-                                <input id="garder_jusqu_a" name="garder_jusqu_a" v-model="form.garder_jusqu_a" type="date" 
+                                <input id="garder_jusqu_a" name="garder_jusqu_a" v-model="form.garder_jusqu_a" type="date"
                                     class="block w-full rounded-md border-0 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-rose-800 sm:text-sm sm:leading-6" />
                             </div>
                             <div v-if="authStore.erreurs.garder_jusqu_a" class="mt-2">
@@ -131,11 +135,7 @@ const form = ref({
                             </div>
                         </div>
 
-                        <div>
-                            <button type="submit"
-                                class="flex w-full justify-center rounded-md bg-rose-800 px-3 p-3 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-rose-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-800">Sauvegarder</button>
-
-                        </div>
+                        <Button texteBouton="Sauvegarder" />
                     </form>
                 </div>
             </div>
