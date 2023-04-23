@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreignIdFor(Cellier::class)->constrained();
             $table->date('date_achat');
             $table->date('garder_jusqu_a')->nullable();
-            $table->integer('note')->nullable();
+            $table->integer('notes')->nullable();
             $table->decimal('prix_paye')->nullable();
             $table->integer('quantite');
             $table->integer('mellisme')->nullable();
