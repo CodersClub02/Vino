@@ -51,7 +51,7 @@ export const useAuthStore = defineStore("auth", {
                 const donnees = await axios.get('/api/user')
                 this.authUser = donnees.data
             } catch (error) {
-                
+
             }
         },
 
@@ -74,8 +74,8 @@ export const useAuthStore = defineStore("auth", {
                 // aller dans la page d'accueil
                 this.router.push({ name: 'Accueil' });
             } catch (error) {
-                
-                if(error.response.status == 404) {
+
+                if (error.response.status == 404) {
                     //to be reviewed
                     this.authErreurs = error.response.data.message
                 } else if (error.response.status == 422) {
@@ -84,7 +84,7 @@ export const useAuthStore = defineStore("auth", {
 
             }
         },
-        
+
         /**
          * @author Hanane
          * @returns void
@@ -94,15 +94,15 @@ export const useAuthStore = defineStore("auth", {
         async deconnecter() {
             await axios.post('/logout')
             this.authUser = null
-          },
+        },
 
-          /**
-           * @author Hanane
-           * @param {*} donnees 
-           * @returns void
-           * @description interrogir le serveur pour la création du compte 
-           * utilisateur et gestion des erreurs de données entrées
-           */
+        /**
+         * @author Hanane
+         * @param {*} donnees 
+         * @returns void
+         * @description interrogir le serveur pour la création du compte 
+         * utilisateur et gestion des erreurs de données entrées
+         */
         async creerCompte(donnees) {
             this.authErreurs = []
             await this.getToken()
@@ -121,32 +121,34 @@ export const useAuthStore = defineStore("auth", {
                     this.authErreurs = error.response.data.errors
                 }
             }
-        },
 
-        /**
-         * @author Hanane
-         * @param {*} donnees 
-         * @returns void
-         * @description modification des données d'utilisateurs sur le serveur
-         * et gestion des erreurs de saisie
-         */
-        
-        async modifierCompte(donnees) {
-            this.authErreurs = []
-            await this.getToken()
-            try {
-                await axios.put('/update', {
-                    name: donnees.nom,
-                    email: donnees.courriel,
-                    password: donnees.mot_de_passe,
-                    password_confirmation: donnees.confirmer_mot_de_passe
-                })
 
-            } catch (error) {
-                if (error.response.status == 422) {
-                    this.authErreurs = error.response.data.errors
-                }
+        }
+    },
+
+    /**
+     * @author Hanane
+     * @param {*} donnees 
+     * @returns void
+     * @description modification des données d'utilisateurs sur le serveur
+     * et gestion des erreurs de saisie
+     */
+
+    async modifierCompte(donnees) {
+        this.authErreurs = []
+        await this.getToken()
+        try {
+            await axios.put('/update', {
+                name: donnees.nom,
+                email: donnees.courriel,
+                password: donnees.mot_de_passe,
+                password_confirmation: donnees.confirmer_mot_de_passe
+            })
+
+        } catch (error) {
+            if (error.response.status == 422) {
+                this.authErreurs = error.response.data.errors
             }
+        }
     }
-}
 })

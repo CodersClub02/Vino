@@ -4,7 +4,7 @@
  * @description Vue de navigation principale de l'application
  */
 
- import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItems } from '@headlessui/vue'
+import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItems } from '@headlessui/vue'
 import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
 
 import { useAuthStore } from "../stores/auth";
@@ -21,8 +21,8 @@ const authUsager = useAuthStore();
           <div class="flex items-center">
             <div class="flex-shrink-0">
               <router-link :to="{ name: 'Accueil' }">
-              <img class="h-14" src="vino-logo.png" alt="Vino" />
-            </router-link>
+                <img class="h-14" src="vino-logo.png" alt="Vino" />
+              </router-link>
             </div>
           </div>
           <div class="hidden md:block">
@@ -44,10 +44,12 @@ const authUsager = useAuthStore();
                   <MenuItems
                     class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                     <router-link :to="{ name: 'Profil' }"
-                      :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Mon Profil</router-link>
+                      :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Mon
+                      Profil</router-link>
 
 
-                    <button @click="authUsager.deconnecter()" class="block px-4 py-2 text-sm text-gray-700">Déconnecter</button>
+                    <button @click="authUsager.deconnecter()"
+                      class="block px-4 py-2 text-sm text-gray-700">Déconnecter</button>
                   </MenuItems>
                 </transition>
               </Menu>
@@ -91,20 +93,21 @@ const authUsager = useAuthStore();
             <div class="ml-3">
               <div class="text-base font-medium leading-none text-white">
                 <router-link :to="{ name: 'Profil' }">{{ authUsager.user.name }}</router-link>
-                
+
               </div>
             </div>
 
           </div>
 
           <div class="mt-3 px-2 flex justify-between">
-            <router-link :to="{ name: 'Profil' }" class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">Profil</router-link>
-            <button @click="authUsager.deconnecter()" class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">Déconnecter</button>
+            <router-link :to="{ name: 'Profil' }"
+              class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">Profil</router-link>
+            <button @click="authUsager.deconnecter()"
+              class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">Déconnecter</button>
           </div>
 
         </div>
 
       </DisclosurePanel>
-    </Disclosure>
-  </div>
-</template>
+  </Disclosure>
+</div></template>
