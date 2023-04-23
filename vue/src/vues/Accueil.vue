@@ -4,6 +4,7 @@
  */
 import { ref } from "vue";
 import { useAuthStore } from "../stores/auth";
+import InputDeBase from "../components/InputDeBase.vue";
 
 const authStore = useAuthStore();
 
@@ -14,7 +15,6 @@ const form = ref({
   courriel: 'test@example.com',
   mot_de_passe: 'password'
 })
-
 </script>
 
 <template>
@@ -36,38 +36,17 @@ const form = ref({
         </div>
 
         <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form @submit.prevent="authStore.connecter(form)" class="space-y-6">
-            <div>
-              <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Courriel</label>
-              <div class="mt-2">
-                <input id="email" name="courriel" v-model="form.courriel" type="email" autocomplete="email"
-                  class="block w-full rounded-md border-0 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-rose-800 sm:text-sm sm:leading-6" />
-              </div>
-              <div v-if="authStore.erreurs.email" class="mt-2">
-                <span class="text-red-400 text-sm m-2 p-2">
-                  {{ authStore.erreurs.email[0] }}
-                </span>
-              </div>
-            </div>
 
-            <div>
-              <div class="flex items-center justify-between">
-                <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Mot de passe</label>
-                <div class="text-sm">
-                  <a href="#" class="font-semibold text-rose-800 hover:text-red-500">Mot de passe oublié?</a>
-                </div>
-              </div>
-              <div class="mt-2">
-                <input id="password" name="mot_de_passe" v-model="form.mot_de_passe" type="password"
-                  autocomplete="current-password"
-                  class="block w-full rounded-md border-0 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-rose-800 sm:text-sm sm:leading-6" />
-              </div>
-              <div v-if="authStore.erreurs.password" class="mt-2">
-                <span class="text-red-400 text-sm m-2 p-2">
-                  {{ authStore.erreurs.password[0] }}
-                </span>
-              </div>
-            </div>
+          <form @submit.prevent="authStore.connecter(form)" class="space-y-6">
+
+            <InputDeBase v-bind:erreur="authStore.erreurs.email" v-model="form.courriel" label="Courriel" id="courriel"
+              name="courriel" type="email" autocomplete="email" />
+
+            <InputDeBase v-bind:erreur="authStore.erreurs.password" v-model="form.mot_de_passe" label="Mot de passe"
+              id="mot_de_passe" name="mot_de_passe" type="password">
+              <router-link :to="{ name: 'CreerCompte' }" class="font-semibold text-rose-800 hover:text-red-500">Mot de
+                passe oublié?</router-link>
+            </InputDeBase>
 
             <div>
               <button type="submit"
@@ -76,12 +55,10 @@ const form = ref({
           </form>
 
           <p class="mt-10 text-center text-sm text-gray-500">
-            Non inscrit?
-            {{ ' ' }}
-            <router-link :to="{ name: 'CreerCompte' }"
+            Non inscrit?<router-link :to="{ name: 'CreerCompte' }"
               class="font-semibold leading-6 text-rose-800 hover:text-red-500">Créez votre compte</router-link>
-
           </p>
+
         </div>
       </div>
     </div>
@@ -132,16 +109,17 @@ const form = ref({
                   blanditiis ratione.</span>
               </li>
               <li class="flex gap-x-3">
-              <span><strong class="font-semibold text-gray-900">SSL certificates.</strong> Anim aute id magna aliqua ad
-                ad non deserunt sunt. Qui irure qui lorem cupidatat commodo.</span>
-            </li>
-            <li class="flex gap-x-3">
-              <span><strong class="font-semibold text-gray-900">Database backups.</strong> Ac tincidunt sapien vehicula
-                erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.</span>
-            </li>
-          </ul>
+                <span><strong class="font-semibold text-gray-900">SSL certificates.</strong> Anim aute id magna aliqua ad
+                  ad non deserunt sunt. Qui irure qui lorem cupidatat commodo.</span>
+              </li>
+              <li class="flex gap-x-3">
+                <span><strong class="font-semibold text-gray-900">Database backups.</strong> Ac tincidunt sapien vehicula
+                  erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.</span>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div></template>
+</template>

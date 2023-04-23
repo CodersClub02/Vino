@@ -63,7 +63,7 @@ export const useAuthStore = defineStore("auth", {
          * en utilisant les cookies 
          */
         async connecter(donnees) {
-            this.authErrors = []
+            this.authErreurs = []
             try {
                 await this.getToken()
                 await axios.post('/login', {
@@ -77,9 +77,9 @@ export const useAuthStore = defineStore("auth", {
 
                 if (error.response.status == 404) {
                     //to be reviewed
-                    this.authErrors = error.response.data.message
+                    this.authErreurs = error.response.data.message
                 } else if (error.response.status == 422) {
-                    this.authErrors = error.response.data.errors
+                    this.authErreurs = error.response.data.errors
                 }
 
             }
