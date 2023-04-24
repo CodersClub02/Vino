@@ -28,8 +28,11 @@ const router = createRouter({
  */
 router.beforeEach(async (to, from) => {
     const authStore = useAuthStore();
+
     if(!authStore.user && (to.name != "Accueil" && to.name != "CreerCompte") ){
-        router.push({ name: 'Accueil', query: { redirect: from.path } });
+        //confirmer que l'usager n'est pas connecté avant de procéder
+        if(!authStore.user) await authStore.getUser()
+        if(!authStore.user) router.push({ name: 'Accueil' });
     }
 });
 

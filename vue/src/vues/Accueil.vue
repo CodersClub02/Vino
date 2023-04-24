@@ -5,10 +5,7 @@
 import { ref } from "vue";
 import { useAuthStore } from "../stores/auth";
 import Input from "../components/Input.vue";
-<<<<<<< HEAD
-=======
 import Button from "../components/Button.vue";
->>>>>>> 6938cc2ae3519c87be223804173647659ace7f21
 
 const authStore = useAuthStore();
 
