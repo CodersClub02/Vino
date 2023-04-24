@@ -8,6 +8,7 @@ import { ref } from 'vue';
 import { useAuthStore } from '../stores/auth'
 import Button from "../components/Button.vue"
 
+
 const authStore = useAuthStore()
 const form = ref({
     nom: '',
@@ -39,66 +40,30 @@ const form = ref({
                 <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                     <form @submit.prevent="authStore.ajouterBouteille(form)" class="space-y-6">
 
-                        <Input 
-                        v-bind:erreur="authStore.erreurs.name"
-                        v-model="form.nom"
-                        label="Nom"
-                        name="nom"
-                        type="text"
-                        />
+                        <Input v-bind:erreur="authStore.erreurs.name" v-model="form.nom" label="Nom" name="nom"
+                            type="text" />
 
-                        <Input 
-                        v-bind:erreur="authStore.erreurs.notes"
-                        v-model="form.notes"
-                        label="Notes"
-                        name="notes"
-                        type="text"
-                        />
+                        <Input v-bind:erreur="authStore.erreurs.notes" v-model="form.notes" label="Notes" name="notes"
+                            type="text" />
 
-                        <Input 
-                        v-bind:erreur="authStore.erreurs.quantite"
-                        v-model="form.quantite"
-                        label="Quantité"
-                        name="quantite"
-                        type="number"
-                        min="1"
-                        />
+                        <Input v-bind:erreur="authStore.erreurs.quantite" v-model="form.quantite" label="Quantité"
+                            name="quantite" type="number" min="1" />
 
 
-                        <Input 
-                        v-bind:erreur="authStore.erreurs.mellisme"
-                        v-model="form.mellisme"
-                        label="Méllisme"
-                        name="mellisme"
-                        type="number"
-                        />
+                        <Input v-bind:erreur="authStore.erreurs.mellisme" v-model="form.mellisme" label="Méllisme"
+                            name="mellisme" type="number" />
 
-                        <Input 
-                        v-bind:erreur="authStore.erreurs.date_achat"
-                        v-model="form.date_achat"
-                        label="Date d'achat"
-                        name="date_achat"
-                        type="date"
-                        />
+                        <Input v-bind:erreur="authStore.erreurs.date_achat" v-model="form.date_achat" label="Date d'achat"
+                            name="date_achat" type="date" />
 
-                        <Input 
-                        v-bind:erreur="authStore.erreurs.garder_jusqu_a"
-                        v-model="form.garder_jusqu_a"
-                        label="Garder jusqu'à"
-                        name="garder_jusqu_a"
-                        type="date"
-                        />
+                        <Input v-bind:erreur="authStore.erreurs.garder_jusqu_a" v-model="form.garder_jusqu_a"
+                            label="Garder jusqu'à" name="garder_jusqu_a" type="date" />
 
-                        <Input 
-                        v-bind:erreur="authStore.erreurs.prix_paye"
-                        v-model="form.prix_paye"
-                        label="Prix"
-                        name="prix_paye"
-                        type="date"
-                        />
+                        <Input v-bind:erreur="authStore.erreurs.prix_paye" v-model="form.prix_paye" label="Prix"
+                            name="prix_paye" type="date" />
 
                         <Button texteBouton="Sauvegarder" />
-                        
+
                     </form>
                 </div>
             </div>
