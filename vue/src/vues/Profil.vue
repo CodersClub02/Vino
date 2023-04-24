@@ -28,7 +28,6 @@ const form = ref({
 });
 
 onMounted(async () => {
-    await authStore.getUser()
     form.value.nom = authStore.user.name;
     form.value.courriel = authStore.user.email;
     form.value.mot_de_passe = authStore.user.password;
