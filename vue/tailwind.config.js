@@ -6,7 +6,10 @@ export default {
   ],
   theme: {
     extend: {
-      fontFamily: ['Marcellus', 'serif'],
+      fontFamily: {
+        body: ['Lato', 'sans-serif'],
+        title: ['Marcellus', 'serif'],
+      },
     },
   },
   plugins: [],
