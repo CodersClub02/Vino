@@ -13,7 +13,6 @@ export const useAppStore = defineStore("app", {
     state: () => ({
         mesCelliers: null,
         cellierErreurs: []
-
     }),
 
 
@@ -25,7 +24,6 @@ export const useAppStore = defineStore("app", {
     getters: {
         celliers: (state) => state.mesCelliers,
         erreursCellier: (state) => state.cellierErreurs
-
     },
 
     /**
@@ -52,14 +50,28 @@ export const useAppStore = defineStore("app", {
             try {
                 const donnees = await axios.get('/api/cellier')
                 this.mesCelliers = donnees.data
-                console.log("helleo", this.erreursCellier);
+                console.log("helleo", this.cellierErreurs);
 
             } catch (error) {
-                this.erreursCellier = error.response.data.errors
-                console.log("helleo", this.erreursCellier);
+                this.cellierErreurs = error.response.data.errors
+                console.log("helleo", this.cellierErreurs);
 
             }
-        }
+        },
+
+        async ajouterCellier(donnees) {
+            await this.getToken()
+            try {
+                await axios.post('/api/cellier', {
+                    nom: donnees.nom
+                })
+                this.getCelliers()
+
+            } catch (error) {
+                this.cellierErreurs = error.response.data.errors
+            }
+        },
+
     },
 
 })

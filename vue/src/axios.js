@@ -6,5 +6,5 @@ axios.defaults.withCredentials = true;
 if (window.location.origin === "http://localhost:3000") {
   axios.defaults.baseURL = "http://localhost:8000";
 } else {
-  axios.defaults.baseURL = window.location.origin + ':8000';
+  axios.defaults.baseURL = 'https://apivino.saddektouati.site';
 }
