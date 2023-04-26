@@ -21,7 +21,7 @@ const authUsager = useAuthStore();
           <div class="flex items-center">
             <div class="flex-shrink-0">
               <router-link :to="{ name: 'Accueil' }">
-                <img class="h-14" src="vino-logo.png" alt="Vino" />
+                <img class="h-14" src="/vino-logo.png" alt="Vino" />
               </router-link>
             </div>
           </div>
@@ -34,7 +34,7 @@ const authUsager = useAuthStore();
                   <MenuButton
                     class="flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                     <span class="sr-only">Ouvrir le menu</span>
-                    <img class="h-8 w-8 rounded-full" src="profil.png" alt="profil" />
+                    <img class="h-8 w-8 rounded-full" src="/profil.png" alt="profil" />
                   </MenuButton>
                 </div>
                 <transition enter-active-class="transition ease-out duration-100"
@@ -88,7 +88,7 @@ const authUsager = useAuthStore();
           <div class="flex items-center px-5">
 
             <div class="flex-shrink-0">
-              <img class="h-10 w-10 rounded-full" src="profil.png" alt="profil" />
+              <img class="h-10 w-10 rounded-full" src="/profil.png" alt="profil" />
             </div>
             <div class="ml-3">
               <div class="text-base font-medium leading-none text-white">
