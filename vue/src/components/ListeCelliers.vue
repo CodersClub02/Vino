@@ -1,18 +1,20 @@
 <script setup>
-import { ref } from 'vue';
+import { onMounted } from 'vue';
 import Button from './Button.vue';
 import { useAppStore } from '../stores/app'
 
 const appStore = useAppStore()
-await appStore.getCelliers()
-console.log('kkkkkkkkkkkk', appStore.celliers);
+
+onMounted(async ()=> {
+    await appStore.getCelliers()
+})
+
 </script>
 <template>
     <Button texteBouton="Ajouter Cellier" />
     <div class="bg-gray-100  text-gray-600  p-5">
-
         <div class="grid lg:grid-cols-4 md:grid-cols-3 gap-10">
-            <div v-for="(cellier) in celliers" class=" bg-white rounded overflow-hidden shadow-md">
+            <div v-for="(cellier) in appStore.celliers" class=" bg-white rounded overflow-hidden shadow-md">
                 <img src="/cellier.jpg" class=" w-full h-45 sm:h-50 object-cover" alt="cellier">
                 <div class="m-4">
                     <span class="text-lg font-semibold  font-body">{{ cellier.nom }}</span>
