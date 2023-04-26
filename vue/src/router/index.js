@@ -12,6 +12,7 @@ const routes = [
     { path: "/creer-compte", name: "CreerCompte", component: () => import("../vues/Inscrire.vue") },
     { path: "/profil", name: "Profil", component: () => import("../vues/Profil.vue") },
     { path: "/ajouter-bouteille", name: "AjouterBouteille", component: () => import("../vues/AjouterBouteille.vue") },
+    // { path: "/liste-celliers", name: "ListeCelliers", component: () => import("../vues/ListeCelliers.vue") },
     { path: '/:pathMatch(.*)*', name: 'not-found', component: () => import("../vues/PageIntrouvable.vue") },
 ]
 
@@ -27,12 +28,11 @@ const router = createRouter({
  * l'ultime gardien
  */
 router.beforeEach(async (to, from) => {
+    //confirmer que l'usager n'est pas connecté avant de procéder
     const authStore = useAuthStore();
-
-    if(!authStore.user && (to.name != "Accueil" && to.name != "CreerCompte") ){
-        //confirmer que l'usager n'est pas connecté avant de procéder
-        if(!authStore.user) await authStore.getUser()
-        if(!authStore.user) router.push({ name: 'Accueil' });
+    await authStore.getUser()
+    if (!authStore.user && (to.name != "Accueil" && to.name != "CreerCompte")) {
+        if (!authStore.user) router.push({ name: 'Accueil' });
     }
 });
 
