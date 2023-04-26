@@ -12,8 +12,6 @@ const routes = [
     { path: "/creer-compte", name: "CreerCompte", component: () => import("../vues/Inscrire.vue") },
     { path: "/profil", name: "Profil", component: () => import("../vues/Profil.vue") },
     { path: "/ajouter-bouteille", name: "AjouterBouteille", component: () => import("../vues/AjouterBouteille.vue") },
-    { path: "/ajouter-cellier", name: "AjouterCellier", component: () => import("../vues/AjouterCellier.vue") },
-    // { path: "/liste-celliers", name: "ListeCelliers", component: () => import("../vues/ListeCelliers.vue") },
     { path: '/:pathMatch(.*)*', name: 'not-found', component: () => import("../vues/PageIntrouvable.vue") },
 ]
 
