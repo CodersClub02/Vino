@@ -7,6 +7,8 @@
 import { ref } from 'vue';
 import { useAuthStore } from '../stores/auth'
 import Button from "../components/Button.vue"
+import Input from "../components/Input.vue"
+import Textarea from "../components/Textarea.vue"
 
 const authStore = useAuthStore()
 const form = ref({
@@ -32,8 +34,7 @@ const form = ref({
         <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
             <div class="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
                 <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-                    <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Information
-                        Bouteille</h2>
+                    <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Information Bouteille</h2>
                 </div>
 
                 <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
@@ -47,12 +48,11 @@ const form = ref({
                         type="text"
                         />
 
-                        <Input 
+                        <Textarea 
                         v-bind:erreur="authStore.erreurs.notes"
                         v-model="form.notes"
                         label="Notes"
                         name="notes"
-                        type="text"
                         />
 
                         <Input 
@@ -94,7 +94,7 @@ const form = ref({
                         v-model="form.prix_paye"
                         label="Prix"
                         name="prix_paye"
-                        type="date"
+                        type="number"
                         />
 
                         <Button texteBouton="Sauvegarder" />

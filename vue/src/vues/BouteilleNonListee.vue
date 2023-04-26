@@ -13,7 +13,7 @@ const form = ref({
     nom: '',
     type: '',
     pays: '',
-    decription: '',
+    notes: '',
     prix: '',
     image: '',
     format: ''
@@ -91,23 +91,13 @@ const form = ref({
                             </div>
                         </div>
 
-                        <div>
-
-                            <div class="flex items-center justify-between">
-                                <label for="description"
-                                    class="block text-sm font-medium leading-6 text-gray-900">Description</label>
-                                <div class="text-sm">
-                                </div>
-                            </div>
-                            <div class="mt-2">
-                                <textarea v-model="form.description" id="description" name="description" rows="3"
-                                    class="block w-full rounded-md border-0 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-rose-800 sm:text-sm sm:leading-6"></textarea>
-                            </div>
-                            <div v-if="authStore.erreurs.description" class="mt-2">
-                                <span class="text-red-400 text-sm m-2 p-2">{{ authStore.erreurs.description[0] }}</span>
-
-                            </div>
-                        </div>
+                        <Textarea 
+                        v-bind:erreur="authStore.erreurs.description"
+                        v-model="form.description"
+                        label="Déscription"
+                        name="description"
+                        type="text"
+                        />
 
                         <div>
                             <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Prix</label>
