@@ -10,6 +10,7 @@ import Button from "../components/Button.vue"
 import Input from "../components/Input.vue"
 import Textarea from "../components/Textarea.vue"
 
+
 const authStore = useAuthStore()
 const form = ref({
     nom: '',
@@ -39,7 +40,7 @@ const form = ref({
 
                 <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                     <form @submit.prevent="authStore.ajouterBouteille(form)" class="space-y-6">
-
+                    
                         <Input 
                         v-bind:erreur="authStore.erreurs.name"
                         v-model="form.nom"
@@ -98,7 +99,7 @@ const form = ref({
                         />
 
                         <Button texteBouton="Sauvegarder" />
-                        
+
                     </form>
                 </div>
             </div>
