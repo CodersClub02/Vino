@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\CellierController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,13 +15,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
-    return $request->user();
-});
+ Route::group(['middleware' => 'auth:sanctum'], function(){
 
-
-// Route::group(['middleware' => 'auth:sanctum'], function(){
-
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
     //cette ligne accompli le "route binding"
     Route::model('bouteille', 'App\Models\Bouteille');
     //cette ligne gere toutes les resources de l'url bouteille: post, get, put...
@@ -38,4 +36,4 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     
     Route::model('type', 'App\Models\Type');
     Route::apiResource('type', 'App\Http\Controllers\TypeController');
-// });
+});

@@ -12,7 +12,7 @@ class CellierController extends Controller
      */
     public function index()
     {
-        return Cellier::all();
+        return Cellier::where('user_id', auth()?->user()?->id)->get();
     }
 
     /**
