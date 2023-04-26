@@ -12,7 +12,7 @@ const celliers = ref([
 
         <div class="grid lg:grid-cols-4 md:grid-cols-3 gap-10">
             <div v-for="(cellier) in celliers" class=" bg-white rounded overflow-hidden shadow-md">
-                <img src="cellier.jpg" class=" w-full h-45 sm:h-50 object-cover" alt="cellier">
+                <img src="/cellier.jpg" class=" w-full h-45 sm:h-50 object-cover" alt="cellier">
                 <div class="m-4">
                     <span class="text-lg font-semibold  font-body">{{ cellier.nom }}</span>
                     <span class="block text-sm text-gray-500 font-body ">nombre de bouteilles</span>
