@@ -12,10 +12,12 @@ export const useAppStore = defineStore("app", {
 
     state: () => ({
         mesCelliers: null,
+        mesBouteilleCellier: [],
         cellierErreurs: [],
-        afficherFormCellier: false
+        afficherFormCellier: false,
+        affchFormBouteille: false,
+        bouteilleErreurs: [],
     }),
-
 
     /**
      * Accéder aux données depuis l'extérieur de ce module
@@ -26,25 +28,49 @@ export const useAppStore = defineStore("app", {
         celliers: (state) => state.mesCelliers,
         erreursCellier: (state) => state.cellierErreurs,
         afficherForm: (state) => state.afficherFormCellier,
+        afficherFormBouteille: (state) => state.affchFormBouteille,
+        erreursBouteille: (state) => state.bouteilleErreurs,
     },
 
     actions: {
+        
+        /**
+         * @author Saddek
+         * @returns void
+         * @description cacher et afficher le formulaire de bouteille
+         */
+        async togglerFormBouteille() {
+            this.affchFormBouteille = !this.affchFormBouteille
+        },
+
+                /**
+         * @author Hanane
+         * @returns void
+         * @description ajouter bouteille
+         */
+        async ajouterBouteille(donnees) {
+
+            try {
+
+                await axios.post('/api/contenir', {
+                    donnees
+                })
+
+                this.togglerFormBouteille()
+                this.getBouteillesCellier(donnees.cellier_id)
+
+            } catch (error) {
+                this.bouteilleErreurs = error.response.data.errors
+            }
+
+        },
         /**
          * @author Saddek
          * @returns void
          * @description cacher et afficher le formulaire de cellier
          */
-        async togglerForm() {
+        async togglerFormCellier() {
             this.afficherFormCellier = !this.afficherFormCellier
-        },
-
-        /**
-         * @author Hanane
-         * @returns void
-         * @description retrouver les token de csrf depuis le serveur Laravel API.
-        */
-               async getToken() {
-                await axios.get('/sanctum/csrf-cookie')
         },
 
         /**
@@ -53,26 +79,20 @@ export const useAppStore = defineStore("app", {
          * @description retrouver la liste des celliers d'un usager connecté depuis le serveur
          */
         async getCelliers() {
-            await this.getToken()
             try {
                 const donnees = await axios.get('/api/cellier')
                 this.mesCelliers = donnees.data
-                console.log("helleo", this.cellierErreurs);
-
             } catch (error) {
                 this.cellierErreurs = error.response.data.errors
-                console.log("helleo", this.cellierErreurs);
-
             }
         },
 
         async ajouterCellier(donnees) {
-            await this.getToken()
             try {
                 await axios.post('/api/cellier', {
                     nom: donnees.nom
                 })
-                this.togglerForm()
+                this.togglerFormCellier()
                 this.getCelliers()
 
             } catch (error) {
@@ -80,6 +100,23 @@ export const useAppStore = defineStore("app", {
             }
         },
 
+        /**
+         * @author Hanane
+         * @returns void
+         * @description retrouver la liste des celliers d'un usager connecté depuis le serveur
+         */
+        async getBouteillesCellier(idCellier) {
+            this.mesBouteilleCellier = []
+            try {
+                const donnees = await axios.get(`/api/contenir/`)
+                this.mesBouteilleCellier = donnees.data
+                console.log("helleo", this.mesBouteilleCellier);
+
+            } catch (error) {
+                this.mesBouteilleCellier = []
+            }
+        },
+        
     },
 
 })

@@ -27,8 +27,8 @@ use App\Http\Controllers\CellierController;
     
     Route::model('cellier', 'App\Models\Cellier');
     Route::apiResource('cellier', 'App\Http\Controllers\CellierController');
-    
-    Route::model('contenir', 'App\Models\Contenir');
+
+    Route::model('contenir', 'App\Models\contenir');
     Route::apiResource('contenir', 'App\Http\Controllers\ContenirController');
     
     Route::model('pays', 'App\Models\Pays');
