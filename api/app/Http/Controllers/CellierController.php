@@ -12,7 +12,9 @@ class CellierController extends Controller
      */
     public function index()
     {
-        return Cellier::where('user_id', auth()?->user()?->id)->get();
+        return response()->json(
+            Cellier::where('user_id', auth()?->user()?->id)->get()
+        );
     }
 
     /**
@@ -28,16 +30,8 @@ class CellierController extends Controller
             'nom' => $request->nom,
             'user_id' => auth()->user()->id
         ]);
-           
+   
         return response()->json(['status' => 'ok', 'message'=>'cellier créé avec succès']);
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Cellier $cellier)
-    {
-        return response()->json($cellier);
     }
 
     /**

@@ -11,7 +11,6 @@ const routes = [
     { path: "/", name: "Accueil", component: () => import("../vues/Accueil.vue") },
     { path: "/creer-compte", name: "CreerCompte", component: () => import("../vues/Inscrire.vue") },
     { path: "/profil", name: "Profil", component: () => import("../vues/Profil.vue") },
-    { path: "/ajouter-bouteille", name: "AjouterBouteille", component: () => import("../vues/AjouterBouteille.vue") },
     { path: '/:pathMatch(.*)*', name: 'not-found', component: () => import("../vues/PageIntrouvable.vue") },
 ]
 
