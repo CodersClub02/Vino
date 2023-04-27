@@ -5,14 +5,15 @@
  * @description Formulaire ajout d'un cellier'
  */
 
-import { ref } from 'vue';
 import { useAppStore } from '../stores/app'
 import Button from "../components/Button.vue"
 import Input from "../components/Input.vue"
 
 const appStore = useAppStore()
-const form = ref({
-    nom: ''
+defineProps({
+    form:{
+        type: Object,
+    }
 })
 
 </script>
@@ -27,7 +28,7 @@ const form = ref({
 
                 <div class="flex gap-4 justify-between">
                     <Button texteBouton="Sauvegarder" />
-                    <Button texteBouton="Annuler" />
+                    <Button texteBouton="Annuler" @click="$emit('cacherForm')" class="bg-gray-400 text-gray-900" />
                 </div>
 
             </form>

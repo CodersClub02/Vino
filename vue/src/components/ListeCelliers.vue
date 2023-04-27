@@ -9,13 +9,16 @@ const appStore = useAppStore()
 onMounted(async ()=> {
     await appStore.getCelliers()
 })
-let ajouterCellier = ref(false)
+let form = ref({
+    nom: ""
+})
+
 </script>
 <template>
-    <div class="p-5 flex justify-center" v-if="!ajouterCellier">
-        <Button texteBouton="Ajouter Cellier" @click="ajouterCellier = !ajouterCellier" />
+    <div class="p-5 flex justify-center" v-if="!appStore.afficherForm">
+        <Button texteBouton="Ajouter Cellier" @click="appStore.togglerForm()" />
     </div>
-    <AjouterCellier v-if="ajouterCellier" />
+    <AjouterCellier v-if="appStore.afficherForm" :form="form" @cacherForm="appStore.togglerForm()" />
 
     <div class="bg-gray-100  text-gray-600  p-5">
         <div class="grid lg:grid-cols-4 md:grid-cols-3 gap-10">
