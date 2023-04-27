@@ -12,7 +12,8 @@ export const useAppStore = defineStore("app", {
 
     state: () => ({
         mesCelliers: null,
-        cellierErreurs: []
+        cellierErreurs: [],
+        afficherFormCellier: false
     }),
 
 
@@ -23,21 +24,27 @@ export const useAppStore = defineStore("app", {
 
     getters: {
         celliers: (state) => state.mesCelliers,
-        erreursCellier: (state) => state.cellierErreurs
+        erreursCellier: (state) => state.cellierErreurs,
+        afficherForm: (state) => state.afficherFormCellier,
     },
 
-    /**
-         * fonctions pour interager avec cet module pinia depuis l'exterieur
-         * @author Hanane
-         */
     actions: {
+        /**
+         * @author Saddek
+         * @returns void
+         * @description cacher et afficher le formulaire de cellier
+         */
+        async togglerForm() {
+            this.afficherFormCellier = !this.afficherFormCellier
+        },
+
         /**
          * @author Hanane
          * @returns void
          * @description retrouver les token de csrf depuis le serveur Laravel API.
-         */
-        async getToken() {
-            await axios.get('/sanctum/csrf-cookie')
+        */
+               async getToken() {
+                await axios.get('/sanctum/csrf-cookie')
         },
 
         /**
@@ -65,6 +72,7 @@ export const useAppStore = defineStore("app", {
                 await axios.post('/api/cellier', {
                     nom: donnees.nom
                 })
+                this.togglerForm()
                 this.getCelliers()
 
             } catch (error) {
