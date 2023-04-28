@@ -1,9 +1,8 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import Button from './Button.vue';
-import SecButton from './SecButton.vue';
 import GererCellier from '../components/GererCellier.vue';
-import ajouterBouteille from '../components/AjouterBouteille.vue';
+import GererBouteille from '../components/GererBouteille.vue';
 import { useAppStore } from '../stores/app'
 
 const appStore = useAppStore()
@@ -26,9 +25,11 @@ let countCellier = ref(0)
 
 </script>
 <template>
-    <!-- Afficher le formulaire pour l'ajout d'un cellier  -->
-    <GererCellier v-if="appStore.afficherForm" :form="appStore.nouveauCellier ? {} : form"
-        @cacherForm="appStore.togglerFormCellier()" />
+    <div class="p-5 flex justify-center" v-if="!appStore.afficherForm">
+        <Button texteBouton="Ajouter Cellier" @click="appStore.togglerFormCellier()" />
+    </div>
+
+    <GererCellier v-if="appStore.afficherForm" :form="form" @cacherForm="appStore.togglerFormCellier()" />
 
     <div v-if="countCellier > 1"
         class="transition duration-150 hover:ease-in ease-out bg-gray-100 overflow-x-auto text-gray-600 p-5 flex snap-x gap-10">
@@ -63,9 +64,8 @@ let countCellier = ref(0)
                 <label @click="appStore.togglerFormCellier('nouveau')">nouveau cellier</label>
             </div>
         </div>
-
-        <ajouterBouteille v-if="appStore.afficherFormBouteille" :erreur="authStore?.erreursBouteille"
-            :cellierId="form.id" />
+        <GererBouteille v-if="appStore.afficherFormBouteille" :erreur="authStore?.erreursBouteille"
+            :cellierId="form.cellier_id" />
 
         <div v-for="(bouteille) in appStore.mesBouteilleCellier"
             class=" bg-white rounded overflow-hidden shadow-md p-2 snap-center">
