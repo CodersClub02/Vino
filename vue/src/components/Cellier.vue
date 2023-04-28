@@ -26,13 +26,18 @@ let countCellier = ref(0)
 
 </script>
 <template>
+    <!-- Afficher le formulaire pour l'ajout d'un cellier  -->
     <GererCellier v-if="appStore.afficherForm" :form="appStore.nouveauCellier ? {} : form"
         @cacherForm="appStore.togglerFormCellier()" />
 
-    <div v-if="countCellier > 1" class="bg-gray-100 text-gray-600 p-5 flex snap-x gap-10">
-        <div v-for="(cellier) in appStore.celliers" class=" bg-white rounded overflow-hidden shadow-md p-2 snap-center"
+    <div v-if="countCellier > 1"
+        class="transition duration-150 hover:ease-in ease-out bg-gray-100 overflow-x-auto text-gray-600 p-5 flex snap-x gap-10">
+
+        <!--  -->
+        <div v-for="(cellier) in appStore.celliers" :class="{ 'bg-rose-100 text-gray-600': form.id == cellier.id }"
+            class="flex-none bg-white rounded  w-300 shadow-md p-2 snap-center"
             @click="appStore.getBouteillesCellier(cellier.id), form.id = cellier.id, form.nom = cellier.nom">
-            <span class="text-lg font-semibold">{{ cellier.nom }}</span>
+            <span class="font-body ">{{ cellier.nom }}</span>
             <span class="block text-sm text-gray-500">{{ cellier.contenirs_count }}</span>
         </div>
     </div>
@@ -48,11 +53,11 @@ let countCellier = ref(0)
         </form>
 
         <div>
-            <div class="text-2xl text-green">
+            <div class="text-2xl font-title font-semibold text-rose-800">
                 {{ form.nom }}
             </div>
-            <div class="flex justify-between">
 
+            <div class="flex justify-between">
                 <label @click="supprimerCellierForm = !supprimerCellierForm">supprimer</label>
                 <label @click="appStore.togglerFormCellier()">modifier</label>
                 <label @click="appStore.togglerFormCellier('nouveau')">nouveau cellier</label>
@@ -69,5 +74,7 @@ let countCellier = ref(0)
         </div>
     </div>
 
-    <label @click="appStore.togglerFormBouteille()">ajouter bouteille</label>
+    <label @click="appStore.togglerFormBouteille()"
+        class=" m-2 rounded  cursor-pointer font-body text-white bg-rose-800 p-3">ajouter
+        bouteille</label>
 </template>
