@@ -87,7 +87,18 @@ export const useAppStore = defineStore("app", {
             }
         },
 
-        async ajouterCellier(donnees) {
+<<<<<<< HEAD
+
+        /**
+        * @author Hanane
+        * @returns void
+        * @description gérer un cellier d'un usager connecté depuis le serveur
+        */
+
+        async gererCellier(donnees, supprimer) {
+=======
+        async GererCellier(donnees) {
+>>>>>>> 64cb14978a835cf47d8ce786625ced28a843620f
             try {
                 // Si l'usager veut modifier un cellier
                 if (supprimer) {
