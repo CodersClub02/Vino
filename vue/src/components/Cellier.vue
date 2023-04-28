@@ -64,6 +64,7 @@ let countCellier = ref(0)
                 <label @click="appStore.togglerFormCellier('nouveau')">nouveau cellier</label>
             </div>
         </div>
+
         <GererBouteille v-if="appStore.afficherFormBouteille" :erreur="authStore?.erreursBouteille"
             :cellierId="form.cellier_id" />
 
