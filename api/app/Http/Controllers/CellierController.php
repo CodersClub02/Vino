@@ -25,7 +25,7 @@ class CellierController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nom' => 'required|string|min:10|max:100',
+            'nom' => 'required|string|min:4|max:100',
         ]);
 
         Cellier::create([
@@ -42,7 +42,7 @@ class CellierController extends Controller
     public function update(Cellier $cellier, Request $request)
     {
         $request->validate([
-            'nom' => 'required|string|min:10|max:100',
+            'nom' => 'required|string|min:4|max:100',
         ]);
 
         $cellier->update([
