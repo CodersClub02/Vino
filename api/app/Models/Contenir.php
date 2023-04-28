@@ -21,6 +21,6 @@ class Contenir extends Model
         'notes',
         'prix_paye',
         'quantite',
-        'melisme'
+        'mellisme'
     ];
 }
