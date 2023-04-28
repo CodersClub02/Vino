@@ -7,7 +7,7 @@ const props = defineProps({
     },
     modelValue: {
         type: String,
-        default: "modelvalue"
+        default: ""
     },
     erreur: {
         type: Array,
