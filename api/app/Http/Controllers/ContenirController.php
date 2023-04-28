@@ -26,15 +26,14 @@ class ContenirController extends Controller
      */
     public function store(Request $request)
     {
-        $request->cellier_id=1;
         $request->validate([
-            'bouteille_id' => 'exists|bouteilles',
-            'cellier_id' => 'required|exists|celliers',
+            'bouteille_id' => 'exists:bouteilles,id',
+            'cellier_id' => 'required|exists:celliers,id',
             'date_achat' => 'date',
             'garder_jusqu_a' => 'date',
-            'notes' => 'string',
-            'prix_paye' => 'number',
-            'quantite' => 'string',
+            'notes' => 'numeric',
+            'prix_paye' => 'numeric',
+            'quantite' => 'numeric',
             'mellisme' => 'integer|min:1900|max:2023'
         ]);
 

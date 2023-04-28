@@ -13,6 +13,7 @@ export const useAppStore = defineStore("app", {
     state: () => ({
         mesCelliers: null,
         mesBouteilleCellier: [],
+        cellierNouveau: null,
         cellierErreurs: [],
         afficherFormCellier: false,
         affchFormBouteille: false,
@@ -27,13 +28,14 @@ export const useAppStore = defineStore("app", {
     getters: {
         celliers: (state) => state.mesCelliers,
         erreursCellier: (state) => state.cellierErreurs,
+        nouveauCellier: (state) => state.cellierNouveau,
         afficherForm: (state) => state.afficherFormCellier,
         afficherFormBouteille: (state) => state.affchFormBouteille,
         erreursBouteille: (state) => state.bouteilleErreurs,
     },
 
     actions: {
-        
+
         /**
          * @author Saddek
          * @returns void
@@ -43,18 +45,15 @@ export const useAppStore = defineStore("app", {
             this.affchFormBouteille = !this.affchFormBouteille
         },
 
-                /**
-         * @author Hanane
-         * @returns void
-         * @description ajouter bouteille
-         */
+        /**
+ * @author Hanane
+ * @returns void
+ * @description ajouter bouteille
+ */
         async ajouterBouteille(donnees) {
 
             try {
-
-                await axios.post('/api/contenir', {
-                    donnees
-                })
+                await axios.post('/api/contenir', donnees)
 
                 this.togglerFormBouteille()
                 this.getBouteillesCellier(donnees.cellier_id)
@@ -69,7 +68,8 @@ export const useAppStore = defineStore("app", {
          * @returns void
          * @description cacher et afficher le formulaire de cellier
          */
-        async togglerFormCellier() {
+        async togglerFormCellier(nouveauCellier) {
+            this.cellierNouveau = nouveauCellier
             this.afficherFormCellier = !this.afficherFormCellier
         },
 
@@ -89,9 +89,23 @@ export const useAppStore = defineStore("app", {
 
         async gererCellier(donnees) {
             try {
-                await axios.post('/api/cellier', {
-                    nom: donnees.nom
-                })
+                // Si l'usager veut modifier un cellier
+                if (supprimer) {
+                    await axios.delete(`/api/cellier/${donnees.id}`)
+                }
+                // Si l'usager veut modifier un cellier
+                else if (this.cellierNouveau) {
+                    await axios.post(`/api/cellier/`, {
+                        nom: donnees.nom
+                    })
+
+                    // Si l'usager veut ajouter un cellier
+                } else {
+                    await axios.put(`/api/cellier/${donnees.id}`, {
+                        nom: donnees.nom
+                    })
+                }
+
                 this.togglerFormCellier()
                 this.getCelliers()
 
@@ -116,7 +130,7 @@ export const useAppStore = defineStore("app", {
                 this.mesBouteilleCellier = []
             }
         },
-        
+
     },
 
 })

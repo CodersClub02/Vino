@@ -7,11 +7,12 @@
 
 import { useAppStore } from '../stores/app'
 import Button from "../components/Button.vue"
+import SecButton from "../components/SecButton.vue"
 import Input from "../components/Input.vue"
 
 const appStore = useAppStore()
 defineProps({
-    form:{
+    form: {
         type: Object,
     }
 })
@@ -28,7 +29,7 @@ defineProps({
 
                 <div class="flex gap-4 justify-between">
                     <Button texteBouton="Sauvegarder" />
-                    <Button texteBouton="Annuler" @click="$emit('cacherForm')" class="bg-gray-400 text-gray-900" />
+                    <SecButton texteBouton="Annuler" @click="$emit('cacherForm')" class="bg-gray-400 text-gray-900" />
                 </div>
 
             </form>
