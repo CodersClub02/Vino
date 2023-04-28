@@ -31,9 +31,9 @@ class ContenirController extends Controller
             'cellier_id' => 'required|exists:celliers,id',
             'date_achat' => 'date',
             'garder_jusqu_a' => 'date',
-            'notes' => 'string',
+            'notes' => 'numeric',
             'prix_paye' => 'numeric',
-            'quantite' => 'string',
+            'quantite' => 'numeric',
             'mellisme' => 'integer|min:1900|max:2023'
         ]);
 
