@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Contenir;
 
 class Cellier extends Model
 {
@@ -18,4 +19,11 @@ class Cellier extends Model
         'user_id',
         'nom'
     ];
+
+    public function contenirs()
+    {
+        return $this->hasMany(Contenir::class);
+    }
+
+    
 }

@@ -13,7 +13,9 @@ class CellierController extends Controller
     public function index()
     {
         return response()->json(
-            Cellier::where('user_id', auth()?->user()?->id)->get()
+            Cellier::withCount('contenirs')
+            ->where('user_id', auth()?->user()?->id)
+            ->get()
         );
     }
 
@@ -43,17 +45,19 @@ class CellierController extends Controller
             'nom' => 'required|string|min:10|max:100',
         ]);
 
-        $cellier::where('user_id', auth()->user()->id)->update([
+        $cellier->update([
             'nom' => $request->nom
         ]);
+
+        return response()->json(['status' => 'ok', 'message'=>'cellier modifié avec succès']);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Cellier $cellier)
     {
-        $cellier::where('user_id', auth()->user()->id)->delete();
+        $cellier->delete();
         return response()->json(['status' => 'ok', 'message'=>'cellier supprimé avec succès']);
     }
 }
