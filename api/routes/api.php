@@ -15,11 +15,12 @@ use App\Http\Controllers\CellierController;
 |
 */
 
- Route::group(['middleware' => 'auth:sanctum'], function(){
+Route::group(['middleware' => 'auth:sanctum'], function(){
 
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
+
     //cette ligne accompli le "route binding"
     Route::model('bouteille', 'App\Models\Bouteille');
     //cette ligne gere toutes les resources de l'url bouteille: post, get, put...
