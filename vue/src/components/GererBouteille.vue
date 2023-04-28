@@ -13,7 +13,7 @@ import Textarea from "../components/Textarea.vue"
 const appStore = useAppStore()
 const form = ref({
     bouteille_id: null,
-    cellier_id: props.cellierId,
+    cellier_id: props.cellier.id,
     date_achat: null,
     garder_jusqu_a: null,
     notes: null,
@@ -23,8 +23,8 @@ const form = ref({
 });
 
 const props = defineProps({
-    cellierId: {
-        type: Number
+    cellier: {
+        type: Object
     }
 })
 </script>
@@ -33,7 +33,7 @@ const props = defineProps({
     <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8 bg-white">
         <div class="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
             <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-                <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Ajouter bouteille
+                <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Ajouter bouteille a {{ cellier.nomEnCours }}
                 </h2>
             </div>
 
@@ -59,8 +59,7 @@ const props = defineProps({
                     <Input v-bind:erreur="appStore.erreursBouteille.garder_jusqu_a" v-model="form.garder_jusqu_a"
                         label="Garder jusqu'à" name="garder_jusqu_a" type="date" />
 
-                    <Input v-bind:erreur="appStore.erreursBouteille.prix_paye" v-model="form.prix_paye" label="Prix"
-                        name="prix_paye" type="number" />
+                    <Input v-bind:erreur="appStore.erreursBouteille.prix_paye" v-model="form.prix_paye" label="Prix" name="prix_paye" type="number" />
 
                     <div class="flex gap-4 justify-between">
                         <Button texteBouton="Sauvegarder" />
