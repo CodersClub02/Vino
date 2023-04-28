@@ -87,7 +87,7 @@ export const useAppStore = defineStore("app", {
             }
         },
 
-        async ajouterCellier(donnees) {
+        async GererCellier(donnees) {
             try {
                 await axios.post('/api/cellier', {
                     nom: donnees.nom

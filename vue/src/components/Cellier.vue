@@ -1,8 +1,8 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import Button from './Button.vue';
-import AjouterCellier from '../components/AjouterCellier.vue';
-import ajouterBouteille from '../components/AjouterBouteille.vue';
+import GererCellier from '../components/GererCellier.vue';
+import GererBouteille from '../components/GererBouteille.vue';
 import { useAppStore } from '../stores/app'
 
 const appStore = useAppStore()
@@ -23,7 +23,8 @@ let form = ref({
     <div class="p-5 flex justify-center" v-if="!appStore.afficherForm">
         <Button texteBouton="Ajouter Cellier" @click="appStore.togglerFormCellier()" />
     </div>
-    <AjouterCellier v-if="appStore.afficherForm" :form="form" @cacherForm="appStore.togglerFormCellier()" />
+    
+    <GererCellier v-if="appStore.afficherForm" :form="form" @cacherForm="appStore.togglerFormCellier()" />
 
     <div class="bg-gray-100 text-gray-600 p-5 flex snap-x gap-10">
             <div v-for="(cellier) in appStore.celliers" class=" bg-white rounded overflow-hidden shadow-md p-2 snap-center" @click="appStore.getBouteillesCellier(cellier.id), form.cellier_id=cellier.id">
@@ -41,7 +42,7 @@ let form = ref({
 
         </div>
         
-        <ajouterBouteille v-if="appStore.afficherFormBouteille" :erreur="authStore?.erreursBouteille" :cellierId="form.cellier_id" />
+        <GererBouteille v-if="appStore.afficherFormBouteille" :erreur="authStore?.erreursBouteille" :cellierId="form.cellier_id" />
 
         <div v-for="(bouteille) in appStore.mesBouteilleCellier" class=" bg-white rounded overflow-hidden shadow-md p-2 snap-center">
             <span class="text-lg font-semibold">{{ bouteille.nom }}</span>

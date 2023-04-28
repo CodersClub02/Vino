@@ -4,7 +4,7 @@
  * @description Formulaire ajout de bouteille
  */
 
-import { ref, defineProps } from 'vue';
+import { ref } from 'vue';
 import { useAppStore } from '../stores/app'
 import Button from "../components/Button.vue"
 import Input from "../components/Input.vue"
