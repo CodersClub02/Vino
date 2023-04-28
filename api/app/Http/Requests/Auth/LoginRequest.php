@@ -12,7 +12,7 @@ use Illuminate\Validation\ValidationException;
 class LoginRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
+     * Déterminer si l'usager est authorisé de faire cette requête.
      */
     public function authorize(): bool
     {
@@ -20,7 +20,7 @@ class LoginRequest extends FormRequest
     }
 
     /**
-     * Get the validation rules that apply to the request.
+     * Obtenir les règles de validation qui s'appliquent à la requête.
      *
      * @return array<string, \Illuminate\Contracts\Validation\Rule|array|string>
      */
@@ -33,7 +33,7 @@ class LoginRequest extends FormRequest
     }
 
     /**
-     * Attempt to authenticate the request's credentials.
+     * Authentifier les informations d'identification de la requête.
      *
      * @throws \Illuminate\Validation\ValidationException
      */
@@ -53,7 +53,7 @@ class LoginRequest extends FormRequest
     }
 
     /**
-     * Ensure the login request is not rate limited.
+     * Assurer que la demande de connexion n'est pas limitée en termes de débit.
      *
      * @throws \Illuminate\Validation\ValidationException
      */
@@ -76,7 +76,7 @@ class LoginRequest extends FormRequest
     }
 
     /**
-     * Get the rate limiting throttle key for the request.
+     * Obtenir la clé de limitation de débit pour la requête.
      */
     public function throttleKey(): string
     {
