@@ -17,12 +17,12 @@ class Bouteille extends Model
     protected $fillable = [
         'type_id',
         'pays_id',
-        'nom'
-        // $table->string('code_saq', 50)->nullable;
-        // $table->string('description_saq', 500)->nullable;
-        // $table->string('format', 20)->nullable;
-        // $table->decimal('prix_saq')->nullable;
-        // $table->string('url_saq', 1000)->nullable;
-        // $table->string('url_image_saq', 1000)->nullable;
+        'nom',
+        'code_saq',
+        'description_saq',
+        'format',
+        'prix_saq',
+        'url_saq',
+        'url_image_saq',
     ];
 }
