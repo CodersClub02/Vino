@@ -87,8 +87,8 @@ export const useAppStore = defineStore("app", {
             }
         },
 
-        async gererCellier(donnees) {
-            try {
+        async gererCellier(donnees, supprimer) {
+             try {
                 // Si l'usager veut modifier un cellier
                 if (supprimer) {
                     await axios.delete(`/api/cellier/${donnees.id}`)
@@ -122,12 +122,18 @@ export const useAppStore = defineStore("app", {
         async getBouteillesCellier(idCellier) {
             this.mesBouteilleCellier = []
             try {
-                const donnees = await axios.get(`/api/contenir/`)
+                const donnees = await axios.get(`/api/contenir/${idCellier}`)
                 this.mesBouteilleCellier = donnees.data
                 console.log("helleo", this.mesBouteilleCellier);
 
             } catch (error) {
-                this.mesBouteilleCellier = []
+                
+                if (error.response.status == 404) {
+                    this.mesBouteilleCellier = []
+                }else{
+                    this.mesBouteilleCellier = {'erreur': 'un probléme'}
+                }
+
             }
         },
 
