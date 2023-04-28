@@ -8,7 +8,7 @@ use App\Models\Cellier;
 class CellierController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Afficher la liste des celliers.
      */
     public function index()
     {
@@ -20,12 +20,12 @@ class CellierController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Sauvegarder le cellier ajouté.
      */
     public function store(Request $request)
     {
         $request->validate([
-            'nom' => 'required|string|min:10|max:100',
+            'nom' => 'required|string|min:4|max:100',
         ]);
 
         Cellier::create([
@@ -37,12 +37,12 @@ class CellierController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Mise à jour d'un cellier.
      */
     public function update(Cellier $cellier, Request $request)
     {
         $request->validate([
-            'nom' => 'required|string|min:10|max:100',
+            'nom' => 'required|string|min:4|max:100',
         ]);
 
         $cellier->update([
@@ -53,7 +53,7 @@ class CellierController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Supprimer un cellier.
      */
     public function destroy(Cellier $cellier)
     {

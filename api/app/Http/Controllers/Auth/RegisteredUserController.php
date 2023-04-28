@@ -14,7 +14,7 @@ use Illuminate\Validation\Rules;
 class RegisteredUserController extends Controller
 {
     /**
-     * Handle an incoming registration request.
+     * Gérer une requête d'inscription.
      *
      * @throws \Illuminate\Validation\ValidationException
      */
@@ -41,7 +41,7 @@ class RegisteredUserController extends Controller
 
 
       /**
-     * Handle an incoming update request.
+     * Gérer une requête de mise à jour.
      *
      * @throws \Illuminate\Validation\ValidationException
      */
