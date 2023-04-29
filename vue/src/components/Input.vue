@@ -27,9 +27,9 @@ watch(erreur, (currentState, prevState) => {
 <template>
     <div>
         <div class="flex items-center justify-between">
-            <label :for="$attrs['name']" class="block text-sm font-medium leading-6 text-gray-900">{{ label }}</label>
+            <label :for="$attrs['name']" class="text-sm leading-6 text-gray-900 font-semibold">{{ label }}</label>
             <div class="text-sm">
-                <slot></slot>
+                <slot name="label"></slot>
             </div>
         </div>
 

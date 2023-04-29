@@ -52,7 +52,7 @@ let countCellier = ref(0)
         <div v-for="(cellier) in appStore.celliers" :class="{ 'bg-rose-100 text-gray-600': form.id == cellier.id }"
             class="cursor-pointer flex-none bg-white rounded  w-300 shadow-md p-2 snap-center"
             @click="appStore.getBouteillesCellier(cellier.id), form.id = cellier.id, form.nomEnCours = cellier.nom">
-            <span class="font-body ">{{ cellier.nom }}</span>
+            <span>{{ cellier.nom }}</span>
             <span class="block text-sm text-gray-500">{{ cellier.contenirs_count }}</span>
         </div>
     </div>

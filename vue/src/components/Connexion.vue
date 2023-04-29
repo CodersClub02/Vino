@@ -21,8 +21,7 @@ const form = ref({
     <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
         <div class="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
             <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-                <h2 class="text-rose-800 mt-10 text-center text-2xl font-bold leading-9 tracking-tight">Connecter à votre
-                    compte
+                <h2 class="text-rose-800 mt-10 text-center text-2xl font-bold leading-9 tracking-tight">Connecter à votre compte
                 </h2>
             </div>
 
@@ -40,11 +39,7 @@ const form = ref({
                         oublié?</router-link>
                     </Input>
 
-                    <div>
-                        <button type="submit"
-                            class="flex w-full justify-center rounded-md bg-rose-800 px-3 p-3 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-800">Se
-                            connecter</button>
-                    </div>
+                    <Button texteBouton="Se connecter" />
                 </form>
 
                 <p class="mt-10 text-center text-sm text-gray-500">
