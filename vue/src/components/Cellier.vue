@@ -21,16 +21,29 @@ onMounted(async () => {
 })
 
 let form = ref({
-    nom: "",
+    nom: null,
     id: null
 })
+
+let formBouteille = ref({
+    nom: null,
+    bouteille_id: null,
+    cellier_id: null,
+    date_achat: null,
+    garder_jusqu_a: null,
+    notes: null,
+    commentaire: null,
+    prix_paye: null,
+    quantite: null,
+    mellisme: null,
+});
 
 const supprimerCellierForm = ref(false)
 let countCellier = ref(0)
 
 </script>
-<template>
 
+<template>
     <GererCellier v-if="appStore.afficherForm" :form="form" @cacherForm="appStore.togglerFormCellier()" />
 
     <div v-if="countCellier > 1"
@@ -61,15 +74,18 @@ let countCellier = ref(0)
 
             <div v-if="!appStore.afficherForm && !supprimerCellierForm" class="flex justify-between">
                 <label @click="supprimerCellierForm = !supprimerCellierForm" class="cursor-pointer">supprimer</label>
-                <label @click="appStore.togglerFormCellier(), form.nom=form.nomEnCours" class="cursor-pointer">modifier</label>
-                <label @click="appStore.togglerFormCellier('nouveau'), form.nom=''" class="cursor-pointer">nouveau cellier</label>
+                <label @click="appStore.togglerFormCellier(), form.nom = form.nomEnCours"
+                    class="cursor-pointer">modifier</label>
+                <label @click="appStore.togglerFormCellier('nouveau'), form.nom = ''" class="cursor-pointer">nouveau
+                    cellier</label>
             </div>
         </div>
 
-        <GererBouteille v-if="appStore.afficherFormBouteille" :erreur="authStore?.erreursBouteille"
-            :cellier="form" />
+        <GererBouteille v-if="appStore.afficherFormBouteille" :erreur="authStore?.erreursBouteille" :cellier="form"
+            :formBouteille="formBouteille" />
 
-        <div v-if="!appStore.mesBouteilleCellier.length" class=" bg-white rounded overflow-hidden shadow-md p-2 snap-center">
+        <div v-if="!appStore.mesBouteilleCellier.length"
+            class=" bg-white rounded overflow-hidden shadow-md p-2 snap-center">
             <span class="text-lg font-semibold">Aucune bouteille dans {{ form?.nomEnCours }}</span>
         </div>
 
@@ -95,17 +111,19 @@ let countCellier = ref(0)
             <div>prix_paye: {{ bouteille.prix_paye }}</div>
             <div>quantite: {{ bouteille.quantite }}</div>
             <div>mellisme: {{ bouteille.mellisme }}</div>
+            <label class="cursor-pointer border-b-rose-300 bg-purple-400 p-1"
+                @click="appStore.togglerFormBouteille(), formBouteille = bouteille">modifier</label>
         </div>
 
     </div>
 
-<header class="fixed bottom-0 bg-gray-100 w-full p-1">
-    <div>gérer les bouteilles de: {{ form?.nomEnCours }}</div>
-    <nav class="flex justify-around gap-3 mt-2">
-        <label class="cursor-pointer border-b-rose-300 bg-purple-400 p-1" @click="appStore.togglerFormBouteille()">nouvelle</label>
-        <label class="cursor-pointer border-b-rose-300 bg-purple-400 p-1">trouver</label>
-        <label class="cursor-pointer border-b-rose-300 bg-purple-400 p-1">trier</label>
-    </nav>
-</header>
-
+    <header class="fixed bottom-0 bg-gray-100 w-full p-1">
+        <div>gérer les bouteilles de: {{ form?.nomEnCours }}</div>
+        <nav class="flex justify-around gap-3 mt-2">
+            <label class="cursor-pointer border-b-rose-300 bg-purple-400 p-1"
+                @click="appStore.togglerFormBouteille(), formBouteille.cellier_id = form.id">nouvelle</label>
+            <label class="cursor-pointer border-b-rose-300 bg-purple-400 p-1">trouver</label>
+            <label class="cursor-pointer border-b-rose-300 bg-purple-400 p-1">trier</label>
+        </nav>
+    </header>
 </template>

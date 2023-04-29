@@ -19,7 +19,7 @@ export const useAppStore = defineStore("app", {
         affchFormBouteille: false,
         bouteilleErreurs: [],
 
-        laSuggestionsBouteilles:[],
+        laSuggestionsBouteilles: [],
     }),
 
     /**
@@ -49,8 +49,8 @@ export const useAppStore = defineStore("app", {
                 const reponse = await axios.get('/api/bouteille?requete=' + requete)
                 this.laSuggestionsBouteilles = reponse.data
             } catch (error) {
-                this.bouteilleErreurs = error.response.data.errors
-            }            
+                // this.bouteilleErreurs = error.response.data.errors
+            }
         },
 
         /**
@@ -68,7 +68,7 @@ export const useAppStore = defineStore("app", {
  * @description ajouter bouteille
  */
         async ajouterBouteille(donnees) {
-
+            console.log(donnees);
             try {
                 await axios.post('/api/contenir', donnees)
 
@@ -105,7 +105,7 @@ export const useAppStore = defineStore("app", {
         },
 
         async gererCellier(donnees, supprimer) {
-             try {
+            try {
                 // Si l'usager veut modifier un cellier
                 if (supprimer) {
                     await axios.delete(`/api/cellier/${donnees.id}`)
@@ -144,11 +144,11 @@ export const useAppStore = defineStore("app", {
                 this.mesBouteilleCellier = donnees.data
 
             } catch (error) {
-                
+
                 if (error.response.status == 404) {
                     this.mesBouteilleCellier = []
-                }else{
-                    this.mesBouteilleCellier = {'erreur': 'un probléme'}
+                } else {
+                    this.mesBouteilleCellier = { 'erreur': 'un probléme' }
                 }
 
             }
