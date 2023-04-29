@@ -10,11 +10,19 @@ use App\Models\Pays;
 class BouteilleController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * @author Saddek
+     * @param Request $request
+     * Retourne une liste (max, 10) des bouteilles qui ont le nom ou le code saq contenant ce que l'usager cherche..
      */
     public function index(Request $request)
     {
-        return 'none';
+        //a vérifier si le sgbd est sensible à la casse
+        return response()->json(
+            Bouteille::where('nom', 'like', '%' . $request->requete . '%')
+            ->orWhere('code_saq', 'LIKE', '%' . $request->requete . '%')
+            ->take(10)
+            ->get()
+        );
     }
 
     /**
