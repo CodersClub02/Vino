@@ -18,6 +18,8 @@ export const useAppStore = defineStore("app", {
         afficherFormCellier: false,
         affchFormBouteille: false,
         bouteilleErreurs: [],
+
+        laSuggestionsBouteilles:[],
     }),
 
     /**
@@ -32,9 +34,24 @@ export const useAppStore = defineStore("app", {
         afficherForm: (state) => state.afficherFormCellier,
         afficherFormBouteille: (state) => state.affchFormBouteille,
         erreursBouteille: (state) => state.bouteilleErreurs,
+        suggestionsBouteilles: (state) => state.laSuggestionsBouteilles
     },
 
     actions: {
+
+        /**
+         * @author Saddek
+         * @description Remplir la liste des bouteilles interactivement comme
+         * l'usager tape le nom de boutteille ou code saq
+         */
+        async listeSuggestionsBouteilles(requete) {
+            try {
+                const reponse = await axios.get('/api/bouteille?requete=' + requete)
+                this.laSuggestionsBouteilles = reponse.data
+            } catch (error) {
+                this.bouteilleErreurs = error.response.data.errors
+            }            
+        },
 
         /**
          * @author Saddek
@@ -87,8 +104,8 @@ export const useAppStore = defineStore("app", {
             }
         },
 
-        async gererCellier(donnees) {
-            try {
+        async gererCellier(donnees, supprimer) {
+             try {
                 // Si l'usager veut modifier un cellier
                 if (supprimer) {
                     await axios.delete(`/api/cellier/${donnees.id}`)
@@ -122,12 +139,18 @@ export const useAppStore = defineStore("app", {
         async getBouteillesCellier(idCellier) {
             this.mesBouteilleCellier = []
             try {
-                const donnees = await axios.get(`/api/contenir/`)
+
+                const donnees = await axios.get(`/api/cellier/${idCellier}`)
                 this.mesBouteilleCellier = donnees.data
-                console.log("helleo", this.mesBouteilleCellier);
 
             } catch (error) {
-                this.mesBouteilleCellier = []
+                
+                if (error.response.status == 404) {
+                    this.mesBouteilleCellier = []
+                }else{
+                    this.mesBouteilleCellier = {'erreur': 'un probléme'}
+                }
+
             }
         },
 

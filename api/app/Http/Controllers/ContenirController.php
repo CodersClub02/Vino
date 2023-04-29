@@ -31,15 +31,24 @@ class ContenirController extends Controller
             'cellier_id' => 'required|exists:celliers,id',
             'date_achat' => 'date',
             'garder_jusqu_a' => 'date',
-            'notes' => 'numeric',
+            'notes' => 'integer',
+            'commentaire' => 'commentaire',
             'prix_paye' => 'numeric',
-            'quantite' => 'numeric',
+            'quantite' => 'integer',
             'mellisme' => 'integer|min:1900|max:2023'
         ]);
 
         Contenir::create([
-            'nom' => $request->nom,
-            'user_id' => auth()->user()->id
+            'user_id' => auth()->user()->id,
+            'bouteille_id' => $request->bouteille_id,
+            'cellier_id' => $request->cellier_id,
+            'date_achat' => $request->date_achat,
+            'garder_jusqu_a' => $request->garder_jusqu_a,
+            'notes' => $request->notes,
+            'commentaire' => $request->commentaire,
+            'prix_paye' => $request->prix_paye,
+            'quantite' => $request->quantite,
+            'mellisme' => $request->mellisme
         ]);
            
         return response()->json(['status' => 'ok', 'message'=>'cellier créé avec succès']);

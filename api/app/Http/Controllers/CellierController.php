@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Cellier;
+use App\Models\Bouteille;
 
 class CellierController extends Controller
 {
@@ -19,6 +20,18 @@ class CellierController extends Controller
         );
     }
 
+    /**
+     * Afficher la liste des celliers.
+     */
+    public function show(Cellier $cellier)
+    {
+        return response()->json(
+            Bouteille::where('cellier_id', '=', $cellier->id)
+            ->join('contenirs', 'bouteilles.id', '=', 'contenirs.bouteille_id')
+            ->with('pays:nom,id', 'type:nom,id')
+            ->get()
+        );
+    }
     /**
      * Sauvegarder le cellier ajouté.
      */

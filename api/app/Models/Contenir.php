@@ -23,4 +23,5 @@ class Contenir extends Model
         'quantite',
         'mellisme'
     ];
+
 }
