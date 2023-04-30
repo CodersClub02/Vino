@@ -4,9 +4,6 @@
  * @description Vue de navigation principale de l'application
  */
 
-import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItems } from '@headlessui/vue'
-import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
-
 import { useAuthStore } from "../stores/auth";
 const authUsager = useAuthStore();
 
@@ -28,7 +25,7 @@ const authUsager = useAuthStore();
   <button @click="authUsager.deconnecter()" class="block px-4  text-sm text-gray-700" v-if="authUsager.user">
     Déconnecter
   </button>
-  
+
   <router-link :to="{ name: 'CreerCompte' }" class="block px-4 py-2 text-sm text-gray-700" v-if="!authUsager.user">S'inscrire</router-link>
 </header>
 
