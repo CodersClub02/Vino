@@ -22,7 +22,6 @@ defineProps({
 <template>
     <div class="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-
             <form @submit.prevent="appStore.gererCellier(form)" class="space-y-6">
 
                 <Input v-bind:erreur="appStore.erreursCellier.nom" v-model="form.nom" label="Nom" name="nom" type="text" />

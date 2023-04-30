@@ -20,6 +20,8 @@ export const useAppStore = defineStore("app", {
         bouteilleErreurs: [],
 
         laSuggestionsBouteilles: [],
+        laListeType: [],
+        laListePays: [],
     }),
 
     /**
@@ -34,8 +36,9 @@ export const useAppStore = defineStore("app", {
         afficherForm: (state) => state.afficherFormCellier,
         afficherFormBouteille: (state) => state.affchFormBouteille,
         erreursBouteille: (state) => state.bouteilleErreurs,
-        lesMesBouteilleCellier: (state) => state.mesBouteilleCellier,
-        suggestionsBouteilles: (state) => state.laSuggestionsBouteilles
+        suggestionsBouteilles: (state) => state.laSuggestionsBouteilles,
+        listeType: (state) => state.laListeType,
+        listePays: (state) => state.laListePays,
     },
 
     actions: {
@@ -51,6 +54,34 @@ export const useAppStore = defineStore("app", {
                 this.laSuggestionsBouteilles = reponse.data
             } catch (error) {
                 // this.bouteilleErreurs = error.response.data.errors
+            }
+        },
+
+
+        /**
+        * @author Hanane
+        * @description Retrouver la liste des pays
+        */
+        async getListePays() {
+            try {
+                const reponse = await axios.get('/api/pays')
+                this.laListePays = reponse.data
+            } catch (error) {
+                return []
+            }
+        },
+
+
+        /**
+        * @author Hanane
+        * @description Retrouver la liste des types
+        */
+        async getListeType() {
+            try {
+                const reponse = await axios.get('/api/type')
+                this.laListeType = reponse.data
+            } catch (error) {
+                return []
             }
         },
 
