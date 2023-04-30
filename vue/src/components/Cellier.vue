@@ -89,7 +89,7 @@ let countCellier = ref(0)
         </div>
 
         <GererBouteille v-if="appStore.afficherFormBouteille" :erreur="authStore?.erreursBouteille" :cellier="form"
-            :formBouteille="formBouteille" />
+            :formBouteille="formBouteille" @cacherFormBouteille="appStore.togglerFormBouteille()" />
 
         <div v-if="countCellier >= 1 && !appStore.mesBouteilleCellier.length">
             <span class="">Aucune bouteille dans <em class="font-semibold">{{ form?.nomEnCours }}</em> .</span>
@@ -98,7 +98,7 @@ let countCellier = ref(0)
         <Bouteille v-else v-for="(bouteille) in appStore.mesBouteilleCellier" :bouteille="bouteille" />
 
 
-        </div>
+    </div>
 
     <header class="fixed bottom-0 bg-gray-100 w-full p-1">
         <div>gérer les bouteilles de: {{ form?.nomEnCours }}</div>
