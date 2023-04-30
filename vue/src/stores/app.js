@@ -34,6 +34,7 @@ export const useAppStore = defineStore("app", {
         afficherForm: (state) => state.afficherFormCellier,
         afficherFormBouteille: (state) => state.affchFormBouteille,
         erreursBouteille: (state) => state.bouteilleErreurs,
+        lesMesBouteilleCellier: (state) => state.mesBouteilleCellier,
         suggestionsBouteilles: (state) => state.laSuggestionsBouteilles
     },
 
