@@ -38,6 +38,17 @@ const afficherSuggestionsBouteilles = ref(false)
 
         <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
             <form @submit.prevent="appStore.ajouterBouteille(formBouteille)" class="space-y-6">
+                <div>
+                    <label class="inline-flex items-center">
+                        <input type="radio" class="form-radio text-rose-600" name="radio-button" value="deLaSaq"
+                            v-model="selectedOption">
+                        <span class="ml-2">Bouteille de la SAQ</span>
+                    </label>
+                    <label class="inline-flex items-center ml-6">
+                        <input type="radio" class="form-radio" name="radio-button" value="autre" v-model="selectedOption">
+                        <span class="ml-2">Autre</span>
+                    </label>
+                </div>
 
                 <Input v-bind:erreur="appStore.erreursBouteille.bouteille_id" v-model="formBouteille.nom"
                     label="Code saq ou nom bouteille" type="text" autocomplete="off"
@@ -54,6 +65,12 @@ const afficherSuggestionsBouteilles = ref(false)
                 </template>
 
                 </Input>
+
+                <Input v-bind:erreur="appStore.erreursBouteille.nom" v-model="formBouteille.nom" label="Nom de bouteille"
+                    name="nom" type="text" />
+
+                <Input v-bind:erreur="appStore.erreursBouteille.format" v-model="formBouteille.format" label="Format"
+                    name="format" type="text" />
 
                 <Textarea v-bind:erreur="appStore.erreursBouteille.commentaire" v-model="formBouteille.commentaire"
                     label="Commentaire" name="commentaire" />
