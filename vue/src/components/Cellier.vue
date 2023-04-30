@@ -4,6 +4,7 @@ import Button from './Button.vue';
 import SecButton from './SecButton.vue';
 import GererCellier from '../components/GererCellier.vue';
 import GererBouteille from '../components/GererBouteille.vue';
+import Bouteille from '../components/Bouteille.vue';
 import { useAppStore } from '../stores/app'
 
 const appStore = useAppStore()
@@ -89,33 +90,10 @@ let countCellier = ref(0)
             <span class="text-lg font-semibold">Aucune bouteille dans {{ form?.nomEnCours }}</span>
         </div>
 
-        <div v-for="(bouteille) in appStore.mesBouteilleCellier"
-            class=" bg-white rounded overflow-hidden shadow-md p-2 snap-center">
-            <span class="text-lg font-semibold">{{ bouteille.nom }}</span>
-            <div>bouteille_id: {{ bouteille.bouteille_id }}</div>
+        <Bouteille v-else v-for="(bouteille) in appStore.mesBouteilleCellier" :bouteille="bouteille" />
 
-            <div>code_saq: {{ bouteille.code_saq }}</div>
-            <div>description_saq: {{ bouteille.description_saq }}</div>
-            <div>format: {{ bouteille.format }}</div>
-            <div>prix_saq: {{ bouteille.prix_saq }}</div>
-            <div>url_saq: {{ bouteille.url_saq }}</div>
-            <div>url_image_saq: {{ bouteille.url_image_saq }}</div>
-            <div>pays: {{ bouteille.pays.nom }}</div>
-            <div>type: {{ bouteille.type.nom }}</div>
 
-            <div>created_at: {{ bouteille.created_at }}</div>
-            <div>updated_at: {{ bouteille.updated_at }}</div>
-            <div>date_achat: {{ bouteille.date_achat }}</div>
-            <div>garder_jusqu_a: {{ bouteille.garder_jusqu_a }}</div>
-            <div>notes: {{ bouteille.notes }}</div>
-            <div>prix_paye: {{ bouteille.prix_paye }}</div>
-            <div>quantite: {{ bouteille.quantite }}</div>
-            <div>mellisme: {{ bouteille.mellisme }}</div>
-            <label class="cursor-pointer border-b-rose-300 bg-purple-400 p-1"
-                @click="appStore.togglerFormBouteille(), formBouteille = bouteille">modifier</label>
         </div>
-
-    </div>
 
     <header class="fixed bottom-0 bg-gray-100 w-full p-1">
         <div>gérer les bouteilles de: {{ form?.nomEnCours }}</div>
