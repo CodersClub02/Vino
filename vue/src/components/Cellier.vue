@@ -107,9 +107,17 @@ const supprimerCellierForm = ref(false)
             <label class="w-36 flex justify-center items-center text-white rounded cursor-pointer border-b-rose-300 bg-purple-400 p-1"
                 @click="appStore.togglerFormBouteille(), formBouteille.cellier_id = form.id">nouvelle</label>
 
-                <input v-model="form.courriel" type="text" class="grow rounded-md border-0 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-rose-800 sm:text-sm sm:leading-6">
+                <input @input="" type="text" class="grow rounded-md border-0 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-rose-800 sm:text-sm sm:leading-6">
 
-            <label class="w-36 flex justify-center items-center text-white rounded cursor-pointer border-b-rose-300 bg-purple-400 p-1">trier</label>
+                <select v-bind="$attrs" :value="modelValue" @input="$emit('update:modelValue', $event.target.value)"
+                class="w-20 flex justify-center items-center text-white rounded cursor-pointer border-b-rose-300 bg-purple-400 p-1">
+                <option value="" selected>Trier</option>
+                <option>Pays</option>
+                <option>Fromat</option>
+                <option>Date achat</option>
+            </select>
+                        
+                <label class="w-18 flex justify-center items-center text-white rounded cursor-pointer border-b-rose-300 bg-purple-400 p-1">up<br>down</label>
         </nav>
     </header>
 </template>
