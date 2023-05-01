@@ -11,7 +11,7 @@ export const useAppStore = defineStore("app", {
      */
 
     state: () => ({
-        mesCelliers: null,
+        mesCelliers: [],
         mesBouteilleCellier: [],
         cellierNouveau: null,
         cellierErreurs: [],
@@ -39,6 +39,7 @@ export const useAppStore = defineStore("app", {
         suggestionsBouteilles: (state) => state.laSuggestionsBouteilles,
         listeType: (state) => state.laListeType,
         listePays: (state) => state.laListePays,
+        bouteillesDansCellier: (state) => state.mesBouteilleCellier,
     },
 
     actions: {
