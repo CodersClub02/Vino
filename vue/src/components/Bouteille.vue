@@ -1,4 +1,7 @@
 <script setup>
+import { useAppStore } from '../stores/app'
+const appStore = useAppStore()
+
 import { defineProps } from 'vue';
 
 defineProps({
@@ -34,21 +37,22 @@ defineProps({
         <div class="flex gap-5 justify-center items-center">
             <div class="flex gap-2 items-center bg-slate-400">
                 <span class="flex flex-col gap-3">
-                    <span class="flex justify-center items-center bg-orange-600 aspect-square w-8 text-2xl text-white cursor-pointer">+</span>
-                    <span class="flex justify-center items-center bg-orange-600 aspect-square w-8 text-2xl text-white cursor-pointer">-</span>
+                    <span class="flex justify-center items-center bg-orange-600 aspect-square w-8 text-2xl text-white cursor-pointer" @click="bouteille.notes=(bouteille.notes>=5?5:(bouteille.notes+1))">+</span>
+                    <span class="flex justify-center items-center bg-orange-600 aspect-square w-8 text-2xl text-white cursor-pointer" @click="bouteille.notes=(bouteille.notes<=1?1:(bouteille.notes-1))">-</span>
                 </span>
                 <div class="flex text-4xl px-10 w-40 justify-center items-center">{{ bouteille.notes }}</div>
             </div>
             <div class="flex gap-2 items-center bg-slate-400">
                 <div class="flex text-4xl px-10 w-40 justify-center items-center">{{ bouteille.quantite }}</div>
                 <span class="flex flex-col gap-3">
-                    <span class="flex justify-center items-center bg-orange-600 aspect-square w-8 text-2xl text-white cursor-pointer">+</span>
-                    <span class="flex justify-center items-center bg-orange-600 aspect-square w-8 text-2xl text-white cursor-pointer">-</span>
+                    <span class="flex justify-center items-center bg-orange-600 aspect-square w-8 text-2xl text-white cursor-pointer" @click="++bouteille.quantite">+</span>
+                    <span class="flex justify-center items-center bg-orange-600 aspect-square w-8 text-2xl text-white cursor-pointer" @click="bouteille.quantite=(bouteille.quantite<=0?0:(bouteille.quantite-1))">-</span>
                 </span>
             </div>
         </div>
 
-        <label class="cursor-pointer border-b-rose-300 bg-purple-400 p-1" @click="appStore.togglerFormBouteille(), formBouteille = bouteille">modifier</label>
+        <label class="cursor-pointer border-b-rose-300 bg-purple-400 p-1"
+         @click="appStore.togglerFormBouteille(bouteille)">modifier</label>
         
         <div>comentaire: {{ bouteille.comentaire }}</div>
         <div>mellisme: {{ bouteille.mellisme }}</div>

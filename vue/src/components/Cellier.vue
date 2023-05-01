@@ -89,15 +89,18 @@ const supprimerCellierForm = ref(false)
             </div>
         </div>
 
-        <GererBouteille v-if="appStore.afficherFormBouteille" :erreur="authStore?.erreursBouteille" :cellier="form"
-            :formBouteille="formBouteille" @cacherFormBouteille="appStore.togglerFormBouteille()" />
+        <template v-if="appStore.afficherFormBouteille">
+            <GererBouteille :erreur="authStore?.erreursBouteille" :cellier="form"
+                @cacherFormBouteille="appStore.togglerFormBouteille()" />
+        </template>
 
-        <div v-if="appStore.celliers.length >= 1 && !appStore.bouteillesDansCellier.length">
-            <span class="">Aucune bouteille dans <em class="font-semibold">{{ form?.nomEnCours }}</em> .</span>
-        </div>
+        <template v-else>
+            <div v-if="countCellier >= 1 && !appStore.mesBouteilleCellier.length">
+                <span class="">Aucune bouteille dans <em class="font-semibold">{{ form?.nomEnCours }}</em> .</span>
+            </div>
 
-        <Bouteille v-else v-for="(bouteille) in appStore.bouteillesDansCellier" :bouteille="bouteille" />
-
+            <Bouteille v-else v-for="(bouteille) in appStore.mesBouteilleCellier" :bouteille="bouteille" />
+        </template>
 
     </div>
 

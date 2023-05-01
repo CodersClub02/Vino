@@ -22,6 +22,8 @@ export const useAppStore = defineStore("app", {
         laSuggestionsBouteilles: [],
         laListeType: [],
         laListePays: [],
+
+        laBouteilleSelectione: {}
     }),
 
     /**
@@ -39,7 +41,7 @@ export const useAppStore = defineStore("app", {
         suggestionsBouteilles: (state) => state.laSuggestionsBouteilles,
         listeType: (state) => state.laListeType,
         listePays: (state) => state.laListePays,
-        bouteillesDansCellier: (state) => state.mesBouteilleCellier,
+        bouteilleSelectione: (state) => state.laBouteilleSelectione,
     },
 
     actions: {
@@ -91,8 +93,11 @@ export const useAppStore = defineStore("app", {
          * @returns void
          * @description cacher et afficher le formulaire de bouteille
          */
-        async togglerFormBouteille() {
+        async togglerFormBouteille(bouteilleSelectione) {
             this.affchFormBouteille = !this.affchFormBouteille
+            if (bouteilleSelectione) {
+                this.laBouteilleSelectione = bouteilleSelectione
+            }
         },
 
         /**
@@ -101,12 +106,30 @@ export const useAppStore = defineStore("app", {
  * @description ajouter bouteille
  */
         async ajouterBouteille(donnees) {
-            console.log(donnees);
             try {
                 await axios.post('/api/contenir', donnees)
 
                 this.togglerFormBouteille()
                 this.getBouteillesCellier(donnees.cellier_id)
+
+            } catch (error) {
+                this.bouteilleErreurs = error.response.data.errors
+            }
+
+        },
+
+
+        /**
+* @author Hanane
+* @returns void
+* @description Modifier bouteille
+*/
+        async modifierBouteille(donnees) {
+
+            try {
+                await axios.put(`/api/contenir/${donnees.id}`, donnees)
+
+                this.togglerFormBouteille()
 
             } catch (error) {
                 this.bouteilleErreurs = error.response.data.errors

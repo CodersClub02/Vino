@@ -13,7 +13,7 @@ import Connexion from "../components/Connexion.vue";
 
 <template>
   <Entete :titre='authStore.user ? "Liste des celliers" : " Se connecter"' />
-  <main>
+  <main class="pb-20">
     <Cellier v-if="authStore.user" />
     <Connexion v-else />
   </main>
