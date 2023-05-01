@@ -10,7 +10,6 @@ import Button from "../components/Button.vue"
 import SecButton from "../components/SecButton.vue"
 import Input from "../components/Input.vue"
 import Select from './Select.vue';
-import Textarea from "../components/Textarea.vue"
 
 const appStore = useAppStore()
 
@@ -31,7 +30,6 @@ const props = defineProps({
 })
 
 const afficherSuggestionsBouteilles = ref(false)
-const tableauNotes = ['1 étoile', '2 étoiles', '3 étoiles', '4 étoiles', '5 étoiles']
 </script>
 
 <template>
@@ -52,12 +50,12 @@ const tableauNotes = ['1 étoile', '2 étoiles', '3 étoiles', '4 étoiles', '5 
 
                     <div
                         class="mt-2 flex gap-6 w-full rounded-md border-0 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-rose-800 sm:text-sm sm:leading-6">
-                        <label class="flex gap-2 text-sm leading-6 text-gray-900 ">
+                        <label class="flex gap-2 text-sm leading-6 text-gray-900 cursor-pointer ">
                             <input type="radio" class="form-radio accent-rose-600" name="source" value="saq"
-                                v-model="formBouteille.source" checked>
+                                v-model="formBouteille.source">
                             la SAQ
                         </label>
-                        <label class="flex gap-2 text-sm leading-6 text-gray-900 ">
+                        <label class="flex gap-2 text-sm leading-6 text-gray-900 cursor-pointer ">
                             <input type="radio" class="form-radio accent-rose-600" name="source" value="autre"
                                 v-model="formBouteille.source">
                             Autre
@@ -66,17 +64,16 @@ const tableauNotes = ['1 étoile', '2 étoiles', '3 étoiles', '4 étoiles', '5 
                 </div>
 
                 <Input v-if="formBouteille.source == 'saq'" v-bind:erreur="appStore.erreursBouteille.bouteille_id"
-                    v-model="formBouteille.nom" label="Code saq ou nom bouteille" type="text" autocomplete="off"
+                    v-model="formBouteille.nom" label="Code saq ou nom bouteille" type="text" autocomplete="off" list="liste"
                     @input="appStore.listeSuggestionsBouteilles($event.target.value), afficherSuggestionsBouteilles = true">
                 <template v-slot:liste>
-                    <ul v-if="afficherSuggestionsBouteilles"
-                        class="flex gap-3 flex-col absolute bg-slate-50 h-60 overflow-y-auto w-80 ">
-                        <li v-for="bouteille in appStore.suggestionsBouteilles" @click="formBouteille.bouteille_id = bouteille.id,
+                    <datalist id="liste" v-if="afficherSuggestionsBouteilles">
+                        <option v-for="bouteille in appStore.suggestionsBouteilles" @change="formBouteille.bouteille_id = bouteille.id,
                             formBouteille.nom = bouteille.nom,
-                            afficherSuggestionsBouteilles = false" class="cursor-pointer w-full border-2 p-1">
+                            afficherSuggestionsBouteilles = false">
                             {{ bouteille.nom }}
-                        </li>
-                    </ul>
+                        </option>
+                    </datalist>
                 </template>
 
                 </Input>
@@ -94,13 +91,6 @@ const tableauNotes = ['1 étoile', '2 étoiles', '3 étoiles', '4 étoiles', '5 
                     <Select v-model="formBouteille.pays_id" :options="appStore.listePays"
                         v-bind:erreur="appStore.erreursBouteille.pays_id" label="Pays" />
                 </template>
-
-                <!-- <Textarea v-bind:erreur="appStore.erreursBouteille.commentaire" v-model="formBouteille.commentaire"
-                    label="Commentaire" name="commentaire" />
-
-                <Select v-model="formBouteille.notes" name="notes" :options="tableauNotes"
-                    v-bind:erreur="appStore.erreursBouteille.notes" label="Notes" /> -->
-
 
                 <Input v-bind:erreur="appStore.erreursBouteille.quantite" v-model="formBouteille.quantite" label="Quantité"
                     name="quantite" type="number" min="1" />
