@@ -64,7 +64,7 @@ class ContenirController extends Controller
             'mellisme' => $request->mellisme
         ]);
            
-        return response()->json(['status' => 'ok', 'message'=>'cellier créé avec succès']);
+        return response()->json(['status' => 'ok', 'message'=>'Bouteille est créé avec succès']);
     }
 
     /**
@@ -78,23 +78,21 @@ class ContenirController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Contenir $contenir)
     {
          $request->validate([
-            'bouteille_id' => 'exists:bouteilles,id',
             'cellier_id' => 'required|exists:celliers,id',
             'date_achat' => 'date',
             'garder_jusqu_a' => 'date',
-            'notes' => 'integer|between:1,5',
-            'commentaire' => 'string',
+            'notes' => 'nullable|integer|between:1,5',
+            'commentaire' => 'nullable|string',
             'prix_paye' => 'numeric|min:0',
             'quantite' => 'integer|min:0',
             'mellisme' => 'integer|min:1900|max:2023'
         ]);
 
-        Contenir::update([
+        $contenir->update([
             'user_id' => auth()->user()->id,
-            'bouteille_id' => $request->bouteille_id,
             'cellier_id' => $request->cellier_id,
             'date_achat' => $request->date_achat,
             'garder_jusqu_a' => $request->garder_jusqu_a,
@@ -105,7 +103,7 @@ class ContenirController extends Controller
             'mellisme' => $request->mellisme
         ]);
            
-        return response()->json(['status' => 'ok', 'message'=>'cellier créé avec succès']);
+        return response()->json(['status' => 'ok', 'message'=>'Bouteille est mise à jour avec succès']);
     }
 
     /**
