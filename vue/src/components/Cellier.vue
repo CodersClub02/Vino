@@ -43,21 +43,20 @@ const supprimerCellierForm = ref(false)
 
 
 const cleTriage = ref([
-{id: 'id', nom:'id'}, {id: 'created_at', nom: 'crée'}, {id: 'updated_at', nom: 'modifié'}, {id: 'type_id', nom: 'type'}, {id: 'pays_id', nom: 'pays'}, {id: 'nom', nom: 'nom'}, {id: 'format', nom: 'format'}, {id: 'prix_saq', nom: 'prix saq'}, {id: 'date_achat', nom: 'date achat'}, {id: 'garder_jusqu_a', nom: 'garder jusqu à'}, {id: 'notes', nom: 'notes'}, {id: 'prix_paye', nom: 'prix payé'}, {id: 'quantite', nom: 'quantité'}, {id: 'mellisme', nom: 'méllisme'}, {id: 'pays', nom: 'pays'}, {id: 'type', nom: 'type'}
+    { id: 'id', nom: 'id' }, { id: 'created_at', nom: 'crée' }, { id: 'updated_at', nom: 'modifié' }, { id: 'type_id', nom: 'type' }, { id: 'pays_id', nom: 'pays' }, { id: 'nom', nom: 'nom' }, { id: 'format', nom: 'format' }, { id: 'prix_saq', nom: 'prix saq' }, { id: 'date_achat', nom: 'date achat' }, { id: 'garder_jusqu_a', nom: 'garder jusqu à' }, { id: 'notes', nom: 'notes' }, { id: 'prix_paye', nom: 'prix payé' }, { id: 'quantite', nom: 'quantité' }, { id: 'mellisme', nom: 'méllisme' }, { id: 'pays', nom: 'pays' }, { id: 'type', nom: 'type' }
 ])
 
 const trierMesBouteilles = (par) => {
-    if(appStore.rechercheActive) {
-        appStore.resultatRecherche = appStore.resultatRecherche.sort((a,b) => (a[par] > b[par]) ? 1 : ((b[par] > a[par]) ? -1 : 0))
-    }else{
-        appStore.mesBouteilleCellier = appStore.mesBouteilleCellier.sort((a,b) => (a[par] > b[par]) ? 1 : ((b[par] > a[par]) ? -1 : 0))
+    if (appStore.rechercheActive) {
+        appStore.resultatRecherche = appStore.resultatRecherche.sort((a, b) => (a[par] > b[par]) ? 1 : ((b[par] > a[par]) ? -1 : 0))
+    } else {
+        appStore.mesBouteilleCellier = appStore.mesBouteilleCellier.sort((a, b) => (a[par] > b[par]) ? 1 : ((b[par] > a[par]) ? -1 : 0))
     }
-            
+
 }
 </script>
 
 <template>
-    
     <!-- Aucun cellier -->
     <div v-if="appStore.celliers.length == 0 && !appStore.afficherForm"
         class="flex min-h-full flex-1 flex-col justify-center px-6 py-12  lg:px-8">
@@ -80,27 +79,40 @@ const trierMesBouteilles = (par) => {
 
     <div class="grid text-gray-600 p-5 gap-10">
 
-        <form v-if="supprimerCellierForm" @submit.prevent="appStore.gererCellier(form, 'delete')" class="space-y-6">
-            <div>Êtes-vous sur de supprimer <b class="block">{{ form.nom }}</b></div>
-            <div class="flex gap-4 justify-between">
-                <Button texteBouton="Oui supprimer" />
-                <SecButton texteBouton="Annuler" @click="supprimerCellierForm = !supprimerCellierForm" />
+        <form v-if="supprimerCellierForm" @click.self="supprimerCellierForm = !supprimerCellierForm"
+            @submit.prevent="appStore.gererCellier(form, 'delete')"
+            class="flex flex-col gap-6 items-center justify-center fixed bg-black/50 p-4 z-10 inset-0">
+            <div class="space-y-6 bg-black/80 p-8 rounded-md">
+                <div class="text-center text-xl text-gray-300">Êtes-vous sur de supprimer <b>{{ form.nom }}</b> ?
+                </div>
+                <div class="flex gap-4 whitespace-nowrap justify-between">
+                    <Button texteBouton="Supprimer" />
+                    <SecButton texteBouton="Annuler" @click="supprimerCellierForm = !supprimerCellierForm" />
+                </div>
             </div>
         </form>
 
-        <div>
-            <div class="text-2xl font-title font-semibold text-rose-800">
-                {{ form?.nomEnCours }}
+        <div v-if="appStore.celliers.length >= 1 && !appStore.afficherForm && !supprimerCellierForm"
+            class="flex gap-6 justify-between items-center border-b-2 px-3 ">
+            <div class="flex gap-6 justify-between items-center border-b-2 px-3">
+                <div class="text-2xl font-title font-semibold text-rose-800">
+                    {{ form?.nomEnCours }}
+                </div>
+                <div class="flex gap-4">
+                    <font-awesome-icon icon="fa-solid fa-trash" class="text-gray-400 cursor-pointer"
+                        @click="supprimerCellierForm = !supprimerCellierForm" />
+
+                    <font-awesome-icon icon="fa-solid fa-pen-to-square"
+                        @click="appStore.togglerFormCellier(), form.nom = form.nomEnCours"
+                        class="text-gray-400 cursor-pointer" />
+                </div>
             </div>
 
-            <div v-if="appStore.celliers.length >= 1 && !appStore.afficherForm && !supprimerCellierForm" class="flex justify-between">
-                <label @click="supprimerCellierForm = !supprimerCellierForm" class="cursor-pointer">supprimer</label>
-                <label @click="appStore.togglerFormCellier(), form.nom = form.nomEnCours"
-                    class="cursor-pointer">modifier</label>
-                <label @click="appStore.togglerFormCellier('nouveau'), form.nom = ''" class="cursor-pointer">ajouter cellier</label>
-            </div> 
+            <label @click="appStore.togglerFormCellier('nouveau'), form.nom = ''" class="cursor-pointer">ajouter
+                cellier</label>
+
         </div>
-        
+
         <template v-if="appStore.afficherFormBouteille">
             <GererBouteille :erreur="authStore?.erreursBouteille" :cellier="form"
                 @cacherFormBouteille="appStore.togglerFormBouteille()" />
@@ -115,8 +127,10 @@ const trierMesBouteilles = (par) => {
             <Bouteille v-else v-for="(bouteille) in appStore.resultatRecherche" :bouteille="bouteille" />
         </template>
         <template v-else>
-            <div v-if="countCellier >= 1 && !appStore.mesBouteilleCellier.length">
-                <span class="">Aucune bouteille dans <em class="font-semibold">{{ form?.nomEnCours }}</em> .</span>
+            <div v-if="appStore.celliers.length >= 1 && !appStore.mesBouteilleCellier.length" class="relative">
+                <span class=" text-2xl text-black  inset-0  flex flex-col justify-center items-center
+                ">Aucune bouteille dans <em class="text-3xl font-semibold"> {{ form?.nomEnCours }} </em></span>
+                <img src="/aucune-bouteille.png" alt="Aucune bouteille" class="w-full">
             </div>
 
             <Bouteille v-else v-for="(bouteille) in appStore.mesBouteilleCellier" :bouteille="bouteille" />
@@ -127,18 +141,21 @@ const trierMesBouteilles = (par) => {
     <header v-if="form.nomEnCours" class="fixed bottom-0 bg-gray-100 w-full py-1 px-5">
         <div>gérer les bouteilles de: {{ form?.nomEnCours }}</div>
         <nav class="flex justify-around gap-3 mt-2">
-            <label class="w-36 flex justify-center items-center text-white rounded cursor-pointer border-b-rose-300 bg-purple-400 p-1"
+            <label
+                class="w-36 flex justify-center items-center text-white rounded cursor-pointer border-b-rose-300 bg-purple-400 p-1"
                 @click="appStore.togglerFormBouteille(), formBouteille.cellier_id = form.id">nouvelle</label>
 
-            <input @input="appStore.rechercherBouteilles($event.target.value)" type="text" class="grow rounded-md border-0 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-rose-800 sm:text-sm sm:leading-6">
+            <input @input="appStore.rechercherBouteilles($event.target.value)" type="text"
+                class="grow rounded-md border-0 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-rose-800 sm:text-sm sm:leading-6">
 
             <select @input="trierMesBouteilles($event.target.value)"
-            class="w-20 flex justify-center items-center text-white rounded cursor-pointer border-b-rose-300 bg-purple-400 p-1">
+                class="w-20 flex justify-center items-center text-white rounded cursor-pointer border-b-rose-300 bg-purple-400 p-1">
                 <option value="" selected>Trier</option>
                 <option v-for="(tri) in cleTriage" :value="tri.id">{{ tri.nom }}</option>
             </select>
-                              
-            <label class="w-18 flex justify-center items-center text-white rounded cursor-pointer border-b-rose-300 bg-purple-400 p-1">up<br>down</label>
+
+            <label
+                class="w-18 flex justify-center items-center text-white rounded cursor-pointer border-b-rose-300 bg-purple-400 p-1">up<br>down</label>
         </nav>
     </header>
 </template>
