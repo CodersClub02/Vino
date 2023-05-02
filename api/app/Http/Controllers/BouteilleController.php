@@ -16,7 +16,6 @@ class BouteilleController extends Controller
      */
     public function index(Request $request)
     {
-        //a vérifier si le sgbd est sensible à la casse
         return response()->json(
             Bouteille::where('nom', 'like', '%' . $request->requete . '%')
             ->orWhere('code_saq', 'LIKE', '%' . $request->requete . '%')
@@ -30,12 +29,13 @@ class BouteilleController extends Controller
      */
     public function store(Request $request)
     {
-        set_time_limit(600);
+        set_time_limit(6000);
         $nombreResultat = 0;
-        for ($page=0; $page < 24 ; $page++) { 
+        // Le nombre de pages à vérifier
+        for ($page=1; $page < 86 ; $page++) { 
             $nombreResultat += $this->retrouverProduitsSaq($page, $request);
         }
-        return response()->json(['status' => 'ok', 'message'=>'inventaire a jour (' . $nombreResultat .') bouteilles ajoutées']);
+        return response()->json(['status' => 'ok', 'message'=>'inventaire à jour (' . $nombreResultat .') bouteilles ajoutées']);
     }
 
 
@@ -49,7 +49,7 @@ class BouteilleController extends Controller
             'nom' => $request->pays
         ]);
 
-        $nouvelleBouteille = Bouteille::create([
+        $nouvelleBouteille = Bouteille::Create([
             'code_saq' => $request->code_SAQ,
             'nom' => $request->nom,
             'type_id' => $type->id,
@@ -95,7 +95,7 @@ class BouteilleController extends Controller
 	 */
 	public function retrouverProduitsSaq($page, Request $request) {
 		$s = curl_init();
-		$url = "https://www.saq.com/fr/produits/vin/vin-rouge?p=".$page."&product_list_limit=96";
+		$url = "https://www.saq.com/fr/produits/vin?p=".$page."&product_list_limit=96";
 
         // Se prendre pour un navigateur pour berner le serveur de la saq...
         curl_setopt_array($s,array(
