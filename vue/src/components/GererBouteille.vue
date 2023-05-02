@@ -10,16 +10,13 @@ import Button from "../components/Button.vue"
 import SecButton from "../components/SecButton.vue"
 import Input from "../components/Input.vue"
 import Select from './Select.vue';
-import Textarea from "../components/Textarea.vue"
+import Textarea from './Textarea.vue';
 
 const appStore = useAppStore()
 
-let kk = ref(null)
 onMounted(async () => {
     await appStore.getListeType();
     await appStore.getListePays();
-    kk = appStore.bouteilleSelectione
-    console.log(kk);
 })
 const props = defineProps({
 
@@ -37,7 +34,7 @@ const tableauNotes = [{ id: 1, nom: '1 étoile' }, { id: 2, nom: '2 étoiles' },
     <div class="mx-auto max-w-7xl sm:px-6 bg-white flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div class="sm:mx-auto sm:w-full sm:max-w-sm">
             <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-                <template v-if="appStore.bouteilleSelectione.length > 0">Modifier bouteille</template>
+                <template v-if="appStore.bouteilleSelectione.id">Modifier bouteille</template>
                 <template v-else>Ajouter bouteille à
                     {{ cellier.nomEnCours }}</template>
             </h2>
@@ -45,10 +42,10 @@ const tableauNotes = [{ id: 1, nom: '1 étoile' }, { id: 2, nom: '2 étoiles' },
 
         <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
             <form
-                @submit.prevent="(appStore.bouteilleSelectione.length > 0 ? appStore.modifierBouteille(appStore.bouteilleSelectione) : appStore.ajouterBouteille(appStore.bouteilleSelectione))"
+                @submit.prevent="(appStore.bouteilleSelectione.id ? appStore.modifierBouteille(appStore.bouteilleSelectione) : appStore.ajouterBouteille(appStore.bouteilleSelectione))"
                 class="space-y-6">
 
-                <template v-if="appStore.bouteilleSelectione.length == 0">
+                <template v-if="!appStore.bouteilleSelectione.id">
                     <div>
                         <div class="flex items-center justify-between">
                             <label class="text-sm leading-6 text-gray-900 font-semibold">Source bouteille</label>
@@ -101,7 +98,7 @@ const tableauNotes = [{ id: 1, nom: '1 étoile' }, { id: 2, nom: '2 étoiles' },
                     </template>
                 </template>
 
-                <template v-if="appStore.bouteilleSelectione.length > 0">
+                <template v-if="appStore.bouteilleSelectione.id">
 
                     <Select v-if="appStore.celliers.length > 1" v-model="appStore.bouteilleSelectione.cellier_id"
                         :options="appStore.celliers" v-bind:erreur="appStore.erreursBouteille.cellier_id" label="Cellier" />
@@ -113,7 +110,6 @@ const tableauNotes = [{ id: 1, nom: '1 étoile' }, { id: 2, nom: '2 étoiles' },
                     <Textarea v-bind:erreur="appStore.erreursBouteille.commentaire"
                         v-model="appStore.bouteilleSelectione.commentaire" label="Commentaire" name="commentaire" />
                 </template>
-
 
                 <Input v-bind:erreur="appStore.erreursBouteille.quantite" v-model="appStore.bouteilleSelectione.quantite"
                     label="Quantité" name="quantite" type="number" min="1" />
@@ -134,7 +130,7 @@ const tableauNotes = [{ id: 1, nom: '1 étoile' }, { id: 2, nom: '2 étoiles' },
 
                 <div class="flex gap-4 justify-between">
                     <Button texteBouton="Sauvegarder" />
-                    <SecButton texteBouton="Annuler" @click="$emit('cacherappStore.bouteilleSelectione')"
+                    <SecButton texteBouton="Annuler" @click="$emit('cacherFormBouteille')"
                         class="bg-gray-400 text-gray-900" />
                 </div>
 
