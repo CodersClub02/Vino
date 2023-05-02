@@ -36,8 +36,21 @@ pinia.use(({ store }) => {
     store.router = markRaw(router)
 })
 
+/* importer  fontawesome core */
+import { library } from '@fortawesome/fontawesome-svg-core'
+
+/* importer le composant font awesome icon  */
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
+
+import { faUserSecret, faUser, faRightFromBracket, faUserPlus, faTrash, faPenToSquare } from '@fortawesome/free-solid-svg-icons'
+
+/* ajouter icônes à la bibliothèque */
+library.add(faUserSecret, faUser, faRightFromBracket, faUserPlus, faTrash, faPenToSquare)
+
+
 /** création et initialisation de l'objet app vuejs */
-const app = createApp(App)
+const app = createApp(App).component('font-awesome-icon', FontAwesomeIcon)
 app.use(pinia)
 app.use(router)
 app.mount('#app')
