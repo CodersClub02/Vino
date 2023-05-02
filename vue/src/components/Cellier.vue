@@ -41,6 +41,19 @@ let formBouteille = ref({
 
 const supprimerCellierForm = ref(false)
 
+
+const cleTriage = ref([
+{id: 'id', nom:'id'}, {id: 'created_at', nom: 'crée'}, {id: 'updated_at', nom: 'modifié'}, {id: 'type_id', nom: 'type'}, {id: 'pays_id', nom: 'pays'}, {id: 'nom', nom: 'nom'}, {id: 'format', nom: 'format'}, {id: 'prix_saq', nom: 'prix saq'}, {id: 'date_achat', nom: 'date achat'}, {id: 'garder_jusqu_a', nom: 'garder jusqu à'}, {id: 'notes', nom: 'notes'}, {id: 'prix_paye', nom: 'prix payé'}, {id: 'quantite', nom: 'quantité'}, {id: 'mellisme', nom: 'méllisme'}, {id: 'pays', nom: 'pays'}, {id: 'type', nom: 'type'}
+])
+
+const trierMesBouteilles = (par) => {
+    if(appStore.rechercheActive) {
+        appStore.resultatRecherche = appStore.resultatRecherche.sort((a,b) => (a[par] > b[par]) ? 1 : ((b[par] > a[par]) ? -1 : 0))
+    }else{
+        appStore.mesBouteilleCellier = appStore.mesBouteilleCellier.sort((a,b) => (a[par] > b[par]) ? 1 : ((b[par] > a[par]) ? -1 : 0))
+    }
+            
+}
 </script>
 
 <template>
@@ -84,16 +97,23 @@ const supprimerCellierForm = ref(false)
                 <label @click="supprimerCellierForm = !supprimerCellierForm" class="cursor-pointer">supprimer</label>
                 <label @click="appStore.togglerFormCellier(), form.nom = form.nomEnCours"
                     class="cursor-pointer">modifier</label>
-                <label @click="appStore.togglerFormCellier('nouveau'), form.nom = ''" class="cursor-pointer">ajouter
-                    cellier</label>
-            </div>
+                <label @click="appStore.togglerFormCellier('nouveau'), form.nom = ''" class="cursor-pointer">ajouter cellier</label>
+            </div> 
         </div>
-
+        
         <template v-if="appStore.afficherFormBouteille">
             <GererBouteille :erreur="authStore?.erreursBouteille" :cellier="form"
                 @cacherFormBouteille="appStore.togglerFormBouteille()" />
         </template>
 
+        <template v-else-if="appStore.rechercheActive">
+            La recherche est active
+            <div v-if="!appStore.resultatRecherche.length">
+                <span class="">Aucune bouteille trouvée</span>
+            </div>
+
+            <Bouteille v-else v-for="(bouteille) in appStore.resultatRecherche" :bouteille="bouteille" />
+        </template>
         <template v-else>
             <div v-if="countCellier >= 1 && !appStore.mesBouteilleCellier.length">
                 <span class="">Aucune bouteille dans <em class="font-semibold">{{ form?.nomEnCours }}</em> .</span>
@@ -110,17 +130,15 @@ const supprimerCellierForm = ref(false)
             <label class="w-36 flex justify-center items-center text-white rounded cursor-pointer border-b-rose-300 bg-purple-400 p-1"
                 @click="appStore.togglerFormBouteille(), formBouteille.cellier_id = form.id">nouvelle</label>
 
-                <input @input="" type="text" class="grow rounded-md border-0 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-rose-800 sm:text-sm sm:leading-6">
+            <input @input="appStore.rechercherBouteilles($event.target.value)" type="text" class="grow rounded-md border-0 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-rose-800 sm:text-sm sm:leading-6">
 
-                <select v-bind="$attrs" :value="modelValue" @input="$emit('update:modelValue', $event.target.value)"
-                class="w-20 flex justify-center items-center text-white rounded cursor-pointer border-b-rose-300 bg-purple-400 p-1">
+            <select @input="trierMesBouteilles($event.target.value)"
+            class="w-20 flex justify-center items-center text-white rounded cursor-pointer border-b-rose-300 bg-purple-400 p-1">
                 <option value="" selected>Trier</option>
-                <option>Pays</option>
-                <option>Fromat</option>
-                <option>Date achat</option>
+                <option v-for="(tri) in cleTriage" :value="tri.id">{{ tri.nom }}</option>
             </select>
-                        
-                <label class="w-18 flex justify-center items-center text-white rounded cursor-pointer border-b-rose-300 bg-purple-400 p-1">up<br>down</label>
+                              
+            <label class="w-18 flex justify-center items-center text-white rounded cursor-pointer border-b-rose-300 bg-purple-400 p-1">up<br>down</label>
         </nav>
     </header>
 </template>

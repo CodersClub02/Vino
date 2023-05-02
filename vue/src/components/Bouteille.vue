@@ -1,14 +1,21 @@
 <script setup>
+import { watch } from "vue";
 import { useAppStore } from '../stores/app'
 const appStore = useAppStore()
 
 import { defineProps } from 'vue';
 
-defineProps({
+const props = defineProps({
     bouteille: {
         type: Object,
     }
 })
+
+watch(props.bouteille, (currentState, prevState) => {
+    appStore.modifierBouteille(currentState)
+}, { deep: true })
+
+
 </script>
 
 <template>
