@@ -14,6 +14,10 @@ use App\Http\Controllers\CellierController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+use App\Http\Controllers\ScraperController;
+
+Route::get('/scraper', [ScraperController::class, 'index'])->name('langue');
+
 
 Route::group(['middleware' => 'auth:sanctum'], function(){
 
