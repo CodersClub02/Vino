@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue';
+import Input from './Input.vue';
 import Button from './Button.vue';
 import SecButton from './SecButton.vue';
 import GererCellier from '../components/GererCellier.vue';
@@ -11,8 +12,7 @@ const appStore = useAppStore()
 
 onMounted(async () => {
     await appStore.getCelliers()
-    countCellier = appStore.celliers.length
-    if (countCellier > 0) {
+    if (appStore.celliers.length > 0) {
         form = appStore.celliers[0]
         form.nomEnCours = form.nom
     }
@@ -26,6 +26,7 @@ let form = ref({
 
 let formBouteille = ref({
     nom: null,
+    source: 'saq',
     format: null,
     bouteille_id: null,
     cellier_id: null,
@@ -39,13 +40,26 @@ let formBouteille = ref({
 });
 
 const supprimerCellierForm = ref(false)
-let countCellier = ref(0)
 
+
+const cleTriage = ref([
+{id: 'id', nom:'id'}, {id: 'created_at', nom: 'crée'}, {id: 'updated_at', nom: 'modifié'}, {id: 'type_id', nom: 'type'}, {id: 'pays_id', nom: 'pays'}, {id: 'nom', nom: 'nom'}, {id: 'format', nom: 'format'}, {id: 'prix_saq', nom: 'prix saq'}, {id: 'date_achat', nom: 'date achat'}, {id: 'garder_jusqu_a', nom: 'garder jusqu à'}, {id: 'notes', nom: 'notes'}, {id: 'prix_paye', nom: 'prix payé'}, {id: 'quantite', nom: 'quantité'}, {id: 'mellisme', nom: 'méllisme'}, {id: 'pays', nom: 'pays'}, {id: 'type', nom: 'type'}
+])
+
+const trierMesBouteilles = (par) => {
+    if(appStore.rechercheActive) {
+        appStore.resultatRecherche = appStore.resultatRecherche.sort((a,b) => (a[par] > b[par]) ? 1 : ((b[par] > a[par]) ? -1 : 0))
+    }else{
+        appStore.mesBouteilleCellier = appStore.mesBouteilleCellier.sort((a,b) => (a[par] > b[par]) ? 1 : ((b[par] > a[par]) ? -1 : 0))
+    }
+            
+}
 </script>
 
 <template>
+    
     <!-- Aucun cellier -->
-    <div v-if="countCellier == 0 && !appStore.afficherForm"
+    <div v-if="appStore.celliers.length == 0 && !appStore.afficherForm"
         class="flex min-h-full flex-1 flex-col justify-center px-6 py-12  lg:px-8">
         Vous n'avez aucun cellier. Créer un pour gérer vos bouteilles de vin.
         <Button texte-bouton="Créer cellier" class="mt-10" @click="appStore.togglerFormCellier('nouveau')" />
@@ -53,7 +67,7 @@ let countCellier = ref(0)
     <GererCellier v-if="appStore.afficherForm" :form="form" @cacherForm="appStore.togglerFormCellier()" />
 
     <!--  -->
-    <div v-if="countCellier > 1" class="flex gap-10 bg-gray-100 overflow-x-auto text-gray-600 p-5 snap-x ">
+    <div v-if="appStore.celliers.length > 1" class="flex gap-10 bg-gray-100 overflow-x-auto text-gray-600 p-5 snap-x ">
 
         <div v-for="(cellier) in appStore.celliers"
             class="cursor-pointer flex-none bg-white rounded  w-300 shadow-md p-2 snap-center"
@@ -79,20 +93,27 @@ let countCellier = ref(0)
                 {{ form?.nomEnCours }}
             </div>
 
-            <div v-if="countCellier >= 1 && !appStore.afficherForm && !supprimerCellierForm" class="flex justify-between">
+            <div v-if="appStore.celliers.length >= 1 && !appStore.afficherForm && !supprimerCellierForm" class="flex justify-between">
                 <label @click="supprimerCellierForm = !supprimerCellierForm" class="cursor-pointer">supprimer</label>
                 <label @click="appStore.togglerFormCellier(), form.nom = form.nomEnCours"
                     class="cursor-pointer">modifier</label>
-                <label @click="appStore.togglerFormCellier('nouveau'), form.nom = ''" class="cursor-pointer">ajouter
-                    cellier</label>
-            </div>
+                <label @click="appStore.togglerFormCellier('nouveau'), form.nom = ''" class="cursor-pointer">ajouter cellier</label>
+            </div> 
         </div>
-
+        
         <template v-if="appStore.afficherFormBouteille">
             <GererBouteille :erreur="authStore?.erreursBouteille" :cellier="form"
                 @cacherFormBouteille="appStore.togglerFormBouteille()" />
         </template>
 
+        <template v-else-if="appStore.rechercheActive">
+            La recherche est active
+            <div v-if="!appStore.resultatRecherche.length">
+                <span class="">Aucune bouteille trouvée</span>
+            </div>
+
+            <Bouteille v-else v-for="(bouteille) in appStore.resultatRecherche" :bouteille="bouteille" />
+        </template>
         <template v-else>
             <div v-if="countCellier >= 1 && !appStore.mesBouteilleCellier.length">
                 <span class="">Aucune bouteille dans <em class="font-semibold">{{ form?.nomEnCours }}</em> .</span>
@@ -103,13 +124,21 @@ let countCellier = ref(0)
 
     </div>
 
-    <header class="fixed bottom-0 bg-gray-100 w-full p-1">
+    <header v-if="form.nomEnCours" class="fixed bottom-0 bg-gray-100 w-full py-1 px-5">
         <div>gérer les bouteilles de: {{ form?.nomEnCours }}</div>
         <nav class="flex justify-around gap-3 mt-2">
-            <label class="cursor-pointer border-b-rose-300 bg-purple-400 p-1"
+            <label class="w-36 flex justify-center items-center text-white rounded cursor-pointer border-b-rose-300 bg-purple-400 p-1"
                 @click="appStore.togglerFormBouteille(), formBouteille.cellier_id = form.id">nouvelle</label>
-            <label class="cursor-pointer border-b-rose-300 bg-purple-400 p-1">trouver</label>
-            <label class="cursor-pointer border-b-rose-300 bg-purple-400 p-1">trier</label>
+
+            <input @input="appStore.rechercherBouteilles($event.target.value)" type="text" class="grow rounded-md border-0 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-rose-800 sm:text-sm sm:leading-6">
+
+            <select @input="trierMesBouteilles($event.target.value)"
+            class="w-20 flex justify-center items-center text-white rounded cursor-pointer border-b-rose-300 bg-purple-400 p-1">
+                <option value="" selected>Trier</option>
+                <option v-for="(tri) in cleTriage" :value="tri.id">{{ tri.nom }}</option>
+            </select>
+                              
+            <label class="w-18 flex justify-center items-center text-white rounded cursor-pointer border-b-rose-300 bg-purple-400 p-1">up<br>down</label>
         </nav>
     </header>
 </template>

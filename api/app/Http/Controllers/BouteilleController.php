@@ -188,11 +188,8 @@ class BouteilleController extends Controller
 		$aElements = $noeud->getElementsByTagName("span");
 		foreach ($aElements as $node) {
 			if ($node->getAttribute('class') == 'price') {
-                //a faire, regler le cas de '17.75\xC2\xA0$' 
 				$info['prix'] = preg_replace("/[^0-9\,]/u", "", $node->textContent);
                 $info['prix'] = str_replace(',', '.', $info['prix']);
-                // $info['prix'] = $node->textContent;
-
 			}
             
 		}

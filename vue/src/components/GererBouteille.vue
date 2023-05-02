@@ -10,16 +10,13 @@ import Button from "../components/Button.vue"
 import SecButton from "../components/SecButton.vue"
 import Input from "../components/Input.vue"
 import Select from './Select.vue';
-import Textarea from "../components/Textarea.vue"
+import Textarea from './Textarea.vue';
 
 const appStore = useAppStore()
 
-let kk = ref(null)
 onMounted(async () => {
     await appStore.getListeType();
     await appStore.getListePays();
-    kk = appStore.bouteilleSelectione
-    console.log(kk);
 })
 const props = defineProps({
 
@@ -114,7 +111,6 @@ const tableauNotes = [{ id: 1, nom: '1 étoile' }, { id: 2, nom: '2 étoiles' },
                         v-model="appStore.bouteilleSelectione.commentaire" label="Commentaire" name="commentaire" />
                 </template>
 
-
                 <Input v-bind:erreur="appStore.erreursBouteille.quantite" v-model="appStore.bouteilleSelectione.quantite"
                     label="Quantité" name="quantite" type="number" min="1" />
 
@@ -134,7 +130,7 @@ const tableauNotes = [{ id: 1, nom: '1 étoile' }, { id: 2, nom: '2 étoiles' },
 
                 <div class="flex gap-4 justify-between">
                     <Button texteBouton="Sauvegarder" />
-                    <SecButton texteBouton="Annuler" @click="$emit('cacherappStore.bouteilleSelectione')"
+                    <SecButton texteBouton="Annuler" @click="$emit('cacherFormBouteille')"
                         class="bg-gray-400 text-gray-900" />
                 </div>
 

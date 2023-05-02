@@ -11,7 +11,7 @@ export const useAppStore = defineStore("app", {
      */
 
     state: () => ({
-        mesCelliers: null,
+        mesCelliers: [],
         mesBouteilleCellier: [],
         cellierNouveau: null,
         cellierErreurs: [],
@@ -23,7 +23,9 @@ export const useAppStore = defineStore("app", {
         laListeType: [],
         laListePays: [],
 
-        laBouteilleSelectione: {}
+        laBouteilleSelectione: {},
+        mesResultatDeRechercheBouteille: [],
+        estALarecherche: false
     }),
 
     /**
@@ -32,6 +34,8 @@ export const useAppStore = defineStore("app", {
      */
 
     getters: {
+        rechercheActive: (state) => state.estALarecherche,
+        resultatRecherche: (state) => state.mesResultatDeRechercheBouteille,
         celliers: (state) => state.mesCelliers,
         erreursCellier: (state) => state.cellierErreurs,
         nouveauCellier: (state) => state.cellierNouveau,
@@ -93,10 +97,10 @@ export const useAppStore = defineStore("app", {
          * @returns void
          * @description cacher et afficher le formulaire de bouteille
          */
-        async togglerFormBouteille(laBouteilleSelectione) {
+        async togglerFormBouteille(bouteilleSelectione) {
             this.affchFormBouteille = !this.affchFormBouteille
-            if (laBouteilleSelectione) {
-                this.laBouteilleSelectione = laBouteilleSelectione
+            if (bouteilleSelectione) {
+                this.laBouteilleSelectione = bouteilleSelectione
             }
         },
 
@@ -127,9 +131,9 @@ export const useAppStore = defineStore("app", {
         async modifierBouteille(donnees) {
 
             try {
-                await axios.put(`/api/contenir/${donnees.id}`, donnees)
 
-                this.togglerFormBouteille()
+                await axios.put(`/api/contenir/${donnees.id}`, donnees)
+                this.affchFormBouteille = false
 
             } catch (error) {
                 this.bouteilleErreurs = error.response.data.errors
@@ -206,6 +210,27 @@ export const useAppStore = defineStore("app", {
                 } else {
                     this.mesBouteilleCellier = { 'erreur': 'un probléme' }
                 }
+
+            }
+        },
+        /**
+         * @author Saddek
+         * @returns void
+         * @description retrouver la liste des bouteille d'un usager connecté depuis le serveur
+         */
+        async rechercherBouteilles(motCle) {
+            
+            this.estALarecherche = motCle.length > 0
+
+            this.mesResultatDeRechercheBouteille = []
+            try {
+                const donnees = await axios.get(`/api/contenir/`, {params: {recherche: oui, mot_cle: motCle}})
+                this.mesResultatDeRechercheBouteille = donnees.data
+            } catch (error) {
+
+                if (error.response.status == 404) {
+                    this.mesResultatDeRechercheBouteille = []
+                } 
 
             }
         },

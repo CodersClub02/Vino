@@ -14,11 +14,29 @@ class ContenirController extends Controller
      */
     public function index(Request $request)
     {
-        return response()->json(
-            Contenir::where([
-                ['cellier_id', '=', $request->id]
-            ])->get()
-        );
+        if($request->recherche){
+
+            $predicate = [];
+            if($request->cellier_id) array_push($predicate, ['cellier_id', '=', $request->cellier_id]);
+            if($request->mot_cle) array_push($predicate, ['nom', 'like', '%' . $request->mot_cle . '%']);
+            
+            return response()->json(
+                Bouteille::where($predicate)
+                ->join('contenirs', 'bouteilles.id', '=', 'contenirs.bouteille_id')
+                ->with('pays:nom,id', 'type:nom,id')
+                ->get()
+            );
+
+        }else{
+
+            return response()->json(
+                Contenir::where([
+                    ['cellier_id', '=', $request->id]
+                    ])
+                    ->get()
+                );
+
+        }
     }
 
     /**

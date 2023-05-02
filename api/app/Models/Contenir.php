@@ -19,9 +19,10 @@ class Contenir extends Model
         'date_achat',
         'garder_jusqu_a',
         'notes',
+        'comentaire',
         'prix_paye',
         'quantite',
-        'mellisme'
+        'mellisme',
     ];
 
 }
