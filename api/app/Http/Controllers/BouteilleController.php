@@ -95,7 +95,7 @@ class BouteilleController extends Controller
 	 */
 	public function retrouverProduitsSaq($page, Request $request) {
 		$s = curl_init();
-		$url = "https://www.saq.com/fr/produits/vin/vin-rouge?p=".$page."&product_list_limit=96";
+		$url = "https://www.saq.com/fr/produits/vin?p=".$page."&product_list_limit=96";
 
         // Se prendre pour un navigateur pour berner le serveur de la saq...
         curl_setopt_array($s,array(
