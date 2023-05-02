@@ -4,6 +4,7 @@
  * @description Vue de navigation principale de l'application
  */
 
+
 import { useAuthStore } from "../stores/auth";
 const authUsager = useAuthStore();
 
@@ -11,22 +12,34 @@ const authUsager = useAuthStore();
 </script>
 
 <template>
+  <header class="flex items-center justify-between bg-black p-3">
 
-<header class="flex items-baseline justify-between bg-black p-3">
+    <router-link :to="{ name: 'Accueil' }">
+      <img class="h-14" src="/vino-logo.png" alt="Vino" />
+    </router-link>
 
-  <router-link :to="{ name: 'Accueil' }">
-    <img class="h-14" src="/vino-logo.png" alt="Vino" />
-  </router-link>
 
-  <router-link :to="{ name: 'Profil' }" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']" v-if="authUsager.user">
-    Mon Profil {{ authUsager.user.name }}
-  </router-link>
+    <router-link :to="{ name: 'Profil' }"
+      :class="[active ? 'bg-gray-100' : '', 'flex flex-col gap-3 items-center px-4 py-2 text-sm text-white font-semibold']"
+      v-if="authUsager.user">
+      <font-awesome-icon icon="fa-solid fa-user" class="text-sm" />
+      Mon Profil
+    </router-link>
 
-  <button @click="authUsager.deconnecter()" class="block px-4  text-sm text-gray-700" v-if="authUsager.user">
-    Déconnecter
-  </button>
 
-  <router-link :to="{ name: 'CreerCompte' }" class="block px-4 py-2 text-sm text-gray-700" v-if="!authUsager.user">S'inscrire</router-link>
-</header>
 
+    <button @click="authUsager.deconnecter()"
+      :class="[active ? 'bg-gray-100' : '', 'flex flex-col gap-3 items-center px-4 py-2 text-sm text-white font-semibold']"
+      v-if="authUsager.user">
+      <font-awesome-icon icon="fa-solid fa-right-from-bracket" :class="['text-gray-100']" />
+      Déconnecter
+    </button>
+
+    <router-link :to="{ name: 'CreerCompte' }"
+      :class="[active ? 'bg-gray-100' : '', 'flex flex-col gap-3 items-center px-4 py-2 text-sm text-white font-semibold']"
+      v-if="!authUsager.user">
+      <font-awesome-icon icon="fa-solid fa-user-plus" class="w-5" />
+      S'inscrire
+    </router-link>
+  </header>
 </template>
