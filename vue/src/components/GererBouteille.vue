@@ -66,19 +66,18 @@ const tableauNotes = [{ id: 1, nom: '1 étoile' }, { id: 2, nom: '2 étoiles' },
                         </div>
                     </div>
 
-                    <Input v-if="appStore.bouteilleSelectione.source == 'saq'"
+                    <Input list="suggestions" v-if="appStore.bouteilleSelectione.source == 'saq'"
                         v-bind:erreur="appStore.erreursBouteille.bouteille_id" v-model="appStore.bouteilleSelectione.nom"
                         label="Code saq ou nom bouteille" type="text" autocomplete="off"
                         @input="appStore.listeSuggestionsBouteilles($event.target.value), afficherSuggestionsBouteilles = true">
                     <template v-slot:liste>
-                        <ul v-if="afficherSuggestionsBouteilles"
-                            class="flex gap-3 flex-col absolute bg-slate-50 h-60 overflow-y-auto w-80 ">
-                            <li v-for="bouteille in appStore.suggestionsBouteilles" @click="appStore.bouteilleSelectione.bouteille_id = bouteille.id,
-                                appStore.bouteilleSelectione.nom = bouteille.nom,
-                                afficherSuggestionsBouteilles = false" class="cursor-pointer w-full border-2 p-1">
+
+                        <datalist id="suggestions">
+                            <option v-for="bouteille in appStore.suggestionsBouteilles">
                                 {{ bouteille.nom }}
-                            </li>
-                        </ul>
+                            </option>
+                        </datalist>
+
                     </template>
 
                     </Input>
