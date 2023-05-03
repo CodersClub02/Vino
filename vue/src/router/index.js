@@ -8,9 +8,9 @@ import { useAuthStore } from "../stores/auth";
 
 //() => import(".. lazyload vues...
 const routes = [
-    { path: "/", name: "Accueil", component: () => import("../vues/Accueil.vue") },
-    { path: "/creer-compte", name: "CreerCompte", component: () => import("../vues/Inscrire.vue") },
-    { path: "/profil", name: "Profil", component: () => import("../vues/Profil.vue") },
+    { path: "/", name: "Accueil", meta: { requiresAuth: false }, component: () => import("../vues/Accueil.vue") },
+    { path: "/creer-compte", name: "CreerCompte", meta: { requiresGuest: true }, component: () => import("../vues/Inscrire.vue") },
+    { path: "/profil", name: "Profil", meta: { requiresAuth: true }, component: () => import("../vues/Profil.vue") },
     { path: '/:pathMatch(.*)*', name: 'not-found', component: () => import("../vues/PageIntrouvable.vue") },
 ]
 
@@ -29,9 +29,9 @@ router.beforeEach(async (to, from) => {
     //confirmer que l'usager n'est pas connecté avant de procéder
     const authStore = useAuthStore();
     await authStore.getUser()
-    if (!authStore.user && (to.name != "Accueil" && to.name != "CreerCompte")) {
-        if (!authStore.user) router.push({ name: 'Accueil' });
-    }
+
+    if ((to.meta.requiresAuth && !authStore.user) || (to.meta.requiresGuest && authStore.user)) router.push({ name: 'Accueil' })
+
 });
 
 export default router
