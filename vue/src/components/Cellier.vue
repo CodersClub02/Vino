@@ -61,15 +61,16 @@ const trierMesBouteilles = (par) => {
     <!-- Aucun cellier -->
     <div v-if="appStore.celliers.length == 0" class="grid text-gray-600 p-5 gap-10">
 
-        <GererCellier v-if="appStore.afficherForm" :form="form" @cacherForm="appStore.togglerFormCellier()" />
-        <template v-else>
+        <template v-if="!appStore.afficherForm">
             <div class="flex flex-col gap-7 justify-center px-6 lg:px-8 sm:mx-auto sm:w-full sm:max-w-sm">
             Vous n'avez aucun cellier. Créer un pour gérer vos bouteilles de vin.
             <Button texte-bouton="Créer cellier" @click="appStore.togglerFormCellier('nouveau')" />
             </div>
-            <img src="/aucune-bouteille.png" alt="" srcset="">
+            <img src="/aucune-bouteille.png">
         </template>
+
     </div>
+    <GererCellier v-if="appStore.afficherForm" :form="form" @cacherForm="appStore.togglerFormCellier()" />
     
     <!--  -->
     <div v-if="appStore.celliers.length > 1" class="flex gap-10 bg-gray-100 overflow-x-auto text-gray-600 p-5 snap-x ">
@@ -89,15 +90,15 @@ const trierMesBouteilles = (par) => {
             <img src="/ajouter-bouteille.svg"  class="w-7">
         </label>
 
-        <form v-if="supprimerCellierForm" @click.self="supprimerCellierForm = !supprimerCellierForm"
-            @submit.prevent="appStore.gererCellier(form, 'delete')"
+        <form v-if="supprimerCellierForm" @click.self="supprimerCellierForm = false"
+            @submit.prevent="appStore.gererCellier(form, 'delete'), supprimerCellierForm = false"
             class="flex flex-col gap-6 items-center justify-center fixed bg-black/50 p-4 z-10 inset-0">
             <div class="space-y-6 bg-black/80 p-8 rounded-md">
-                <div class="text-center text-xl text-gray-300">Êtes-vous sur de supprimer <b>{{ form.nom }}</b> ?
+                <div class="text-center text-xl text-gray-300">Êtes-vous sur de supprimer <b>{{ form.nomEnCours }}</b> ?
                 </div>
                 <div class="flex gap-4 whitespace-nowrap justify-between">
                     <Button texteBouton="Supprimer" />
-                    <SecButton texteBouton="Annuler" @click="supprimerCellierForm = !supprimerCellierForm" />
+                    <SecButton texteBouton="Annuler" @click="supprimerCellierForm = false" />
                 </div>
             </div>
         </form>
@@ -135,7 +136,10 @@ const trierMesBouteilles = (par) => {
                 <span class="">Aucune bouteille trouvée</span>
             </div>
 
-            <Bouteille v-else v-for="(bouteille) in appStore.resultatRecherche" :bouteille="bouteille" />
+            <div v-else class="grid gap-10 lg:gap-10 lg:grid-cols-4 md:gap-10 md:grid-cols-2" >
+                <Bouteille v-for="(bouteille) in appStore.resultatRecherche" :bouteille="bouteille" />
+            </div>
+
         </template>
         <template v-else>
             <template v-if="appStore.celliers.length >= 1 && !appStore.mesBouteilleCellier.length">
@@ -144,26 +148,25 @@ const trierMesBouteilles = (par) => {
                 <img src="/aucune-bouteille.png" alt="Aucune bouteille" class="w-full">
             </template>
 
-            <Bouteille v-else v-for="(bouteille) in appStore.mesBouteilleCellier" :bouteille="bouteille" />
+            <div v-else class="grid gap-12 lg:gap-10 lg:grid-cols-4 md:gap-10 md:grid-cols-2" >
+            <Bouteille v-for="(bouteille) in appStore.mesBouteilleCellier" :bouteille="bouteille" />
+            </div>
         </template>
 
     </div>
 
-    <header v-if="form.nomEnCours" class="fixed bottom-0 bg-gray-100 w-full py-1 px-5">
+    <header v-if="form.nomEnCours" class="fixed w-full bottom-0 bg-gray-500 py-1 px-2">
         <div>gérer les bouteilles de: {{ form?.nomEnCours }}</div>
-        <nav class="flex justify-around gap-3 mt-2">
+        <nav class="flex justify-between p-3 w-full gap-3 mt-2">
 
             <input @input="appStore.rechercherBouteilles($event.target.value)" type="text"
                 class="grow rounded-md border-0 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-rose-800 sm:text-sm sm:leading-6">
 
             <select @input="trierMesBouteilles($event.target.value)"
-                class="w-20 flex justify-center items-center text-white rounded cursor-pointer border-b-rose-300 bg-purple-400 p-1">
+                class="w-16 flex justify-center items-center text-white rounded cursor-pointer border-b-rose-300 bg-purple-400 p-1">
                 <option value="" selected>Trier</option>
                 <option v-for="(tri) in cleTriage" :value="tri.id">{{ tri.nom }}</option>
             </select>
-
-            <label
-                class="w-18 flex justify-center items-center text-white rounded cursor-pointer border-b-rose-300 bg-purple-400 p-1">up<br>down</label>
         </nav>
     </header>
 </template>

@@ -12,7 +12,7 @@ import Connexion from "../components/Connexion.vue";
 </script>
 
 <template>
-  <Entete :titre='authStore.user ? "Liste des celliers" : " Se connecter"' />
+  <Entete v-if="authStore.user" titre="Liste des celliers" />
   <main class="pb-32">
     <Cellier v-if="authStore.user" />
     <Connexion v-else />
