@@ -6,9 +6,6 @@ use App\Models\Bouteille;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
-use Symfony\Component\HttpClient\HttpClient;
-use Symfony\Component\BrowserKit\HttpBrowser;
-
 class ScraperController extends Controller
 {
     /**
@@ -16,61 +13,6 @@ class ScraperController extends Controller
      */
     public function index()
     {
-        $client = HttpClient::create();
-        $browser = new HttpBrowser($client);
-
-        $url = "https://www.saq.com/fr/produits/vin?product_list_limit=96";
-        $crawler = $browser->request('GET', $url);
-
-        // Extraire le nombre total d'items
-        $totalItemsNode = $crawler->filter('.toolbar-number:nth-child(3)')->text();
-        dd($totalItemsNode);
-        preg_match('/(\d+)$/', $totalItemsNode, $matches);
-        $totalItems = isset($matches[1]) ? intval($matches[1]) : 0;
-
-        // Calculer le nombre total de pages
-        // $totalPage = ceil($totalItems / 96);
-        $totalPage = 5;
-
-
-        // $_webpage = Http::get('https://www.saq.com/fr/produits/vin', [
-        //     'p' => 1,
-        //     'product_list_limit' => 96,
-        // ]);
-
-        // dd($_webpage->body()->filter('.toolbar-amount'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Bouteille $bouteille)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Bouteille $bouteille)
-    {
-        //
     }
 
     /**
@@ -89,40 +31,49 @@ class ScraperController extends Controller
         //
     }
     
-    /**
-	 * getProduits
-	 * @param int $nombre
-	 * @param int $debut
-	 */
-	public function retrouverProduitsSaq($page, Request $request) {
-		$_webpage = Http::get('https://www.saq.com/fr/produits/vin', [
-            'p' => 1,
+     /**
+     * Store a newly created resource in storage.
+     */
+	public function store(Request $request) {
+	
+        set_time_limit(6000);
+        $nombreResultat = 0;
+        $page=1;
+        $_webpage = Http::get('https://www.saq.com/fr/produits/vin', [
+            'p' => $page,
             'product_list_limit' => 96,
         ]);
 
-        
-		$doc = new \DOMDocument();
-		$doc->recover = true;
-		$doc->strictErrorChecking = false;
-        libxml_use_internal_errors(true);
-		$doc->loadHTML($_webpage);
-        libxml_use_internal_errors(false);
+        while($page == 1 or str_contains($_webpage, '<span class="toolbar-number">1</span>') == false ){
+            if($page > 3) exit("done");
+            $doc = new \DOMDocument();
+            $doc->recover = true;
+            $doc->strictErrorChecking = false;
+            libxml_use_internal_errors(true);
+            $doc->loadHTML($_webpage);
+            libxml_use_internal_errors(false);
 
-		$elements = $doc->getElementsByTagName("li");
-		
-        $i = 0;
-		foreach ($elements as $noeud) {
+            $elements = $doc->getElementsByTagName("li");
+            
+            foreach ($elements as $noeud) {
 
-			if (str_contains($noeud->getAttribute('class'), "product-item") ) {
+                if (str_contains($noeud->getAttribute('class'), "product-item") ) {
 
-                $request->merge($this->recupereInfo($noeud));
+                    $request->merge($this->recupereInfo($noeud));
 
-				$retour = $this->insererBouteille($request);
-				if ($retour) $i++;
-			}
+                    $retour = $this->insererBouteille($request);
+                    if ($retour) $nombreResultat++;
+                }
 
-		}
-        return $i;
+                $_webpage = Http::get('https://www.saq.com/fr/produits/vin', [
+                    'p' => ++$page,
+                    'product_list_limit' => 96,
+                ]);
+
+            }
+        }
+
+        return response()->json(['status' => 'ok', 'message'=>'inventaire à jour (' . $nombreResultat .') bouteilles ajoutées']);
 
 	}
 
@@ -183,4 +134,30 @@ class ScraperController extends Controller
 		return $info;
 	}
 
+
+    private function insererBouteille(Request $request){
+
+        $type = Type::firstOrCreate([
+            'nom' => $request->type
+        ]);
+
+        $pays = Pays::firstOrCreate([
+            'nom' => $request->pays
+        ]);
+
+        $nouvelleBouteille = Bouteille::Create([
+            'code_saq' => $request->code_SAQ,
+            'nom' => $request->nom,
+            'type_id' => $type->id,
+            'pays_id' => $pays->id,
+            'format' => $request->format,
+            'description_saq' => $request->description,
+            'prix_saq' => $request->prix,
+            'url_saq' => $request->url,
+            'url_image_saq' => $request->img
+        ]);
+
+        return $nouvelleBouteille->id;
+    }
+    
 }

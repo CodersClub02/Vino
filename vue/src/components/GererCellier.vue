@@ -24,7 +24,7 @@ defineProps({
         <div class="sm:mx-auto sm:w-full sm:max-w-sm">
             <form @submit.prevent="appStore.gererCellier(form)" class="space-y-6">
 
-                <Input v-bind:erreur="appStore.erreursCellier.nom" v-model="form.nom" label="Nom" name="nom" type="text" />
+                <Input v-bind:erreur="appStore.erreursCellier.nom" v-model="form.nom" label="Nom de cellier" name="nom" type="text" />
 
                 <div class="flex gap-4 justify-between">
                     <Button texteBouton="Sauvegarder" />

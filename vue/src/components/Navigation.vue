@@ -19,26 +19,28 @@ const authUsager = useAuthStore();
     </router-link>
 
 
+  <div class="flex">
     <router-link :to="{ name: 'Profil' }"
-      :class="[active ? 'bg-gray-100' : '', 'flex flex-col gap-3 items-center px-4 py-2 text-sm text-white font-semibold']"
-      v-if="authUsager.user">
-      <font-awesome-icon icon="fa-solid fa-user" class="text-sm" />
-      Mon Profil
+        :class="[active ? 'bg-gray-100' : '', 'flex flex-col gap-3 items-center px-4 py-2 text-sm text-white font-semibold']"
+        v-if="authUsager.user">
+        <font-awesome-icon icon="fa-solid fa-user" />
+        Mon Profil
     </router-link>
 
 
 
     <button @click="authUsager.deconnecter()"
-      :class="[active ? 'bg-gray-100' : '', 'flex flex-col gap-3 items-center px-4 py-2 text-sm text-white font-semibold']"
-      v-if="authUsager.user">
-      <font-awesome-icon icon="fa-solid fa-right-from-bracket" :class="['text-gray-100']" />
-      Déconnecter
+        :class="[active ? 'bg-gray-100' : '', 'flex flex-col gap-3 items-center px-4 py-2 text-sm text-white font-semibold']"
+        v-if="authUsager.user">
+        <font-awesome-icon icon="fa-solid fa-right-from-bracket" />
+        Sortir
     </button>
+  </div>
 
     <router-link :to="{ name: 'CreerCompte' }"
       :class="[active ? 'bg-gray-100' : '', 'flex flex-col gap-3 items-center px-4 py-2 text-sm text-white font-semibold']"
       v-if="!authUsager.user">
-      <font-awesome-icon icon="fa-solid fa-user-plus" class="w-5" />
+      <font-awesome-icon icon="fa-solid fa-user-plus" />
       S'inscrire
     </router-link>
   </header>
