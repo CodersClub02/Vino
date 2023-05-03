@@ -46,13 +46,13 @@ class ContenirController extends Controller
     {
         $request->validate([
             'bouteille_id' => 'nullable|exists:bouteilles,id',
+            'nom' => 'required|string',
             'cellier_id' => 'required|exists:celliers,id',
             'date_achat' => 'date',
             'garder_jusqu_a' => 'date',
             'prix_paye' => 'numeric|min:0',
             'quantite' => 'integer|min:0',
             'mellisme' => 'integer|min:1900|max:2023',
-            'nom' => 'required_if:source,autre|string',
             'format' => 'required_if:source,autre|string',
             'type_id' => 'required_if:source,autre|exists:types,id',
             'pays_id' => 'required_if:source,autre|exists:pays,id',
