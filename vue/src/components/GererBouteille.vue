@@ -66,7 +66,7 @@ const tableauNotes = [{ id: 1, nom: '1 étoile' }, { id: 2, nom: '2 étoiles' },
                         </div>
                     </div>
 
-                    <Input list="suggestions" v-if="appStore.bouteilleSelectione.source == 'saq'"
+                    <Input list="suggestions" v-if="(appStore.bouteilleSelectione.source || 'saq') == 'saq'"
                         v-bind:erreur="appStore.erreursBouteille.bouteille_id" v-model="appStore.bouteilleSelectione.nom"
                         label="Code saq ou nom bouteille" type="text" autocomplete="off"
                         @input="appStore.listeSuggestionsBouteilles($event.target.value), afficherSuggestionsBouteilles = true">
