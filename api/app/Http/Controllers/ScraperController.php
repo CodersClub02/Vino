@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bouteille;
+use App\Models\Type;
+use App\Models\Pays;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -45,7 +47,9 @@ class ScraperController extends Controller
         ]);
 
         while($page == 1 or str_contains($_webpage, '<span class="toolbar-number">1</span>') == false ){
-            if($page > 3) exit("done");
+            echo ($page . ": done<br>");
+            // if($page >= 5) exit($page . ": done");
+            unset($doc);
             $doc = new \DOMDocument();
             $doc->recover = true;
             $doc->strictErrorChecking = false;
@@ -64,13 +68,14 @@ class ScraperController extends Controller
                     $retour = $this->insererBouteille($request);
                     if ($retour) $nombreResultat++;
                 }
-
-                $_webpage = Http::get('https://www.saq.com/fr/produits/vin', [
-                    'p' => ++$page,
-                    'product_list_limit' => 96,
-                ]);
-
             }
+
+            unset($_webpage);
+            $_webpage = Http::get('https://www.saq.com/fr/produits/vin', [
+                'p' => ++$page,
+                'product_list_limit' => 96,
+            ]);
+
         }
 
         return response()->json(['status' => 'ok', 'message'=>'inventaire à jour (' . $nombreResultat .') bouteilles ajoutées']);
