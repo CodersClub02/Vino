@@ -14,7 +14,7 @@ class ContenirController extends Controller
      */
     public function index(Request $request)
     {
-        if($request->recherche){
+        if($request->has('recherche')){
 
             $predicate = [];
             if($request->cellier_id) array_push($predicate, ['cellier_id', '=', $request->cellier_id]);
@@ -71,15 +71,7 @@ class ContenirController extends Controller
 
         Contenir::create([
             'user_id' => auth()->user()->id,
-            'bouteille_id' => $request->bouteille_id,
-            'cellier_id' => $request->cellier_id,
-            'date_achat' => $request->date_achat,
-            'garder_jusqu_a' => $request->garder_jusqu_a,
-            'notes' => $request->notes,
-            'commentaire' => $request->commentaire,
-            'prix_paye' => $request->prix_paye,
-            'quantite' => $request->quantite,
-            'mellisme' => $request->mellisme
+            $request->only('bouteille_id', 'cellier_id', 'date_achat', 'garder_jusqu_a', 'prix_paye', 'quantite', 'mellisme')
         ]);
            
         return response()->json(['status' => 'ok', 'message'=>'Bouteille est créé avec succès']);
@@ -111,15 +103,9 @@ class ContenirController extends Controller
 
         $contenir->update([
             'user_id' => auth()->user()->id,
-            'cellier_id' => $request->cellier_id,
-            'date_achat' => $request->date_achat,
-            'garder_jusqu_a' => $request->garder_jusqu_a,
-            'notes' => $request->notes,
-            'commentaire' => $request->commentaire,
-            'prix_paye' => $request->prix_paye,
-            'quantite' => $request->quantite,
-            'mellisme' => $request->mellisme
+            $request->only('bouteille_id', 'cellier_id', 'date_achat', 'garder_jusqu_a', 'notes', 'commentaire', 'prix_paye', 'quantite', 'mellisme')
         ]);
+        
            
         return response()->json(['status' => 'ok', 'message'=>'Bouteille est mise à jour avec succès']);
     }
@@ -127,9 +113,11 @@ class ContenirController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy( Contenir $contenir)
     {
-        //
+        $contenir->delete();
+        return response()->json(['status' => 'ok', 'message'=>'Bouteille est supprimée avec succès']);
+
     }
 
 }
