@@ -175,15 +175,17 @@ export const useAppStore = defineStore("app", {
                     await axios.post(`/api/cellier/`, {
                         nom: donnees.nom
                     })
+                    this.togglerFormCellier()
 
                     // Si l'usager veut ajouter un cellier
                 } else {
                     await axios.put(`/api/cellier/${donnees.id}`, {
                         nom: donnees.nom
                     })
+                    this.togglerFormCellier()
+
                 }
 
-                this.togglerFormCellier()
                 this.getCelliers()
 
             } catch (error) {

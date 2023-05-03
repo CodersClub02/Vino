@@ -1,11 +1,11 @@
 <script setup>
 import { ref } from "vue";
 import { useAuthStore } from "../stores/auth";
+const authStore = useAuthStore()
 
 import Input from "../components/Input.vue";
 import Button from "../components/Button.vue";
 
-const authStore = useAuthStore()
 
 /**
  * @description initialisation des données usager, pour éviter la saisie pendant la phase de developement

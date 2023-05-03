@@ -2,21 +2,6 @@ import { defineStore } from "pinia";
 
 import axios from "axios";
 
-
-
-let api = axios.create({
-    timeout: 100,
-    baseURL: "http://localhost:8000",
-  });
-
-api.interceptors.response.use((response) => response, (error) => {
-    if (error.code === 'ECONNABORTED') {
-        this.lesErreurServeur.apiTimeout = true;
-    }else{
-        throw error;
-    }
-});
-
 export const useAuthStore = defineStore("auth", {
 
     /**
@@ -26,8 +11,7 @@ export const useAuthStore = defineStore("auth", {
      */
     state: () => ({
         authUser: null,
-        authErreurs: [],
-        lesErreurServeur: {}
+        authErreurs: []
     }),
 
     /**
@@ -36,9 +20,7 @@ export const useAuthStore = defineStore("auth", {
      */
     getters: {
         user: (state) => state.authUser,
-        erreurs: (state) => state.authErreurs,
-        erreurServeur: (state) => state.lesErreurServeur
-
+        erreurs: (state) => state.authErreurs
     },
 
     /**
@@ -55,7 +37,7 @@ export const useAuthStore = defineStore("auth", {
          * sur le serveur Laravel.
          */
         async getToken() {
-            await api.get('/sanctum/csrf-cookie')
+            await axios.get('/sanctum/csrf-cookie')
         },
 
         /**
@@ -66,7 +48,7 @@ export const useAuthStore = defineStore("auth", {
         async getUser() {
             await this.getToken()
             try {
-                const donnees = await api.get('/api/user')
+                const donnees = await axios.get('/api/user')
                 this.authUser = donnees.data
             } catch (error) {
 
@@ -84,7 +66,7 @@ export const useAuthStore = defineStore("auth", {
             this.authErreurs = []
             try {
                 await this.getToken()
-                await api.post('/login', {
+                await axios.post('/login', {
                     email: donnees.courriel,
                     password: donnees.mot_de_passe
                 })
@@ -110,7 +92,7 @@ export const useAuthStore = defineStore("auth", {
          * de connexion entre navigateur et serveur
          */
         async deconnecter() {
-            await api.post('/logout')
+            await axios.post('/logout')
             this.authUser = null
         },
 
@@ -125,7 +107,7 @@ export const useAuthStore = defineStore("auth", {
             this.authErreurs = []
             await this.getToken()
             try {
-                await api.post('/register', {
+                await axios.post('/register', {
                     name: donnees.nom,
                     email: donnees.courriel,
                     password: donnees.mot_de_passe,
@@ -156,7 +138,7 @@ export const useAuthStore = defineStore("auth", {
         this.authErreurs = []
         await this.getToken()
         try {
-            await api.put('/update', {
+            await axios.put('/update', {
                 name: donnees.nom,
                 email: donnees.courriel,
                 password: donnees.mot_de_passe,
