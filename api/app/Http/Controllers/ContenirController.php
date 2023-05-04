@@ -45,15 +45,14 @@ class ContenirController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'bouteille_id' => 'nullable|exists:bouteilles,id',
+            'nom' => 'required|string|max:200',
             'cellier_id' => 'required|exists:celliers,id',
-            'date_achat' => 'date',
-            'garder_jusqu_a' => 'date',
-            'prix_paye' => 'numeric|min:0',
-            'quantite' => 'integer|min:0',
-            'mellisme' => 'integer|min:1900|max:2023',
-            'nom' => 'required_if:source,autre|string',
-            'format' => 'required_if:source,autre|string',
+            'date_achat' => 'required|date',
+            'garder_jusqu_a' => 'required|date',
+            'prix_paye' => 'required|numeric|min:0',
+            'quantite' => 'required|integer|min:0',
+            'mellisme' => 'required|integer|min:1900|max:2023',
+            'format' => 'required_if:source,autre|string|max:20',
             'type_id' => 'required_if:source,autre|exists:types,id',
             'pays_id' => 'required_if:source,autre|exists:pays,id',
         ]);
@@ -65,24 +64,21 @@ class ContenirController extends Controller
                 'pays_id' => $request->pays_id,
                 'format' => $request->format,
             ]);
-            
-            $request->bouteille_id = $nouvelleBouteille->id;
         }
 
         Contenir::create([
             'user_id' => auth()->user()->id,
-            $request->only('bouteille_id', 'cellier_id', 'date_achat', 'garder_jusqu_a', 'prix_paye', 'quantite', 'mellisme')
+            'bouteille_id' => Bouteille::where(
+                'nom', $request->nom)->firstOrFail()->id,
+            'cellier_id' => $request->cellier_id,
+            'date_achat' => $request->date_achat,
+            'garder_jusqu_a' => $request->garder_jusqu_a,
+            'prix_paye' => $request->prix_paye,
+            'quantite' => $request->quantite,
+            'mellisme' => $request->mellisme
         ]);
            
         return response()->json(['status' => 'ok', 'message'=>'Bouteille est créé avec succès']);
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
     }
 
     /**
@@ -92,8 +88,8 @@ class ContenirController extends Controller
     {
          $request->validate([
             'cellier_id' => 'required|exists:celliers,id',
-            'date_achat' => 'date',
-            'garder_jusqu_a' => 'date',
+            'date_achat' => 'required|date',
+            'garder_jusqu_a' => 'required|date',
             'notes' => 'nullable|integer|between:1,5',
             'commentaire' => 'nullable|string',
             'prix_paye' => 'numeric|min:0',
@@ -101,9 +97,16 @@ class ContenirController extends Controller
             'mellisme' => 'integer|min:1900|max:2023'
         ]);
 
-        $contenir->update([
+        $contenir->update([            
             'user_id' => auth()->user()->id,
-            $request->only('bouteille_id', 'cellier_id', 'date_achat', 'garder_jusqu_a', 'notes', 'commentaire', 'prix_paye', 'quantite', 'mellisme')
+            'bouteille_id' => Bouteille::where('nom', $request->nom)->firstOrFail()->id,
+            'date_achat' => $request->date_achat,
+            'garder_jusqu_a' => $request->garder_jusqu_a,
+            'prix_paye' => $request->prix_paye,
+            'quantite' => $request->quantite,
+            'mellisme' => $request->mellisme,
+            'notes' => $request->notes,
+            'commentaire' => $request->commentaire,
         ]);
         
            

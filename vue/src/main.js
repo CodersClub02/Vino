@@ -43,10 +43,10 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 
-import { faUserSecret, faUser, faRightFromBracket, faUserPlus, faTrash, faPenToSquare, faCirclePlus } from '@fortawesome/free-solid-svg-icons'
+import { faUserSecret, faUser, faRightFromBracket, faUserPlus, faTrash, faPenToSquare, faCirclePlus, faEye } from '@fortawesome/free-solid-svg-icons'
 
 /* ajouter icônes à la bibliothèque */
-library.add(faUserSecret, faUser, faRightFromBracket, faUserPlus, faTrash, faPenToSquare, faCirclePlus)
+library.add(faUserSecret, faUser, faRightFromBracket, faUserPlus, faTrash, faPenToSquare, faCirclePlus, faEye)
 
 
 /** création et initialisation de l'objet app vuejs */
