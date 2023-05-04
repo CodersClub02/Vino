@@ -17,6 +17,7 @@ export const useAppStore = defineStore("app", {
         cellierErreurs: [],
         afficherFormCellier: false,
         affchFormBouteille: false,
+        affchFormSupprimerBouteille: false,
         bouteilleErreurs: [],
 
         laSuggestionsBouteilles: [],
@@ -41,6 +42,7 @@ export const useAppStore = defineStore("app", {
         nouveauCellier: (state) => state.cellierNouveau,
         afficherForm: (state) => state.afficherFormCellier,
         afficherFormBouteille: (state) => state.affchFormBouteille,
+        afficherFormSupprimerBouteille: (state) => state.affchFormSupprimerBouteille,
         erreursBouteille: (state) => state.bouteilleErreurs,
         suggestionsBouteilles: (state) => state.laSuggestionsBouteilles,
         listeType: (state) => state.laListeType,
@@ -102,6 +104,18 @@ export const useAppStore = defineStore("app", {
             this.laBouteilleSelectione = bouteilleSelectione
         },
 
+
+         /**
+         * @author Hanane
+         * @returns void
+         * @description cacher et afficher le formulaire de suppression de bouteille
+         */
+        async togglerFormSupprimerBouteille(bouteilleSelectione) {
+            this.affchFormSupprimerBouteille = !this.affchFormSupprimerBouteille
+            this.laBouteilleSelectione = bouteilleSelectione
+        },
+
+
         /**
  * @author Hanane
  * @returns void
@@ -132,6 +146,25 @@ export const useAppStore = defineStore("app", {
 
                 await axios.put(`/api/contenir/${donnees.id}`, donnees)
                 this.affchFormBouteille = false
+
+            } catch (error) {
+                this.bouteilleErreurs = error.response.data.errors
+            }
+
+        },
+
+         /**
+* @author Hanane
+* @returns void
+* @description Supprimer bouteille
+*/
+        async supprimerBouteille() {
+
+            try {
+
+                await axios.delete(`/api/contenir/${this.laBouteilleSelectione.id}`)
+                this.getBouteillesCellier(this.laBouteilleSelectione.cellier_id)
+                this.togglerFormSupprimerBouteille()
 
             } catch (error) {
                 this.bouteilleErreurs = error.response.data.errors

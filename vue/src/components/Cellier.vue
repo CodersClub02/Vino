@@ -91,6 +91,21 @@ const trierMesBouteilles = (par) => {
             </div>
         </form>
 
+
+        <form v-if="appStore.afficherFormSupprimerBouteille" @click.self="appStore.togglerFormSupprimerBouteille()"
+            @submit.prevent="appStore.supprimerBouteille()"
+            class="flex flex-col gap-6 items-center justify-center fixed bg-black/50 p-4 z-10 inset-0">
+            <div class="space-y-6 bg-black/80 p-8 rounded-md">
+                <div class="text-center text-xl text-gray-300">Êtes-vous sur de supprimer
+                    <b>{{ appStore.bouteilleSelectione.nom }}</b> ?
+                </div>
+                <div class="flex gap-4 whitespace-nowrap justify-between">
+                    <Button texteBouton="Supprimer" />
+                    <SecButton texteBouton="Annuler" @click="appStore.togglerFormSupprimerBouteille()" />
+                </div>
+            </div>
+        </form>
+
         <div v-if="appStore.celliers.length >= 1 && !appStore.afficherForm && !supprimerCellierForm"
             class="flex gap-6 justify-between items-center border-b-2 px-3 ">
             <div class="flex gap-6 justify-between items-center px-3">
