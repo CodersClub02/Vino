@@ -99,9 +99,7 @@ export const useAppStore = defineStore("app", {
          */
         async togglerFormBouteille(bouteilleSelectione) {
             this.affchFormBouteille = !this.affchFormBouteille
-            if (bouteilleSelectione) {
-                this.laBouteilleSelectione = bouteilleSelectione
-            }
+            this.laBouteilleSelectione = bouteilleSelectione
         },
 
         /**
@@ -221,18 +219,18 @@ export const useAppStore = defineStore("app", {
          * @description retrouver la liste des bouteille d'un usager connecté depuis le serveur
          */
         async rechercherBouteilles(motCle) {
-            
+
             this.estALarecherche = motCle.length > 0
 
             this.mesResultatDeRechercheBouteille = []
             try {
-                const donnees = await axios.get(`/api/contenir/`, {params: {recherche: oui, mot_cle: motCle}})
+                const donnees = await axios.get(`/api/contenir/`, { params: { recherche: oui, mot_cle: motCle } })
                 this.mesResultatDeRechercheBouteille = donnees.data
             } catch (error) {
 
                 if (error.response.status == 404) {
                     this.mesResultatDeRechercheBouteille = []
-                } 
+                }
 
             }
         },
