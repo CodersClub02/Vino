@@ -101,6 +101,11 @@ export const useAppStore = defineStore("app", {
          */
         async togglerFormBouteille(bouteilleSelectione) {
             this.affchFormBouteille = !this.affchFormBouteille
+
+            bouteilleSelectione.quantite || (bouteilleSelectione.quantite = 1)
+            bouteilleSelectione.garder_jusqu_a || (bouteilleSelectione.garder_jusqu_a = 2023)
+            bouteilleSelectione.date_achat || (bouteilleSelectione.date_achat = new Date().toISOString().slice(0,10))
+            
             this.laBouteilleSelectione = bouteilleSelectione
         },
 
