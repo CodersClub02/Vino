@@ -11,7 +11,7 @@ Cette partie du projet est fait avec Vue3 et Vite
 
 ## Credits
 
-... :) comming soon
+... comming soon :)
 
 ## Backend: Laravel
 
