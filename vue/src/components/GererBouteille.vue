@@ -31,19 +31,18 @@ const tableauNotes = [{ id: 1, nom: '1 étoile' }, { id: 2, nom: '2 étoiles' },
 </script>
 
 <template>
-    <div class="mx-auto max-w-7xl sm:px-6 bg-white flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-        <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-            <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-                <template v-if="appStore.bouteilleSelectione.id">Modifier bouteille</template>
-                <template v-else>Ajouter bouteille à
-                    {{ cellier.nomEnCours }}</template>
+    <div class="mx-auto sm:px-6 bg-white flex flex-col justify-center p-6">
+            <h2 class="sm:mx-auto sm:w-full sm:max-w-sm text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+                <template v-if="appStore.bouteilleSelectione.id">
+                    Modifier bouteille
+                </template>
+                <template v-else>
+                    Ajouter bouteille à {{ cellier.nomEnCours }}
+                </template>
             </h2>
-        </div>
 
-        <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-            <form
-                @submit.prevent="(appStore.bouteilleSelectione.id ? appStore.modifierBouteille(appStore.bouteilleSelectione) : appStore.ajouterBouteille(appStore.bouteilleSelectione))"
-                class="space-y-6">
+        <form class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm"
+                @submit.prevent="(appStore.bouteilleSelectione.id ? appStore.modifierBouteille(appStore.bouteilleSelectione) : appStore.ajouterBouteille(appStore.bouteilleSelectione))">
 
                 <template v-if="!appStore.bouteilleSelectione.id">
                     <div>
@@ -66,7 +65,7 @@ const tableauNotes = [{ id: 1, nom: '1 étoile' }, { id: 2, nom: '2 étoiles' },
                         </div>
                     </div>
 
-                    <Input v-if="appStore.bouteilleSelectione.source == 'saq'"
+                    <Input v-if="(appStore.bouteilleSelectione.source || 'saq') == 'saq'"
                         v-bind:erreur="appStore.erreursBouteille.bouteille_id" v-model="appStore.bouteilleSelectione.nom"
                         label="Code saq ou nom bouteille" type="text" autocomplete="off"
                         @input="appStore.listeSuggestionsBouteilles($event.target.value), afficherSuggestionsBouteilles = true">
@@ -135,6 +134,5 @@ const tableauNotes = [{ id: 1, nom: '1 étoile' }, { id: 2, nom: '2 étoiles' },
                 </div>
 
             </form>
-        </div>
     </div>
 </template>

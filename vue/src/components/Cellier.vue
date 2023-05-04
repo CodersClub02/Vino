@@ -24,21 +24,6 @@ let form = ref({
     id: null
 })
 
-let formBouteille = ref({
-    nom: null,
-    source: 'saq',
-    format: null,
-    bouteille_id: null,
-    cellier_id: null,
-    date_achat: null,
-    garder_jusqu_a: null,
-    notes: null,
-    commentaire: null,
-    prix_paye: null,
-    quantite: null,
-    mellisme: null,
-});
-
 const supprimerCellierForm = ref(false)
 
 
@@ -86,7 +71,20 @@ const trierMesBouteilles = (par) => {
 
     <div class="grid text-gray-600 p-5 gap-10">
 
-        <label v-if="!appStore.afficherFormBouteille" @click="appStore.togglerFormBouteille(), formBouteille.cellier_id = form.id" class="fixed z-10 bottom-32 right-2 shadow-lg bg-rose-300/50 w-12 aspect-square rounded-full flex items-center justify-center">
+        <label v-if="!appStore.afficherFormBouteille" @click="appStore.togglerFormBouteille({
+    nom: null,
+    source: 'saq',
+    format: null,
+    bouteille_id: null,
+    cellier_id: form.id,
+    date_achat: null,
+    garder_jusqu_a: null,
+    notes: null,
+    commentaire: null,
+    prix_paye: null,
+    quantite: null,
+    mellisme: null,
+} )" class="fixed z-10 bottom-32 right-2 shadow-lg bg-rose-300/50 w-12 aspect-square rounded-full flex items-center justify-center">
             <img src="/ajouter-bouteille.svg"  class="w-7">
         </label>
 

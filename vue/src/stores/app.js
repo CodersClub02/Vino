@@ -100,6 +100,7 @@ export const useAppStore = defineStore("app", {
         async togglerFormBouteille(bouteilleSelectione) {
             this.affchFormBouteille = !this.affchFormBouteille
             if (bouteilleSelectione) {
+                
                 this.laBouteilleSelectione = bouteilleSelectione
             }
         },
