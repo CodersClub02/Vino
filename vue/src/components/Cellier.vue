@@ -24,21 +24,6 @@ let form = ref({
     id: null
 })
 
-let formBouteille = ref({
-    nom: null,
-    source: 'saq',
-    format: null,
-    bouteille_id: null,
-    cellier_id: null,
-    date_achat: null,
-    garder_jusqu_a: null,
-    notes: null,
-    commentaire: null,
-    prix_paye: null,
-    quantite: null,
-    mellisme: null,
-});
-
 const supprimerCellierForm = ref(false)
 
 
@@ -57,21 +42,20 @@ const trierMesBouteilles = (par) => {
 </script>
 
 <template>
-
     <!-- Aucun cellier -->
     <div v-if="appStore.celliers.length == 0" class="grid text-gray-600 p-5 gap-10">
 
         <template v-if="!appStore.afficherForm">
             <div class="flex flex-col gap-7 justify-center px-6 lg:px-8 sm:mx-auto sm:w-full sm:max-w-sm">
-            Vous n'avez aucun cellier. Créer un pour gérer vos bouteilles de vin.
-            <Button texte-bouton="Créer cellier" @click="appStore.togglerFormCellier('nouveau')" />
+                Vous n'avez aucun cellier. Créer un pour gérer vos bouteilles de vin.
+                <Button texte-bouton="Créer cellier" @click="appStore.togglerFormCellier('nouveau')" />
             </div>
             <img src="/aucune-bouteille.png">
         </template>
 
     </div>
     <GererCellier v-if="appStore.afficherForm" :form="form" @cacherForm="appStore.togglerFormCellier()" />
-    
+
     <!--  -->
     <div v-if="appStore.celliers.length > 1" class="flex gap-10 bg-gray-100 overflow-x-auto text-gray-600 p-5 snap-x ">
 
@@ -86,8 +70,12 @@ const trierMesBouteilles = (par) => {
 
     <div class="grid text-gray-600 p-5 gap-10">
 
-        <label v-if="!appStore.afficherFormBouteille" @click="appStore.togglerFormBouteille(), formBouteille.cellier_id = form.id" class="fixed z-10 bottom-32 right-2 shadow-lg bg-rose-300/50 w-12 aspect-square rounded-full flex items-center justify-center">
-            <img src="/ajouter-bouteille.svg"  class="w-7">
+        <label v-if="!appStore.afficherFormBouteille" @click="appStore.togglerFormBouteille({
+                source: 'saq',
+                cellier_id: form.id,
+            })"
+            class="fixed z-10 bottom-32 right-2 shadow-lg bg-rose-300/50 w-12 aspect-square rounded-full flex items-center justify-center">
+            <img src="/ajouter-bouteille.svg" class="w-7">
         </label>
 
         <form v-if="supprimerCellierForm" @click.self="supprimerCellierForm = false"
@@ -119,9 +107,8 @@ const trierMesBouteilles = (par) => {
                 </div>
             </div>
 
-            <font-awesome-icon icon="fa-solid fa-circle-plus"
-            @click="appStore.togglerFormCellier('nouveau'), form.nom = ''"
-                        class="text-gray-400 cursor-pointer" />
+            <font-awesome-icon icon="fa-solid fa-circle-plus" @click="appStore.togglerFormCellier('nouveau'), form.nom = ''"
+                class="text-gray-400 cursor-pointer" />
 
         </div>
 
@@ -136,7 +123,7 @@ const trierMesBouteilles = (par) => {
                 <span class="">Aucune bouteille trouvée</span>
             </div>
 
-            <div v-else class="grid gap-10 lg:gap-10 lg:grid-cols-4 md:gap-10 md:grid-cols-2" >
+            <div v-else class="grid gap-10 lg:gap-10 lg:grid-cols-4 md:gap-10 md:grid-cols-2">
                 <Bouteille v-for="(bouteille) in appStore.resultatRecherche" :bouteille="bouteille" />
             </div>
 
@@ -148,8 +135,8 @@ const trierMesBouteilles = (par) => {
                 <img src="/aucune-bouteille.png" alt="Aucune bouteille" class="w-full">
             </template>
 
-            <div v-else class="grid gap-12 lg:gap-10 lg:grid-cols-4 md:gap-10 md:grid-cols-2" >
-            <Bouteille v-for="(bouteille) in appStore.mesBouteilleCellier" :bouteille="bouteille" />
+            <div v-else class="grid gap-12 lg:gap-10 lg:grid-cols-4 md:gap-10 md:grid-cols-2">
+                <Bouteille v-for="(bouteille) in appStore.mesBouteilleCellier" :bouteille="bouteille" />
             </div>
         </template>
 
