@@ -17,8 +17,8 @@ class BouteilleController extends Controller
     public function index(Request $request)
     {
         return response()->json(
-            Bouteille::where('nom', 'like', '%' . $request->requete . '%')
-            ->orWhere('code_saq', 'LIKE', '%' . $request->requete . '%')
+            Bouteille::where('nom', 'like', $request->requete . '%')
+            ->orWhere('code_saq', 'LIKE', $request->requete . '%')
             ->take(10)
             ->get()
         );

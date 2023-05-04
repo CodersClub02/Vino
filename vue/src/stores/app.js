@@ -17,6 +17,7 @@ export const useAppStore = defineStore("app", {
         cellierErreurs: [],
         afficherFormCellier: false,
         affchFormBouteille: false,
+        affchFormSupprimerBouteille: false,
         bouteilleErreurs: [],
 
         laSuggestionsBouteilles: [],
@@ -41,6 +42,7 @@ export const useAppStore = defineStore("app", {
         nouveauCellier: (state) => state.cellierNouveau,
         afficherForm: (state) => state.afficherFormCellier,
         afficherFormBouteille: (state) => state.affchFormBouteille,
+        afficherFormSupprimerBouteille: (state) => state.affchFormSupprimerBouteille,
         erreursBouteille: (state) => state.bouteilleErreurs,
         suggestionsBouteilles: (state) => state.laSuggestionsBouteilles,
         listeType: (state) => state.laListeType,
@@ -99,10 +101,20 @@ export const useAppStore = defineStore("app", {
          */
         async togglerFormBouteille(bouteilleSelectione) {
             this.affchFormBouteille = !this.affchFormBouteille
-            if (bouteilleSelectione) {
-                this.laBouteilleSelectione = bouteilleSelectione
-            }
+            this.laBouteilleSelectione = bouteilleSelectione
         },
+
+
+         /**
+         * @author Hanane
+         * @returns void
+         * @description cacher et afficher le formulaire de suppression de bouteille
+         */
+        async togglerFormSupprimerBouteille(bouteilleSelectione) {
+            this.affchFormSupprimerBouteille = !this.affchFormSupprimerBouteille
+            this.laBouteilleSelectione = bouteilleSelectione
+        },
+
 
         /**
  * @author Hanane
@@ -134,6 +146,25 @@ export const useAppStore = defineStore("app", {
 
                 await axios.put(`/api/contenir/${donnees.id}`, donnees)
                 this.affchFormBouteille = false
+
+            } catch (error) {
+                this.bouteilleErreurs = error.response.data.errors
+            }
+
+        },
+
+         /**
+* @author Hanane
+* @returns void
+* @description Supprimer bouteille
+*/
+        async supprimerBouteille() {
+
+            try {
+
+                await axios.delete(`/api/contenir/${this.laBouteilleSelectione.id}`)
+                this.getBouteillesCellier(this.laBouteilleSelectione.cellier_id)
+                this.togglerFormSupprimerBouteille()
 
             } catch (error) {
                 this.bouteilleErreurs = error.response.data.errors
@@ -221,18 +252,18 @@ export const useAppStore = defineStore("app", {
          * @description retrouver la liste des bouteille d'un usager connecté depuis le serveur
          */
         async rechercherBouteilles(motCle) {
-            
+
             this.estALarecherche = motCle.length > 0
 
             this.mesResultatDeRechercheBouteille = []
             try {
-                const donnees = await axios.get(`/api/contenir/`, {params: {recherche: oui, mot_cle: motCle}})
+                const donnees = await axios.get(`/api/contenir/`, { params: { recherche: oui, mot_cle: motCle } })
                 this.mesResultatDeRechercheBouteille = donnees.data
             } catch (error) {
 
                 if (error.response.status == 404) {
                     this.mesResultatDeRechercheBouteille = []
-                } 
+                }
 
             }
         },
