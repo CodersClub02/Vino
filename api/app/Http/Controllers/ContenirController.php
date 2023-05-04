@@ -45,14 +45,14 @@ class ContenirController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nom' => 'required|string',
+            'nom' => 'required|string|max:200',
             'cellier_id' => 'required|exists:celliers,id',
             'date_achat' => 'required|date',
             'garder_jusqu_a' => 'required|date',
             'prix_paye' => 'required|numeric|min:0',
             'quantite' => 'required|integer|min:0',
             'mellisme' => 'required|integer|min:1900|max:2023',
-            'format' => 'required_if:source,autre|string',
+            'format' => 'required_if:source,autre|string|max:20',
             'type_id' => 'required_if:source,autre|exists:types,id',
             'pays_id' => 'required_if:source,autre|exists:pays,id',
         ]);
