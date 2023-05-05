@@ -57,11 +57,11 @@ const trierMesBouteilles = (par) => {
     <GererCellier v-if="appStore.afficherForm" :form="form" @cacherForm="appStore.togglerFormCellier()" />
 
     <!--  -->
-    <div v-if="appStore.celliers.length > 1" class="flex gap-10 bg-gray-100 overflow-x-auto text-gray-600 p-5 snap-x ">
+    <div v-if="appStore.celliers.length > 1" class="flex gap-10 bg-gray-100 overflow-x-auto text-gray-600 p-5 ">
 
         <div v-for="(cellier) in appStore.celliers"
-            class="cursor-pointer flex-none bg-white rounded  w-300 shadow-md p-2 snap-center"
-            :class="{ 'bg-rose-100 text-gray-600': form.id == cellier.id }"
+            class="cursor-pointer flex-none bg-white rounded shadow-md p-2 snap-center"
+            :class="{ '': form.id == cellier.id }"
             @click="appStore.getBouteillesCellier(cellier.id), form.id = cellier.id, form.nomEnCours = cellier.nom">
             <span>{{ cellier.nom }}</span>
             <span class="block text-sm text-gray-500">{{ cellier.contenirs_count }}</span>
@@ -71,9 +71,9 @@ const trierMesBouteilles = (par) => {
     <div class="grid text-gray-600 p-5 gap-10">
 
         <label v-if="!appStore.afficherFormBouteille" @click="appStore.togglerFormBouteille({
-                source: 'saq',
-                cellier_id: form.id,
-            })"
+            source: 'saq',
+            cellier_id: form.id,
+        })"
             class="fixed z-10 bottom-32 right-2 shadow-lg bg-rose-300/50 w-12 aspect-square rounded-full flex items-center justify-center">
             <img src="/ajouter-bouteille.svg" class="w-7">
         </label>
@@ -147,7 +147,7 @@ const trierMesBouteilles = (par) => {
             <template v-if="appStore.celliers.length >= 1 && !appStore.mesBouteilleCellier.length">
                 <span class=" text-2xl text-black  inset-0  flex flex-col justify-center items-center
                 ">Aucune bouteille dans <em class="text-3xl font-semibold"> {{ form?.nomEnCours }} </em></span>
-                <img src="/aucune-bouteille.png" alt="Aucune bouteille" class="w-full">
+                <img src="/aucune-bouteille.png" alt="Aucune bouteille" class="w-full m-auto md:w-1/2 lg:w-1/3 ">
             </template>
 
             <div v-else class="grid gap-12 lg:gap-10 lg:grid-cols-4 md:gap-10 md:grid-cols-2">

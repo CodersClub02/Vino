@@ -8,7 +8,9 @@ defineProps({
 </script>
 
 <template>
-    <header class="bg-white shadow mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-        <h1 class="text-3xl tracking-tight text-gray-600 font-semibold font-title">{{ titre }} <slot></slot></h1>
+    <header class="bg-white shadow mx-auto w-full px-4 py-6 sm:px-6 lg:px-8">
+        <h1 class="text-3xl tracking-tight text-gray-600 font-semibold font-title">{{ titre }}
+            <slot></slot>
+        </h1>
     </header>
 </template>
