@@ -191,7 +191,7 @@ export const useAppStore = defineStore("app", {
          * @returns void
          * @description retrouver la liste des celliers d'un usager connecté depuis le serveur
          */
-        async getCelliers() {
+        async getCelliers() { 
             try {
                 const donnees = await axios.get('/api/cellier')
                 this.mesCelliers = donnees.data
@@ -262,7 +262,7 @@ export const useAppStore = defineStore("app", {
 
             this.mesResultatDeRechercheBouteille = []
             try {
-                const donnees = await axios.get(`/api/contenir/`, { params: { recherche: oui, mot_cle: motCle } })
+                const donnees = await axios.get(`/api/contenir/`, { params: { recherche: 'oui', mot_cle: motCle } })
                 this.mesResultatDeRechercheBouteille = donnees.data
             } catch (error) {
 

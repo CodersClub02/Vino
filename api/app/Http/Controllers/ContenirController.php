@@ -18,7 +18,7 @@ class ContenirController extends Controller
 
             $predicate = [];
             if($request->cellier_id) array_push($predicate, ['cellier_id', '=', $request->cellier_id]);
-            if($request->mot_cle) array_push($predicate, ['nom', 'like', '%' . $request->mot_cle . '%']);
+            if($request->mot_cle) array_push($predicate, ['nom', 'like', $request->mot_cle . '%']);
             
             return response()->json(
                 Bouteille::where($predicate)
@@ -48,7 +48,7 @@ class ContenirController extends Controller
             'nom' => 'required|string|max:200',
             'cellier_id' => 'required|exists:celliers,id',
             'date_achat' => 'required|date',
-            'garder_jusqu_a' => 'required|integer|min:date(Y)',
+            'garder_jusqu_a' => 'required|integer|min:2023',//date(Y)
             'prix_paye' => 'required|numeric|min:0',
             'quantite' => 'required|integer|min:0',
             'mellisme' => 'required|integer|min:1900|max:2023',
@@ -89,7 +89,7 @@ class ContenirController extends Controller
          $request->validate([
             'cellier_id' => 'required|exists:celliers,id',
             'date_achat' => 'required|date',
-            'garder_jusqu_a' => 'required|integer|min:date(Y)',
+            'garder_jusqu_a' => 'required|integer|min:2023',//date(Y)',
             'notes' => 'nullable|integer|between:1,5',
             'commentaire' => 'nullable|string',
             'prix_paye' => 'numeric|min:0',

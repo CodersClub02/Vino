@@ -42,7 +42,7 @@ const tableauNotes = [{ id: 1, nom: '1 étoile' }, { id: 2, nom: '2 étoiles' },
 
         <form
             @submit.prevent="(appStore.bouteilleSelectione.id ? appStore.modifierBouteille(appStore.bouteilleSelectione) : appStore.ajouterBouteille(appStore.bouteilleSelectione))"
-            class="flex gap-8 flex-col mx-auto w-full ">
+            class="flex gap-16 flex-col mx-auto w-full ">
 
             <template v-if="!appStore.bouteilleSelectione.id">
                 <div>
@@ -88,8 +88,7 @@ const tableauNotes = [{ id: 1, nom: '1 étoile' }, { id: 2, nom: '2 étoiles' },
                     <Input v-bind:erreur="appStore.erreursBouteille.format" v-model="appStore.bouteilleSelectione.format"
                         label="Format" name="format" type="text" />
 
-                    <Input v-bind:erreur="appStore.erreursBouteille.image" v-model="appStore.bouteilleSelectione.image"
-                        label="Image" name="image" type="file" accept="image/png, image/jpeg" />
+                    <!-- <Input v-bind:erreur="appStore.erreursBouteille.image" v-model="appStore.bouteilleSelectione.image" label="Image" name="image" type="file" accept="image/png, image/jpeg" /> -->
 
                     <Select v-model="appStore.bouteilleSelectione.type_id" :options="appStore.listeType"
                         v-bind:erreur="appStore.erreursBouteille.type_id" label="Type" />

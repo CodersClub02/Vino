@@ -27,8 +27,12 @@ let form = ref({
 const supprimerCellierForm = ref(false)
 
 
+// const cleTriage = ref([
+//     { id: 'id', nom: 'id' }, { id: 'created_at', nom: 'crée' }, { id: 'updated_at', nom: 'modifié' }, { id: 'type_id', nom: 'type' }, { id: 'pays_id', nom: 'pays' }, { id: 'nom', nom: 'nom' }, { id: 'format', nom: 'format' }, { id: 'prix_saq', nom: 'prix saq' }, { id: 'date_achat', nom: 'date achat' }, { id: 'garder_jusqu_a', nom: 'garder jusqu à' }, { id: 'notes', nom: 'notes' }, { id: 'prix_paye', nom: 'prix payé' }, { id: 'quantite', nom: 'quantité' }, { id: 'mellisme', nom: 'méllisme' }, { id: 'pays', nom: 'pays' }, { id: 'type', nom: 'type' }
+// ])
+
 const cleTriage = ref([
-    { id: 'id', nom: 'id' }, { id: 'created_at', nom: 'crée' }, { id: 'updated_at', nom: 'modifié' }, { id: 'type_id', nom: 'type' }, { id: 'pays_id', nom: 'pays' }, { id: 'nom', nom: 'nom' }, { id: 'format', nom: 'format' }, { id: 'prix_saq', nom: 'prix saq' }, { id: 'date_achat', nom: 'date achat' }, { id: 'garder_jusqu_a', nom: 'garder jusqu à' }, { id: 'notes', nom: 'notes' }, { id: 'prix_paye', nom: 'prix payé' }, { id: 'quantite', nom: 'quantité' }, { id: 'mellisme', nom: 'méllisme' }, { id: 'pays', nom: 'pays' }, { id: 'type', nom: 'type' }
+    { id: 'type_id', nom: 'type' }, { id: 'pays_id', nom: 'pays' }, { id: 'mellisme', nom: 'méllisme' }, { id: 'prix_paye', nom: 'prix payé' }, { id: 'date_achat', nom: 'date achat' }, { id: 'nom', nom: 'nom' }
 ])
 
 const trierMesBouteilles = (par) => {
@@ -60,11 +64,11 @@ const trierMesBouteilles = (par) => {
     <div v-if="appStore.celliers.length > 1" class="flex gap-10 bg-gray-100 overflow-x-auto text-gray-600 p-5 snap-x ">
 
         <div v-for="(cellier) in appStore.celliers"
-            class="cursor-pointer flex-none bg-white rounded  w-300 shadow-md p-2 snap-center"
-            :class="{ 'bg-rose-100 text-gray-600': form.id == cellier.id }"
+            class="cursor-pointer flex-none bg-white rounded w-300 shadow-md p-2 snap-center text-xl"
+            :class="{ 'bg-rose-400/5': form.nomEnCours === cellier.nom }"
             @click="appStore.getBouteillesCellier(cellier.id), form.id = cellier.id, form.nomEnCours = cellier.nom">
-            <span>{{ cellier.nom }}</span>
-            <span class="block text-sm text-gray-500">{{ cellier.contenirs_count }}</span>
+            {{ cellier.nom }}
+            <!-- <span class="block text-sm text-gray-500">{{ cellier.contenirs_count }}</span> -->
         </div>
     </div>
 
@@ -74,8 +78,8 @@ const trierMesBouteilles = (par) => {
                 source: 'saq',
                 cellier_id: form.id,
             })"
-            class="fixed z-10 bottom-32 right-2 shadow-lg bg-rose-300/50 w-12 aspect-square rounded-full flex items-center justify-center">
-            <img src="/ajouter-bouteille.svg" class="w-7">
+            class="fixed z-10 bottom-32 right-2 shadow-lg bg-rose-300/50 w-16 aspect-square rounded-full flex items-center justify-center cursor-pointer">
+            <img src="/ajouter-bouteille.svg" class="w-8">
         </label>
 
         <form v-if="supprimerCellierForm" @click.self="supprimerCellierForm = false"
@@ -110,20 +114,20 @@ const trierMesBouteilles = (par) => {
             class="flex gap-6 justify-between items-center border-b-2 px-3 ">
             <div class="flex gap-6 justify-between items-center px-3">
                 <div class="text-2xl font-title font-semibold text-rose-800">
-                    {{ form?.nomEnCours }}
+                    {{ form?.nomEnCours || form?.nom }}
                 </div>
-                <div class="flex gap-4">
-                    <font-awesome-icon icon="fa-solid fa-trash" class="text-gray-400 cursor-pointer"
+                <div class="flex gap-10">
+                    <font-awesome-icon icon="fa-solid fa-trash" class="text-gray-400 cursor-pointer text-xl"
                         @click="supprimerCellierForm = !supprimerCellierForm" />
 
                     <font-awesome-icon icon="fa-solid fa-pen-to-square"
                         @click="appStore.togglerFormCellier(), form.nom = form.nomEnCours"
-                        class="text-gray-400 cursor-pointer" />
+                        class="text-gray-400 cursor-pointer text-xl" />
                 </div>
             </div>
 
             <font-awesome-icon icon="fa-solid fa-circle-plus" @click="appStore.togglerFormCellier('nouveau'), form.nom = ''"
-                class="text-gray-400 cursor-pointer" />
+                class="text-gray-400 cursor-pointer text-xl" />
 
         </div>
 
@@ -133,7 +137,7 @@ const trierMesBouteilles = (par) => {
         </template>
 
         <template v-else-if="appStore.rechercheActive">
-            La recherche est active
+            Résultat de recherche: 
             <div v-if="!appStore.resultatRecherche.length">
                 <span class="">Aucune bouteille trouvée</span>
             </div>
@@ -157,18 +161,15 @@ const trierMesBouteilles = (par) => {
 
     </div>
 
-    <header v-if="form.nomEnCours" class="fixed w-full bottom-0 bg-gray-500 py-1 px-2">
-        <div>gérer les bouteilles de: {{ form?.nomEnCours }}</div>
-        <nav class="flex justify-between p-3 w-full gap-3 mt-2">
+    <nav v-if="!appStore.afficherFormBouteille && form.nomEnCours" class="fixed bottom-0 bg-rose-900/75 py-5 px-5 flex justify-between p-3 w-full gap-3 mt-2">
 
-            <input @input="appStore.rechercherBouteilles($event.target.value)" type="text"
-                class="grow rounded-md border-0 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-rose-800 sm:text-sm sm:leading-6">
+            <input @input="appStore.rechercherBouteilles($event.target.value)" placeholder="rechercher bouteille..." type="text"
+                class="grow max-w-lg rounded-3xl border-0 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-rose-800 sm:text-sm sm:leading-6">
 
             <select @input="trierMesBouteilles($event.target.value)"
-                class="w-16 flex justify-center items-center text-white rounded cursor-pointer border-b-rose-300 bg-purple-400 p-1">
-                <option value="" selected>Trier</option>
+                class="w-16 flex justify-center items-center text-gray-700 rounded cursor-pointer p-1">
+                <option value="" selected>trier</option>
                 <option v-for="(tri) in cleTriage" :value="tri.id">{{ tri.nom }}</option>
             </select>
-        </nav>
-    </header>
+    </nav>
 </template>
