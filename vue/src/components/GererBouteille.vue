@@ -124,7 +124,7 @@ const tableauNotes = [{ id: 1, nom: '1 étoile' }, { id: 2, nom: '2 étoiles' },
 
             <Input v-bind:erreur="appStore.erreursBouteille.garder_jusqu_a"
                 v-model="appStore.bouteilleSelectione.garder_jusqu_a" label="Garder jusqu'à" name="garder_jusqu_a"
-                type="date" />
+                type="number"/>
 
             <Input v-bind:erreur="appStore.erreursBouteille.prix_paye" v-model="appStore.bouteilleSelectione.prix_paye"
                 label="Prix d'achat" name="prix_paye" type="number" />
