@@ -94,7 +94,7 @@ class ContenirController extends Controller
             'commentaire' => 'nullable|string',
             'prix_paye' => 'numeric|min:0',
             'quantite' => 'integer|min:0',
-            'millesime' => 'integer|min:1900|max:2023'
+            'millesime' => 'nullable|integer|min:1900|max:2023'
         ]);
 
         $contenir->update([            
