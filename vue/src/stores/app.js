@@ -37,7 +37,6 @@ export const useAppStore = defineStore("app", {
      */
 
     getters: {
-        rechercheActive: (state) => state.estALarecherche,
         resultatRecherche: (state) => state.mesResultatDeRechercheBouteille,
         celliers: (state) => state.mesCelliers,
         erreursCellier: (state) => state.cellierErreurs,
@@ -289,8 +288,6 @@ export const useAppStore = defineStore("app", {
          * @description retrouver la liste des bouteille d'un usager connecté depuis le serveur
          */
         async rechercherBouteilles(motCle) {
-
-            this.estALarecherche = motCle.length > 0
 
             this.mesResultatDeRechercheBouteille = []
             try {

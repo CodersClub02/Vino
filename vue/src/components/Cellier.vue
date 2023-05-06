@@ -16,13 +16,13 @@ onMounted(async () => {
 })
 
 const supprimerCellierForm = ref(false)
-
+const modeRecherche = ref(false)
 const cleTriage = ref([
     { id: 'type_id', nom: 'type' }, { id: 'pays_id', nom: 'pays' }, { id: 'millesime', nom: 'méllisme' }, { id: 'prix_paye', nom: 'prix payé' }, { id: 'date_achat', nom: 'date achat' }, { id: 'nom', nom: 'nom' }
 ])
 
 const trierMesBouteilles = (par) => {
-    if (appStore.rechercheActive) {
+    if (modeRecherche) {
         appStore.resultatRecherche = appStore.resultatRecherche.sort((a, b) => (a[par] > b[par]) ? 1 : ((b[par] > a[par]) ? -1 : 0))
     } else {
         appStore.mesBouteilleCellier = appStore.mesBouteilleCellier.sort((a, b) => (a[par] > b[par]) ? 1 : ((b[par] > a[par]) ? -1 : 0))
@@ -117,8 +117,15 @@ const trierMesBouteilles = (par) => {
                 @cacherFormBouteille="appStore.togglerFormBouteille()" />
         </template>
 
-        <template v-else-if="appStore.rechercheActive">
-            Résultat de recherche: 
+        <template v-else-if="modeRecherche">
+            <div class="flex gap-2 items-center">
+                Résultat de recherche: 
+                <select @input="trierMesBouteilles($event.target.value)"
+                    class="w-16 flex justify-center items-center text-gray-700 rounded cursor-pointer p-1">
+                    <option value="" selected>trier</option>
+                    <option v-for="(tri) in cleTriage" :value="tri.id">{{ tri.nom }}</option>
+                </select>
+            </div>
             <div v-if="!appStore.resultatRecherche.length">
                 <span class="">Aucune bouteille trouvée</span>
             </div>
@@ -135,22 +142,30 @@ const trierMesBouteilles = (par) => {
                 <img src="/aucune-bouteille.png" alt="Aucune bouteille" class="w-full">
             </template>
 
+            
             <div v-else class="grid gap-6 lg:gap-10 lg:grid-cols-4 md:gap-10 md:grid-cols-2">
+                <select @input="trierMesBouteilles($event.target.value)"
+                class="w-16 flex justify-center items-center text-gray-700 rounded cursor-pointer p-1">
+                <option value="" selected>trier</option>
+                <option v-for="(tri) in cleTriage" :value="tri.id">{{ tri.nom }}</option>
+            </select>
                 <Bouteille v-for="(bouteille) in appStore.mesBouteilleCellier" :bouteille="bouteille" />
             </div>
         </template>
 
     </div>
 
-    <nav v-if="!appStore.afficherFormBouteille && appStore.cellierSelectione?.nom" class="fixed bottom-0 bg-rose-900/75 py-5 px-5 flex justify-between p-3 w-full gap-3 mt-2">
+<template>
+    <label v-if="!modeRecherche" @click="modeRecherche=!modeRecherche" class="fixed bottom-2 left-2 bg-rose-900/25 h-10 w-10 rounded-full flex justify-center items-center">
+        <img src="/icones/rechercher.svg" class=" h-6 block">
+    </label>
+    <nav v-if="modeRecherche && !appStore.afficherFormBouteille && appStore.cellierSelectione?.nom" class="flex gap-3 items-center fixed bottom-0 bg-rose-900/75 py-2 px-3 w-full">
 
-            <input @input="appStore.rechercherBouteilles($event.target.value)" placeholder="rechercher bouteille..." type="text"
-                class="grow max-w-lg rounded-3xl border-0 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-rose-800 sm:text-sm sm:leading-6">
-
-            <select @input="trierMesBouteilles($event.target.value)"
-                class="w-16 flex justify-center items-center text-gray-700 rounded cursor-pointer p-1">
-                <option value="" selected>trier</option>
-                <option v-for="(tri) in cleTriage" :value="tri.id">{{ tri.nom }}</option>
-            </select>
+        <label @click="modeRecherche=!modeRecherche" class="bg-rose-900/25 h-10 w-10 rounded-full flex justify-center items-center">
+             <img src="/icones/cacher-recherche.svg" class="h-6 block">
+        </label>
+        <input @input="appStore.rechercherBouteilles($event.target.value)" placeholder="rechercher bouteille..." type="text" class="grow max-w-lg rounded-3xl border-0 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-rose-800 sm:text-sm sm:leading-6 m-auto">
     </nav>
+</template>
+
 </template>
