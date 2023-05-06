@@ -8,20 +8,11 @@ import GererBouteille from '../components/GererBouteille.vue';
 import Bouteille from '../components/Bouteille.vue';
 import { useAppStore } from '../stores/app'
 
-const appStore = useAppStore()
 
+const appStore = useAppStore()
 onMounted(async () => {
     await appStore.getCelliers()
-    if (appStore.celliers.length > 0) {
-        form = appStore.celliers[0]
-        form.nomEnCours = form.nom
-    }
-    await appStore.getBouteillesCellier(form.id)
-})
-
-let form = ref({
-    nom: null,
-    id: null
+    await appStore.getBouteillesCellier(localStorage.getItem('cellier_id'))
 })
 
 const supprimerCellierForm = ref(false)
@@ -61,32 +52,34 @@ const trierMesBouteilles = (par) => {
     <GererCellier v-if="appStore.afficherForm" :form="form" @cacherForm="appStore.togglerFormCellier()" />
 
     <!--  -->
-    <div v-if="appStore.celliers.length > 1" class="flex gap-10 bg-gray-100 overflow-x-auto text-gray-600 p-5 snap-x ">
-
-        <div v-for="(cellier) in appStore.celliers"
-            class="cursor-pointer flex-none bg-white rounded w-300 shadow-md p-2 snap-center text-xl"
-            :class="{ 'bg-rose-400/5': form.nomEnCours === cellier.nom }"
-            @click="appStore.getBouteillesCellier(cellier.id), form.id = cellier.id, form.nomEnCours = cellier.nom">
-            {{ cellier.nom }}
-            <!-- <span class="block text-sm text-gray-500">{{ cellier.contenirs_count }}</span> -->
+    <header v-if="appStore.celliers.length >= 1" class="flex items-center gap-4 bg-gray-100 p-5">
+        <div class="grow flex gap-5 overflow-x-auto text-gray-600 snap-x p-3">
+            <span v-for="(cellier) in appStore.celliers"
+                class="cursor-pointer flex-none bg-white rounded w-300 shadow-md p-2 snap-center text-xl"
+                :class="{ 'bg-rose-400/10' : appStore.cellierSelectione?.id === cellier.id }"
+                @click="appStore.getBouteillesCellier(cellier)">
+                {{ cellier.nom }}
+                <!-- <span class="block text-sm text-gray-500">{{ cellier.contenirs_count }}</span> -->
+            </span>
         </div>
-    </div>
+        <font-awesome-icon icon="fa-solid fa-circle-plus" @click="appStore.togglerFormCellier('nouveau')" class="text-gray-400 cursor-pointer text-4xl shadow-md" />
+    </header>
 
     <div class="grid text-gray-600 p-5 gap-10">
 
         <label v-if="!appStore.afficherFormBouteille" @click="appStore.togglerFormBouteille({
                 source: 'saq',
-                cellier_id: form.id,
+                cellier_id: localStorage.getItem('cellier_id'),
             })"
             class="fixed z-10 bottom-32 right-2 shadow-lg bg-rose-300/50 w-16 aspect-square rounded-full flex items-center justify-center cursor-pointer">
             <img src="/ajouter-bouteille.svg" class="w-8">
         </label>
 
         <form v-if="supprimerCellierForm" @click.self="supprimerCellierForm = false"
-            @submit.prevent="appStore.gererCellier(form, 'delete'), supprimerCellierForm = false"
+            @submit.prevent="appStore.gererCellier(), supprimerCellierForm = false"
             class="flex flex-col gap-6 items-center justify-center fixed bg-black/50 p-4 z-10 inset-0">
             <div class="space-y-6 bg-black/80 p-8 rounded-md">
-                <div class="text-center text-xl text-gray-300">Êtes-vous sur de supprimer <b>{{ form.nomEnCours }}</b> ?
+                <div class="text-center text-xl text-gray-300">Êtes-vous sûr de supprimer <b>{{ appStore.cellierSelectione?.nom }}</b> ?
                 </div>
                 <div class="flex gap-4 whitespace-nowrap justify-between">
                     <Button texteBouton="Supprimer" />
@@ -111,28 +104,23 @@ const trierMesBouteilles = (par) => {
         </form>
 
         <div v-if="appStore.celliers.length >= 1 && !appStore.afficherForm && !supprimerCellierForm"
-            class="flex gap-6 justify-between items-center border-b-2 px-3 ">
-            <div class="flex gap-6 justify-between items-center px-3">
+            class="flex gap-6 justify-between items-center border-b-2 px-3">
                 <div class="text-2xl font-title font-semibold text-rose-800">
-                    {{ form?.nomEnCours || form?.nom }}
+                    {{ appStore.cellierSelectione?.nom }}
                 </div>
                 <div class="flex gap-10">
                     <font-awesome-icon icon="fa-solid fa-trash" class="text-gray-400 cursor-pointer text-xl"
                         @click="supprimerCellierForm = !supprimerCellierForm" />
 
                     <font-awesome-icon icon="fa-solid fa-pen-to-square"
-                        @click="appStore.togglerFormCellier(), form.nom = form.nomEnCours"
+                        @click="appStore.togglerFormCellier()"
                         class="text-gray-400 cursor-pointer text-xl" />
-                </div>
             </div>
-
-            <font-awesome-icon icon="fa-solid fa-circle-plus" @click="appStore.togglerFormCellier('nouveau'), form.nom = ''"
-                class="text-gray-400 cursor-pointer text-xl" />
-
         </div>
 
+
         <template v-if="appStore.afficherFormBouteille">
-            <GererBouteille :erreur="authStore?.erreursBouteille" :cellier="form"
+            <GererBouteille :erreur="authStore?.erreursBouteille" :cellier="appStore.cellierSelectione"
                 @cacherFormBouteille="appStore.togglerFormBouteille()" />
         </template>
 
@@ -150,7 +138,7 @@ const trierMesBouteilles = (par) => {
         <template v-else>
             <template v-if="appStore.celliers.length >= 1 && !appStore.mesBouteilleCellier.length">
                 <span class=" text-2xl text-black  inset-0  flex flex-col justify-center items-center
-                ">Aucune bouteille dans <em class="text-3xl font-semibold"> {{ form?.nomEnCours }} </em></span>
+                ">Aucune bouteille dans <em class="text-3xl font-semibold"> {{ appStore.cellierSelectione?.nom }} </em></span>
                 <img src="/aucune-bouteille.png" alt="Aucune bouteille" class="w-full">
             </template>
 
@@ -161,7 +149,7 @@ const trierMesBouteilles = (par) => {
 
     </div>
 
-    <nav v-if="!appStore.afficherFormBouteille && form.nomEnCours" class="fixed bottom-0 bg-rose-900/75 py-5 px-5 flex justify-between p-3 w-full gap-3 mt-2">
+    <nav v-if="!appStore.afficherFormBouteille && appStore.cellierSelectione?.nom" class="fixed bottom-0 bg-rose-900/75 py-5 px-5 flex justify-between p-3 w-full gap-3 mt-2">
 
             <input @input="appStore.rechercherBouteilles($event.target.value)" placeholder="rechercher bouteille..." type="text"
                 class="grow max-w-lg rounded-3xl border-0 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-rose-800 sm:text-sm sm:leading-6">

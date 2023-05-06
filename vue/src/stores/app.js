@@ -12,6 +12,7 @@ export const useAppStore = defineStore("app", {
 
     state: () => ({
         mesCelliers: [],
+        leCellierSelectione: [],
         mesBouteilleCellier: [],
         cellierNouveau: null,
         cellierErreurs: [],
@@ -48,6 +49,7 @@ export const useAppStore = defineStore("app", {
         listeType: (state) => state.laListeType,
         listePays: (state) => state.laListePays,
         bouteilleSelectione: (state) => state.laBouteilleSelectione,
+        cellierSelectione: (state) => state.leCellierSelectione,
     },
 
     actions: {
@@ -181,8 +183,8 @@ export const useAppStore = defineStore("app", {
          * @returns void
          * @description cacher et afficher le formulaire de cellier
          */
-        async togglerFormCellier(nouveauCellier) {
-            this.cellierNouveau = nouveauCellier
+        async togglerFormCellier(nouveau) {
+            this.cellierNouveau = nouveau
             this.afficherFormCellier = !this.afficherFormCellier
         },
 
@@ -195,38 +197,46 @@ export const useAppStore = defineStore("app", {
             try {
                 const donnees = await axios.get('/api/cellier')
                 this.mesCelliers = donnees.data
+                if(!localStorage.getItem('cellier_id')) {
+                    localStorage.setItem('cellier_id', this.mesCelliers[0].id)
+                }
+                this.leCellierSelectione = this.mesCelliers.filter(cel => cel.id == localStorage.getItem('cellier_id'))[0]
+
             } catch (error) {
                 this.cellierErreurs = error.response.data.errors
             }
         },
 
-        async gererCellier(donnees, supprimer) {
-            try {
-                // Si l'usager veut modifier un cellier
-                if (supprimer) {
-                    await axios.delete(`/api/cellier/${donnees.id}`)
+        async gererCellier(donnees) {
+            // try {
+                // Si l'usager veut supprimer un cellier
+                if (!donnees) {
+                    await axios.delete(`/api/cellier/${localStorage.getItem('cellier_id')}`)
+                    localStorage.removeItem('cellier_id')
+                    this.getCelliers()
                 }
-                // Si l'usager veut modifier un cellier
+                // Si l'usager veut ajouter un cellier
                 else if (this.cellierNouveau) {
-                    await axios.post(`/api/cellier/`, {
+                    const nouveauCellier = await axios.post(`/api/cellier/`, {
                         nom: donnees.nom
                     })
+                    localStorage.setItem('cellier_id', nouveauCellier.data.id)
+                    this.getCelliers()
                     this.togglerFormCellier()
 
-                    // Si l'usager veut ajouter un cellier
+                    // Si l'usager veut modifier un cellier
                 } else {
                     await axios.put(`/api/cellier/${donnees.id}`, {
                         nom: donnees.nom
                     })
+                    localStorage.setItem('cellier_id', donnees.id)
                     this.togglerFormCellier()
 
                 }
 
-                this.getCelliers()
-
-            } catch (error) {
-                this.cellierErreurs = error.response.data.errors
-            }
+            // } catch (error) {
+            //     this.cellierErreurs = error.response.data.errors
+            // }
         },
 
         /**
@@ -234,12 +244,14 @@ export const useAppStore = defineStore("app", {
          * @returns void
          * @description retrouver la liste des celliers d'un usager connecté depuis le serveur
          */
-        async getBouteillesCellier(idCellier) {
+        async getBouteillesCellier(cellier) {
+
             this.mesBouteilleCellier = []
             try {
-
-                const donnees = await axios.get(`/api/cellier/${idCellier}`)
+                const donnees = await axios.get(`/api/cellier/${cellier.id}`)
                 this.mesBouteilleCellier = donnees.data
+                localStorage.setItem('cellier_id', cellier.id)
+                this.leCellierSelectione = cellier
 
             } catch (error) {
 
