@@ -255,10 +255,11 @@ export const useAppStore = defineStore("app", {
 
             this.mesBouteilleCellier = []
             try {
-                const donnees = await axios.get(`/api/cellier/${cellier.id}`)
+                const cellier_id = cellier ? cellier.id : localStorage.getItem('cellier_id')
+                const donnees = await axios.get(`/api/cellier/${cellier_id}`)
                 this.mesBouteilleCellier = donnees.data
-                localStorage.setItem('cellier_id', cellier.id)
-                this.leCellierSelectione = cellier
+                localStorage.setItem('cellier_id', cellier_id)
+                cellier && (this.leCellierSelectione = cellier)
 
             } catch (error) {
 

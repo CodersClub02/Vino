@@ -12,7 +12,7 @@ import { useAppStore } from '../stores/app'
 const appStore = useAppStore()
 onMounted(async () => {
     await appStore.getCelliers()
-    await appStore.getBouteillesCellier(localStorage.getItem('cellier_id'))
+    await appStore.getBouteillesCellier()
 })
 
 const supprimerCellierForm = ref(false)
@@ -37,6 +37,7 @@ const trierMesBouteilles = (par) => {
 </script>
 
 <template>
+
     <!-- Aucun cellier -->
     <div v-if="appStore.celliers.length == 0" class="grid text-gray-600 p-5 gap-10">
 
