@@ -41,12 +41,12 @@ class CellierController extends Controller
             'nom' => 'required|string|min:4|max:100',
         ]);
 
-        Cellier::create([
+        $cellier = Cellier::create([
             'nom' => $request->nom,
             'user_id' => auth()->user()->id
         ]);
    
-        return response()->json(['status' => 'ok', 'message'=>'cellier créé avec succès']);
+        return response()->json($cellier);
     }
 
     /**
