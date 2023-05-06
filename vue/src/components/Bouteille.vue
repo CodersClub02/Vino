@@ -22,9 +22,9 @@ watch(props.bouteille, (currentState, prevState) => {
         <span class="absolute z-10 left-3 top-2 w-12 h-4" @click="appStore.togglerBouteilleAgerer(bouteille.id)">
             <img src="/icones/plus.svg">
         </span>
-        <div class="hidden absolute inset-0 z-10 bg-white gap-2 flex-col justify-center items-center" >
+        <div class="absolute inset-0 z-10 bg-white flex gap-2 flex-col justify-center items-center" :class="appStore.bouteilleAgerer == bouteille.id ? '' : 'opacity-0 pointer-events-none'">
 
-            <img src="/icones/fermer.svg" @click="appStore.togglerFormSupprimerBouteille(bouteille)" class="absolute top-2 right-2 aspect-square h-4" />
+            <img src="/icones/fermer.svg" @click="appStore.togglerBouteilleAgerer(-1)" class="absolute top-2 right-2 aspect-square h-4" />
 
             <label @click="appStore.togglerFormSupprimerBouteille(bouteille)" class="flex gap-4 items-center w-36">
                 <img src="/icones/supprimer-bouteille.svg" class="h-5" />

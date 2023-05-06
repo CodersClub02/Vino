@@ -27,7 +27,8 @@ export const useAppStore = defineStore("app", {
 
         laBouteilleSelectione: {},
         mesResultatDeRechercheBouteille: [],
-        estALarecherche: false
+        estALarecherche: false,
+        laBouteilleAgerer: 0
     }),
 
     /**
@@ -50,6 +51,7 @@ export const useAppStore = defineStore("app", {
         listePays: (state) => state.laListePays,
         bouteilleSelectione: (state) => state.laBouteilleSelectione,
         cellierSelectione: (state) => state.leCellierSelectione,
+        bouteilleAgerer: (state) => state.laBouteilleAgerer,
     },
 
     actions: {
@@ -101,7 +103,11 @@ export const useAppStore = defineStore("app", {
             }
         },
 
-        
+        togglerBouteilleAgerer(bouteille_id){
+            this.laBouteilleAgerer = bouteille_id
+            console.log(this.laBouteilleAgerer);
+        },
+
         /**
          * @author Saddek
          * @returns void

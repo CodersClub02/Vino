@@ -129,7 +129,7 @@ const tableauNotes = [{ id: 1, nom: '1 étoile' }, { id: 2, nom: '2 étoiles' },
 
             <div class="flex gap-4 justify-between">
                 <Button texteBouton="Sauvegarder" />
-                <SecButton texteBouton="Annuler" @click="$emit('cacherFormBouteille')" class="bg-gray-400 text-gray-900" />
+                <SecButton texteBouton="Annuler" @click="$emit('cacherFormBouteille'), appStore.togglerBouteilleAgerer(-1)" class="bg-gray-400 text-gray-900" />
             </div>
 
         </form>
