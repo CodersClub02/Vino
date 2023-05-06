@@ -48,7 +48,7 @@ const trierMesBouteilles = (par) => {
     <GererCellier v-if="appStore.afficherForm" :form="form" @cacherForm="appStore.togglerFormCellier()" />
 
     <!--  -->
-    <header v-if="!appStore.afficherFormBouteille && appStore.celliers.length >= 1" class="flex items-center gap-4 bg-gray-100 p-5">
+    <header v-if="!modeRecherche && !appStore.afficherFormBouteille && appStore.celliers.length >= 1" class="flex items-center gap-4 bg-gray-100 p-5">
         <div class="grow flex gap-5 overflow-x-auto text-gray-600 snap-x p-3">
             <span v-for="(cellier) in appStore.celliers"
                 class="cursor-pointer flex-none bg-white rounded w-300 shadow-md p-2 snap-center text-xl"
@@ -96,7 +96,7 @@ const trierMesBouteilles = (par) => {
             </div>
         </form>
 
-        <div v-if="!appStore.afficherFormBouteille && appStore.celliers.length >= 1 && !appStore.afficherForm && !supprimerCellierForm"
+        <div v-if="!modeRecherche && !appStore.afficherFormBouteille && appStore.celliers.length >= 1 && !appStore.afficherForm && !supprimerCellierForm"
             class="flex gap-6 justify-between items-center border-b-2 px-3">
                 <div class="text-2xl font-title font-semibold text-rose-800">
                     {{ appStore.cellierSelectione?.nom }}
@@ -155,7 +155,6 @@ const trierMesBouteilles = (par) => {
 
     </div>
 
-<template>
     <label v-if="!modeRecherche" @click="modeRecherche=!modeRecherche" class="fixed bottom-2 left-2 bg-rose-900/25 h-10 w-10 rounded-full flex justify-center items-center">
         <img src="/icones/rechercher.svg" class=" h-6 block">
     </label>
@@ -166,6 +165,5 @@ const trierMesBouteilles = (par) => {
         </label>
         <input @input="appStore.rechercherBouteilles($event.target.value)" placeholder="rechercher bouteille..." type="text" class="grow max-w-lg rounded-3xl border-0 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-rose-800 sm:text-sm sm:leading-6 m-auto">
     </nav>
-</template>
 
 </template>
