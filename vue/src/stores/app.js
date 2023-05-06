@@ -101,6 +101,7 @@ export const useAppStore = defineStore("app", {
             }
         },
 
+        
         /**
          * @author Saddek
          * @returns void

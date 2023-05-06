@@ -65,7 +65,7 @@ const trierMesBouteilles = (par) => {
 
         <label v-if="!appStore.afficherFormBouteille" @click="appStore.togglerFormBouteille()"
             class="fixed z-10 bottom-32 right-2 shadow-lg bg-rose-300/50 w-16 aspect-square rounded-full flex items-center justify-center cursor-pointer">
-            <img src="/ajouter-bouteille.svg" class="w-8">
+            <img src="/icones/ajouter-bouteille.svg" class="w-8">
         </label>
 
         <form v-if="supprimerCellierForm" @click.self="supprimerCellierForm = false"
