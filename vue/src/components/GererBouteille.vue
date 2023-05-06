@@ -81,9 +81,12 @@ const tableauNotes = [{ id: 1, nom: '1 étoile' }, { id: 2, nom: '2 étoiles' },
                 </Input>
                 <template v-if="appStore.bouteilleSelectione.source == 'autre'">
 
-                    <Input v-bind:erreur="appStore.erreursBouteille.nom" v-model="appStore.bouteilleSelectione.nom"
+                <Input v-bind:erreur="appStore.erreursBouteille.nom" v-model="appStore.bouteilleSelectione.nom"
                         label="Nom de bouteille" name="nom" type="text" />
 
+
+                    <Input v-bind:erreur="appStore.erreursBouteille.millesime" v-model="appStore.bouteilleSelectione.millesime" label="Millésime" name="millesime" type="number" />
+                
                     <Input v-bind:erreur="appStore.erreursBouteille.format" v-model="appStore.bouteilleSelectione.format"
                         label="Format" name="format" type="text" />
 
@@ -113,9 +116,6 @@ const tableauNotes = [{ id: 1, nom: '1 étoile' }, { id: 2, nom: '2 étoiles' },
             <Input v-bind:erreur="appStore.erreursBouteille.quantite" v-model="appStore.bouteilleSelectione.quantite"
                 label="Quantité" name="quantite" type="number" min="1" />
 
-
-            <Input v-bind:erreur="appStore.erreursBouteille.mellisme" v-model="appStore.bouteilleSelectione.mellisme"
-                label="Mélisme" name="mellisme" type="number" />
 
             <Input v-bind:erreur="appStore.erreursBouteille.date_achat" v-model="appStore.bouteilleSelectione.date_achat"
                 label="Date d'achat" name="date_achat" type="date" />

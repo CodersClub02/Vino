@@ -51,7 +51,7 @@ class ContenirController extends Controller
             'garder_jusqu_a' => 'required|integer|min:2023',//date(Y)
             'prix_paye' => 'required|numeric|min:0',
             'quantite' => 'required|integer|min:0',
-            'mellisme' => 'required|integer|min:1900|max:2023',
+            'millesime' => 'required|integer|min:1900|max:2023',
             'format' => 'required_if:source,autre|string|max:20',
             'type_id' => 'required_if:source,autre|exists:types,id',
             'pays_id' => 'required_if:source,autre|exists:pays,id',
@@ -75,7 +75,7 @@ class ContenirController extends Controller
             'garder_jusqu_a' => $request->garder_jusqu_a,
             'prix_paye' => $request->prix_paye,
             'quantite' => $request->quantite,
-            'mellisme' => $request->mellisme
+            'millesime' => $request->millesime
         ]);
            
         return response()->json(['status' => 'ok', 'message'=>'Bouteille est créé avec succès']);
@@ -94,7 +94,7 @@ class ContenirController extends Controller
             'commentaire' => 'nullable|string',
             'prix_paye' => 'numeric|min:0',
             'quantite' => 'integer|min:0',
-            'mellisme' => 'integer|min:1900|max:2023'
+            'millesime' => 'integer|min:1900|max:2023'
         ]);
 
         $contenir->update([            
@@ -104,7 +104,7 @@ class ContenirController extends Controller
             'garder_jusqu_a' => $request->garder_jusqu_a,
             'prix_paye' => $request->prix_paye,
             'quantite' => $request->quantite,
-            'mellisme' => $request->mellisme,
+            'millesime' => $request->millesime,
             'notes' => $request->notes,
             'commentaire' => $request->commentaire,
         ]);
