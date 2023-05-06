@@ -51,12 +51,12 @@ const tableauNotes = [{ id: 1, nom: '1 étoile' }, { id: 2, nom: '2 étoiles' },
 
                     <div
                         class="mt-2 flex gap-6 w-full rounded-md border-0 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-rose-800 sm:text-sm sm:leading-6">
-                        <label class="flex gap-2 text-sm leading-6 text-gray-900 ">
+                        <label class="flex items-center gap-2 text-sm leading-6 text-gray-900 ">
                             <input type="radio" class="form-radio accent-rose-600" name="source" value="saq"
                                 v-model="appStore.bouteilleSelectione.source" checked>
                             la SAQ
                         </label>
-                        <label class="flex gap-2 text-sm leading-6 text-gray-900 ">
+                        <label class="flex items-center gap-2 text-sm leading-6 text-gray-900 ">
                             <input type="radio" class="form-radio accent-rose-600" name="source" value="autre"
                                 v-model="appStore.bouteilleSelectione.source">
                             Autre
@@ -125,7 +125,7 @@ const tableauNotes = [{ id: 1, nom: '1 étoile' }, { id: 2, nom: '2 étoiles' },
                 type="number"/>
 
             <Input v-bind:erreur="appStore.erreursBouteille.prix_paye" v-model="appStore.bouteilleSelectione.prix_paye"
-                label="Prix d'achat" name="prix_paye" type="number" />
+                label="Prix d'achat" name="prix_paye" type="number" step=".01" />
 
             <div class="flex gap-4 justify-between">
                 <Button texteBouton="Sauvegarder" />

@@ -17,11 +17,6 @@ onMounted(async () => {
 
 const supprimerCellierForm = ref(false)
 
-
-// const cleTriage = ref([
-//     { id: 'id', nom: 'id' }, { id: 'created_at', nom: 'crée' }, { id: 'updated_at', nom: 'modifié' }, { id: 'type_id', nom: 'type' }, { id: 'pays_id', nom: 'pays' }, { id: 'nom', nom: 'nom' }, { id: 'format', nom: 'format' }, { id: 'prix_saq', nom: 'prix saq' }, { id: 'date_achat', nom: 'date achat' }, { id: 'garder_jusqu_a', nom: 'garder jusqu à' }, { id: 'notes', nom: 'notes' }, { id: 'prix_paye', nom: 'prix payé' }, { id: 'quantite', nom: 'quantité' }, { id: 'millesime', nom: 'méllisme' }, { id: 'pays', nom: 'pays' }, { id: 'type', nom: 'type' }
-// ])
-
 const cleTriage = ref([
     { id: 'type_id', nom: 'type' }, { id: 'pays_id', nom: 'pays' }, { id: 'millesime', nom: 'méllisme' }, { id: 'prix_paye', nom: 'prix payé' }, { id: 'date_achat', nom: 'date achat' }, { id: 'nom', nom: 'nom' }
 ])
@@ -39,7 +34,7 @@ const trierMesBouteilles = (par) => {
 <template>
 
     <!-- Aucun cellier -->
-    <div v-if="appStore.celliers.length == 0" class="grid text-gray-600 p-5 gap-10">
+    <div v-if="!appStore.afficherFormBouteille && appStore.celliers.length == 0" class="grid text-gray-600 p-5 gap-10">
 
         <template v-if="!appStore.afficherForm">
             <div class="flex flex-col gap-7 justify-center px-6 lg:px-8 sm:mx-auto sm:w-full sm:max-w-sm">
@@ -53,7 +48,7 @@ const trierMesBouteilles = (par) => {
     <GererCellier v-if="appStore.afficherForm" :form="form" @cacherForm="appStore.togglerFormCellier()" />
 
     <!--  -->
-    <header v-if="appStore.celliers.length >= 1" class="flex items-center gap-4 bg-gray-100 p-5">
+    <header v-if="!appStore.afficherFormBouteille && appStore.celliers.length >= 1" class="flex items-center gap-4 bg-gray-100 p-5">
         <div class="grow flex gap-5 overflow-x-auto text-gray-600 snap-x p-3">
             <span v-for="(cellier) in appStore.celliers"
                 class="cursor-pointer flex-none bg-white rounded w-300 shadow-md p-2 snap-center text-xl"
@@ -101,7 +96,7 @@ const trierMesBouteilles = (par) => {
             </div>
         </form>
 
-        <div v-if="appStore.celliers.length >= 1 && !appStore.afficherForm && !supprimerCellierForm"
+        <div v-if="!appStore.afficherFormBouteille && appStore.celliers.length >= 1 && !appStore.afficherForm && !supprimerCellierForm"
             class="flex gap-6 justify-between items-center border-b-2 px-3">
                 <div class="text-2xl font-title font-semibold text-rose-800">
                     {{ appStore.cellierSelectione?.nom }}
