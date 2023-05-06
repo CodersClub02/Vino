@@ -51,7 +51,7 @@ class ContenirController extends Controller
             'garder_jusqu_a' => 'required|integer|min:2023',//date(Y)
             'prix_paye' => 'required|numeric|min:0',
             'quantite' => 'required|integer|min:0',
-            'millesime' => 'required|integer|min:1900|max:2023',
+            'millesime' => 'nullable:integer|min:1900|max:2023',
             'format' => 'required_if:source,autre|string|max:20',
             'type_id' => 'required_if:source,autre|exists:types,id',
             'pays_id' => 'required_if:source,autre|exists:pays,id',
