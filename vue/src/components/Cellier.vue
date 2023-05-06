@@ -123,7 +123,7 @@ const trierMesBouteilles = (par) => {
                 <span class="">Aucune bouteille trouvée</span>
             </div>
 
-            <div v-else class="grid gap-10 lg:gap-10 lg:grid-cols-4 md:gap-10 md:grid-cols-2">
+            <div v-else class="grid gap-6 lg:gap-10 lg:grid-cols-4 md:gap-10 md:grid-cols-2">
                 <Bouteille v-for="(bouteille) in appStore.resultatRecherche" :bouteille="bouteille" />
             </div>
 
@@ -135,7 +135,7 @@ const trierMesBouteilles = (par) => {
                 <img src="/aucune-bouteille.png" alt="Aucune bouteille" class="w-full">
             </template>
 
-            <div v-else class="grid gap-12 lg:gap-10 lg:grid-cols-4 md:gap-10 md:grid-cols-2">
+            <div v-else class="grid gap-6 lg:gap-10 lg:grid-cols-4 md:gap-10 md:grid-cols-2">
                 <Bouteille v-for="(bouteille) in appStore.mesBouteilleCellier" :bouteille="bouteille" />
             </div>
         </template>

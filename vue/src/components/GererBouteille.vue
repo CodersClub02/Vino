@@ -72,7 +72,7 @@ const tableauNotes = [{ id: 1, nom: '1 étoile' }, { id: 2, nom: '2 étoiles' },
 
                     <datalist id="suggestions">
                         <option v-for="bouteille in appStore.suggestionsBouteilles">
-                            {{ bouteille.nom }}
+                            {{ bouteille.nom }}{{ bouteille.code_saq }}
                         </option>
                     </datalist>
 
