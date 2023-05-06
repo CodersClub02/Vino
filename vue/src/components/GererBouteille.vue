@@ -35,8 +35,7 @@ const tableauNotes = [{ id: 1, nom: '1 étoile' }, { id: 2, nom: '2 étoiles' },
 
         <h2 class="sm:mx-auto sm:w-full sm:max-w-sm text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
             <template v-if="appStore.bouteilleSelectione.id">Modifier bouteille</template>
-            <template v-else>Ajouter bouteille à
-                {{ cellier.nomEnCours }}</template>
+            <template v-else>Ajouter bouteille à {{ appStore.cellierSelectione.nom }}</template>
         </h2>
 
 
@@ -116,7 +115,7 @@ const tableauNotes = [{ id: 1, nom: '1 étoile' }, { id: 2, nom: '2 étoiles' },
 
 
             <Input v-bind:erreur="appStore.erreursBouteille.mellisme" v-model="appStore.bouteilleSelectione.mellisme"
-                label="Méllisme" name="mellisme" type="number" />
+                label="Mélisme" name="mellisme" type="number" />
 
             <Input v-bind:erreur="appStore.erreursBouteille.date_achat" v-model="appStore.bouteilleSelectione.date_achat"
                 label="Date d'achat" name="date_achat" type="date" />

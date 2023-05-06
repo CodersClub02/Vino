@@ -103,7 +103,12 @@ export const useAppStore = defineStore("app", {
          */
         async togglerFormBouteille(bouteilleSelectione) {
             this.affchFormBouteille = !this.affchFormBouteille
-
+            if(!bouteilleSelectione){
+                bouteilleSelectione = {
+                    source: 'saq',
+                    cellier_id: localStorage.getItem('cellier_id'),
+                }
+            }
             bouteilleSelectione.quantite || (bouteilleSelectione.quantite = 1)
             bouteilleSelectione.garder_jusqu_a || (bouteilleSelectione.garder_jusqu_a = 2023)
             bouteilleSelectione.date_achat || (bouteilleSelectione.date_achat = new Date().toISOString().slice(0,10))
@@ -131,9 +136,8 @@ export const useAppStore = defineStore("app", {
         async ajouterBouteille(donnees) {
             try {
                 await axios.post('/api/contenir', donnees)
-
                 this.togglerFormBouteille()
-                this.getBouteillesCellier(donnees.cellier_id)
+                await this.getBouteillesCellier(this.leCellierSelectione)
 
             } catch (error) {
                 this.bouteilleErreurs = error.response.data.errors
@@ -170,8 +174,8 @@ export const useAppStore = defineStore("app", {
             try {
 
                 await axios.delete(`/api/contenir/${this.laBouteilleSelectione.id}`)
-                this.getBouteillesCellier(this.laBouteilleSelectione.cellier_id)
-                this.togglerFormSupprimerBouteille()
+                await this.getBouteillesCellier(this.laBouteilleSelectione.cellier_id)
+                await this.togglerFormSupprimerBouteille()
 
             } catch (error) {
                 this.bouteilleErreurs = error.response.data.errors
@@ -208,12 +212,14 @@ export const useAppStore = defineStore("app", {
         },
 
         async gererCellier(donnees) {
-            // try {
+            try {
                 // Si l'usager veut supprimer un cellier
                 if (!donnees) {
                     await axios.delete(`/api/cellier/${localStorage.getItem('cellier_id')}`)
                     localStorage.removeItem('cellier_id')
-                    this.getCelliers()
+                    await this.getCelliers()
+                    await this.getBouteillesCellier(this.leCellierSelectione)
+
                 }
                 // Si l'usager veut ajouter un cellier
                 else if (this.cellierNouveau) {
@@ -221,8 +227,9 @@ export const useAppStore = defineStore("app", {
                         nom: donnees.nom
                     })
                     localStorage.setItem('cellier_id', nouveauCellier.data.id)
-                    this.getCelliers()
+                    await this.getCelliers()
                     this.togglerFormCellier()
+                    await this.getBouteillesCellier(this.leCellierSelectione)
 
                     // Si l'usager veut modifier un cellier
                 } else {
@@ -230,13 +237,13 @@ export const useAppStore = defineStore("app", {
                         nom: donnees.nom
                     })
                     localStorage.setItem('cellier_id', donnees.id)
-                    this.togglerFormCellier()
+                    await this.togglerFormCellier()
 
                 }
 
-            // } catch (error) {
-            //     this.cellierErreurs = error.response.data.errors
-            // }
+            } catch (error) {
+                this.cellierErreurs = error.response.data.errors
+            }
         },
 
         /**
