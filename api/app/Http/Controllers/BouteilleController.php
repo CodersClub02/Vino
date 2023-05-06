@@ -146,8 +146,16 @@ class BouteilleController extends Controller
 	}
 
 	private function recupereInfo($noeud) {
-		
-		$info['img'] = explode('?', $noeud->getElementsByTagName("img")->item(0)->getAttribute('src'))[0]; 
+        
+        $images = $noeud->getElementsByTagName("img");
+        foreach ($images as $noeud) {
+
+			if (str_contains($noeud->getAttribute('class'), "product-image-photo") ) {
+                $info['img'] = explode('?', $noeud->getAttribute('src'))[0];
+                break;
+			}
+
+		}
 		
         $a_titre = $noeud->getElementsByTagName("a")->item(0);
 		$info['url'] = $a_titre->getAttribute('href');
