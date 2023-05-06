@@ -68,6 +68,11 @@ export const useAppStore = defineStore("app", {
             }
         },
 
+        faireValeursBouteilleDefaut(nomBouteille) {
+            const cetteBouteille = this.laSuggestionsBouteilles.filter(bout => bout.nom == nomBouteille)[0]
+            console.log(cetteBouteille);
+            this.laBouteilleSelectione.prix_paye = cetteBouteille.prix_saq
+        },
 
         /**
         * @author Hanane
@@ -294,5 +299,5 @@ export const useAppStore = defineStore("app", {
         },
 
     },
-
+        
 })
