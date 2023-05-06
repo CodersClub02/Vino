@@ -179,7 +179,7 @@ export const useAppStore = defineStore("app", {
             try {
 
                 await axios.delete(`/api/contenir/${this.laBouteilleSelectione.id}`)
-                await this.getBouteillesCellier(this.laBouteilleSelectione.cellier_id)
+                await this.getBouteillesCellier(this.leCellierSelectione)
                 await this.togglerFormSupprimerBouteille()
 
             } catch (error) {
