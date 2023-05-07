@@ -104,7 +104,6 @@ export const useAppStore = defineStore("app", {
 
         togglerBouteilleAgerer(bouteille_id){
             this.laBouteilleAgerer = bouteille_id
-            console.log(this.laBouteilleAgerer);
         },
 
         /**
@@ -168,6 +167,7 @@ export const useAppStore = defineStore("app", {
 
                 await axios.put(`/api/contenir/${donnees.id}`, donnees)
                 this.affchFormBouteille = false
+                this.togglerBouteilleAgerer(-1);
 
             } catch (error) {
                 this.bouteilleErreurs = error.response.data.errors
