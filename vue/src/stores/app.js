@@ -213,7 +213,7 @@ export const useAppStore = defineStore("app", {
                 const donnees = await axios.get('/api/cellier')
                 this.mesCelliers = donnees.data
                 if(!localStorage.getItem('cellier_id')) {
-                    localStorage.setItem('cellier_id', this.mesCelliers[0].id)
+                    localStorage.setItem('cellier_id', (this.mesCelliers ? this.mesCelliers[0].id : -1))
                 }
                 this.leCellierSelectione = this.mesCelliers.filter(cel => cel.id == localStorage.getItem('cellier_id'))[0]
 
