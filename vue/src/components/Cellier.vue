@@ -63,8 +63,8 @@ const trierMesBouteilles = (par) => {
 
     <div class="grid text-gray-600 p-5 gap-10">
 
-        <label v-if="!appStore.afficherFormBouteille" @click="appStore.togglerFormBouteille()"
-            class="fixed z-10 bottom-32 right-2 shadow-lg bg-rose-300/50 w-16 aspect-square rounded-full flex items-center justify-center cursor-pointer">
+        <label v-if="appStore.celliers.length >= 1 && !appStore.afficherFormBouteille" @click="appStore.togglerFormBouteille()"
+            class="fixed z-10 bottom-16 right-2 shadow-lg bg-rose-300/50 w-16 aspect-square rounded-full flex items-center justify-center cursor-pointer">
             <img src="/icones/ajouter-bouteille.svg" class="w-8">
         </label>
 
@@ -135,11 +135,11 @@ const trierMesBouteilles = (par) => {
             </div>
 
         </template>
-        <template v-else>
-            <template v-if="appStore.celliers.length >= 1 && !appStore.mesBouteilleCellier.length">
+        <template v-else-if="appStore.celliers.length >= 1">
+            <template v-if="!appStore.mesBouteilleCellier.length">
                 <span class=" text-2xl text-black  inset-0  flex flex-col justify-center items-center
                 ">Aucune bouteille dans <em class="text-3xl font-semibold"> {{ appStore.cellierSelectione?.nom }} </em></span>
-                <img src="/aucune-bouteille.png" alt="Aucune bouteille" class="w-full">
+                <img src="/aucune-bouteille.png" class="w-full">
             </template>
 
             
@@ -155,6 +155,7 @@ const trierMesBouteilles = (par) => {
 
     </div>
 
+    <template v-if="appStore.celliers.length >= 1">
     <label v-if="!modeRecherche" @click="modeRecherche=!modeRecherche" class="fixed bottom-2 left-2 bg-rose-900/25 h-10 w-10 rounded-full flex justify-center items-center">
         <img src="/icones/rechercher.svg" class=" h-6 block">
     </label>
@@ -165,5 +166,5 @@ const trierMesBouteilles = (par) => {
         </label>
         <input @input="appStore.rechercherBouteilles($event.target.value)" placeholder="rechercher bouteille..." type="text" class="grow max-w-lg rounded-3xl border-0 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-rose-800 sm:text-sm sm:leading-6 m-auto">
     </nav>
-
+    </template>
 </template>
