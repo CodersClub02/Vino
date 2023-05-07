@@ -33,7 +33,7 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::model('cellier', 'App\Models\Cellier');
     Route::apiResource('cellier', 'App\Http\Controllers\CellierController');
 
-    Route::model('contenir', 'App\Models\contenir');
+    Route::model('contenir', 'App\Models\Contenir');
     Route::apiResource('contenir', 'App\Http\Controllers\ContenirController');
     
     Route::model('pays', 'App\Models\Pays');

@@ -116,7 +116,7 @@ class ContenirController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy( Contenir $contenir)
+    public function destroy(Contenir $contenir)
     {
         $contenir->delete();
         return response()->json(['status' => 'ok', 'message'=>'Bouteille est supprimée avec succès']);
