@@ -86,7 +86,7 @@ class ContenirController extends Controller
     public function update(Request $request, Contenir $contenir)
     {
          $request->validate([
-            'cellier_id' => 'required|exists:celliers,id',
+            'cellier_id' => 'required|exists:celliers,id,user_id,' . auth()->user()->id,
             'date_achat' => 'required|date',
             'garder_jusqu_a' => 'required|integer|min:2023',//date(Y)',
             'notes' => 'nullable|integer|between:1,5',
@@ -98,6 +98,7 @@ class ContenirController extends Controller
 
         $contenir->update([            
             'user_id' => auth()->user()->id,
+            'cellier_id' => $request->cellier_id,
             'bouteille_id' => Bouteille::where('nom', $request->nom)->firstOrFail()->id,
             'date_achat' => $request->date_achat,
             'garder_jusqu_a' => $request->garder_jusqu_a,
