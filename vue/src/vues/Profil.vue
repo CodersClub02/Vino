@@ -8,7 +8,6 @@ import { ref, onMounted } from 'vue';
 import Input from "../components/Input.vue";
 import Button from "../components/Button.vue";
 import SecButton from "../components/SecButton.vue";
-import Entete from "../components/Entete.vue";
 
 import { useAuthStore } from '../stores/auth'
 
@@ -40,11 +39,13 @@ onMounted(async () => {
 </script>
 
 <template>
- 
-    <Entete titre="Salut">
-        <span class="font-bold text-rose-800">{{ authStore.user.name }}</span>
-    </Entete>
 
+    <header class="bg-white shadow mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+        <h1 class="text-3xl tracking-tight text-gray-600 font-semibold font-title">
+            Salut
+            <span class="font-bold text-rose-800">{{ authStore.user.name }}</span>
+        </h1>
+    </header>
 
     <main>
         <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">

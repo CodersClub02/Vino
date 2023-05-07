@@ -12,6 +12,7 @@ export const useAppStore = defineStore("app", {
 
     state: () => ({
         mesCelliers: [],
+        leCellierSelectione: [],
         mesBouteilleCellier: [],
         cellierNouveau: null,
         cellierErreurs: [],
@@ -26,7 +27,8 @@ export const useAppStore = defineStore("app", {
 
         laBouteilleSelectione: {},
         mesResultatDeRechercheBouteille: [],
-        estALarecherche: false
+        estALarecherche: false,
+        laBouteilleAgerer: 0
     }),
 
     /**
@@ -35,7 +37,6 @@ export const useAppStore = defineStore("app", {
      */
 
     getters: {
-        rechercheActive: (state) => state.estALarecherche,
         resultatRecherche: (state) => state.mesResultatDeRechercheBouteille,
         celliers: (state) => state.mesCelliers,
         erreursCellier: (state) => state.cellierErreurs,
@@ -48,6 +49,8 @@ export const useAppStore = defineStore("app", {
         listeType: (state) => state.laListeType,
         listePays: (state) => state.laListePays,
         bouteilleSelectione: (state) => state.laBouteilleSelectione,
+        cellierSelectione: (state) => state.leCellierSelectione,
+        bouteilleAgerer: (state) => state.laBouteilleAgerer,
     },
 
     actions: {
@@ -66,6 +69,11 @@ export const useAppStore = defineStore("app", {
             }
         },
 
+        faireValeursBouteilleDefaut(nomBouteille) {
+            const cetteBouteille = this.laSuggestionsBouteilles.filter(bout => bout.nom == nomBouteille)[0]
+            console.log(cetteBouteille);
+            this.laBouteilleSelectione.prix_paye = cetteBouteille.prix_saq
+        },
 
         /**
         * @author Hanane
@@ -94,6 +102,11 @@ export const useAppStore = defineStore("app", {
             }
         },
 
+        togglerBouteilleAgerer(bouteille_id){
+            this.laBouteilleAgerer = bouteille_id
+            console.log(this.laBouteilleAgerer);
+        },
+
         /**
          * @author Saddek
          * @returns void
@@ -101,7 +114,12 @@ export const useAppStore = defineStore("app", {
          */
         async togglerFormBouteille(bouteilleSelectione) {
             this.affchFormBouteille = !this.affchFormBouteille
-
+            if(!bouteilleSelectione){
+                bouteilleSelectione = {
+                    source: 'saq',
+                    cellier_id: localStorage.getItem('cellier_id'),
+                }
+            }
             bouteilleSelectione.quantite || (bouteilleSelectione.quantite = 1)
             bouteilleSelectione.garder_jusqu_a || (bouteilleSelectione.garder_jusqu_a = 2023)
             bouteilleSelectione.date_achat || (bouteilleSelectione.date_achat = new Date().toISOString().slice(0,10))
@@ -129,9 +147,8 @@ export const useAppStore = defineStore("app", {
         async ajouterBouteille(donnees) {
             try {
                 await axios.post('/api/contenir', donnees)
-
                 this.togglerFormBouteille()
-                this.getBouteillesCellier(donnees.cellier_id)
+                await this.getBouteillesCellier(this.leCellierSelectione)
 
             } catch (error) {
                 this.bouteilleErreurs = error.response.data.errors
@@ -168,8 +185,8 @@ export const useAppStore = defineStore("app", {
             try {
 
                 await axios.delete(`/api/contenir/${this.laBouteilleSelectione.id}`)
-                this.getBouteillesCellier(this.laBouteilleSelectione.cellier_id)
-                this.togglerFormSupprimerBouteille()
+                await this.getBouteillesCellier(this.leCellierSelectione)
+                await this.togglerFormSupprimerBouteille()
 
             } catch (error) {
                 this.bouteilleErreurs = error.response.data.errors
@@ -181,8 +198,8 @@ export const useAppStore = defineStore("app", {
          * @returns void
          * @description cacher et afficher le formulaire de cellier
          */
-        async togglerFormCellier(nouveauCellier) {
-            this.cellierNouveau = nouveauCellier
+        async togglerFormCellier(nouveau) {
+            this.cellierNouveau = nouveau
             this.afficherFormCellier = !this.afficherFormCellier
         },
 
@@ -191,38 +208,49 @@ export const useAppStore = defineStore("app", {
          * @returns void
          * @description retrouver la liste des celliers d'un usager connecté depuis le serveur
          */
-        async getCelliers() {
+        async getCelliers() { 
             try {
                 const donnees = await axios.get('/api/cellier')
                 this.mesCelliers = donnees.data
+                if(!localStorage.getItem('cellier_id')) {
+                    localStorage.setItem('cellier_id', this.mesCelliers[0].id)
+                }
+                this.leCellierSelectione = this.mesCelliers.filter(cel => cel.id == localStorage.getItem('cellier_id'))[0]
+
             } catch (error) {
                 this.cellierErreurs = error.response.data.errors
             }
         },
 
-        async gererCellier(donnees, supprimer) {
+        async gererCellier(donnees) {
             try {
-                // Si l'usager veut modifier un cellier
-                if (supprimer) {
-                    await axios.delete(`/api/cellier/${donnees.id}`)
+                // Si l'usager veut supprimer un cellier
+                if (!donnees) {
+                    await axios.delete(`/api/cellier/${localStorage.getItem('cellier_id')}`)
+                    localStorage.removeItem('cellier_id')
+                    await this.getCelliers()
+                    await this.getBouteillesCellier(this.leCellierSelectione)
+
                 }
-                // Si l'usager veut modifier un cellier
+                // Si l'usager veut ajouter un cellier
                 else if (this.cellierNouveau) {
-                    await axios.post(`/api/cellier/`, {
+                    const nouveauCellier = await axios.post(`/api/cellier/`, {
                         nom: donnees.nom
                     })
+                    localStorage.setItem('cellier_id', nouveauCellier.data.id)
+                    await this.getCelliers()
                     this.togglerFormCellier()
+                    await this.getBouteillesCellier(this.leCellierSelectione)
 
-                    // Si l'usager veut ajouter un cellier
+                    // Si l'usager veut modifier un cellier
                 } else {
                     await axios.put(`/api/cellier/${donnees.id}`, {
                         nom: donnees.nom
                     })
-                    this.togglerFormCellier()
+                    localStorage.setItem('cellier_id', donnees.id)
+                    await this.togglerFormCellier()
 
                 }
-
-                this.getCelliers()
 
             } catch (error) {
                 this.cellierErreurs = error.response.data.errors
@@ -234,12 +262,15 @@ export const useAppStore = defineStore("app", {
          * @returns void
          * @description retrouver la liste des celliers d'un usager connecté depuis le serveur
          */
-        async getBouteillesCellier(idCellier) {
+        async getBouteillesCellier(cellier) {
+
             this.mesBouteilleCellier = []
             try {
-
-                const donnees = await axios.get(`/api/cellier/${idCellier}`)
+                const cellier_id = cellier ? cellier.id : localStorage.getItem('cellier_id')
+                const donnees = await axios.get(`/api/cellier/${cellier_id}`)
                 this.mesBouteilleCellier = donnees.data
+                localStorage.setItem('cellier_id', cellier_id)
+                cellier && (this.leCellierSelectione = cellier)
 
             } catch (error) {
 
@@ -258,11 +289,9 @@ export const useAppStore = defineStore("app", {
          */
         async rechercherBouteilles(motCle) {
 
-            this.estALarecherche = motCle.length > 0
-
             this.mesResultatDeRechercheBouteille = []
             try {
-                const donnees = await axios.get(`/api/contenir/`, { params: { recherche: oui, mot_cle: motCle } })
+                const donnees = await axios.get(`/api/contenir/`, { params: { recherche: 'oui', mot_cle: motCle } })
                 this.mesResultatDeRechercheBouteille = donnees.data
             } catch (error) {
 
@@ -274,5 +303,5 @@ export const useAppStore = defineStore("app", {
         },
 
     },
-
+        
 })

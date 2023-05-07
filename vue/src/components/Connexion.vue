@@ -43,9 +43,10 @@ const form = ref({
                     <Button texteBouton="Se connecter" />
                 </form>
 
-                <p class="mt-10 text-center text-sm text-gray-500">
-                    Non inscrit?<router-link :to="{ name: 'CreerCompte' }"
-                        class="font-semibold leading-6 text-rose-800 hover:text-red-500"> Créez votre compte</router-link>
+                <p class="flex gap-4 align-baseline mt-10 text-center text-sm text-gray-500">
+                    Non inscrit?
+                    <router-link :to="{ name: 'CreerCompte' }" class="font-semibold text-rose-800 hover:text-red-500">Créez
+                        votre compte</router-link>
                 </p>
 
             </div>

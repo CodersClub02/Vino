@@ -5,34 +5,30 @@
  * @description Formulaire ajout d'un cellier'
  */
 
-import { useAppStore } from '../stores/app'
 import Button from "../components/Button.vue"
 import SecButton from "../components/SecButton.vue"
 import Input from "../components/Input.vue"
+import { ref } from 'vue';
 
+import { useAppStore } from '../stores/app'
 const appStore = useAppStore()
-defineProps({
-    form: {
-        type: Object,
-    }
-})
+
+let form = ref({nom:null, id:null})
+if(!appStore.cellierNouveau) form = appStore.cellierSelectione
 
 </script>
 
 <template>
-    <div class="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-        <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-            <form @submit.prevent="appStore.gererCellier(form)" class="space-y-6">
 
-                <Input v-bind:erreur="appStore.erreursCellier.nom" v-model="form.nom" label="Nom de cellier" name="nom" type="text" />
+    <form @submit.prevent="appStore.gererCellier(form)" class="flex flex-col gap-6 justify-center px-6 py-16 w-full max-w-sm mx-auto">
 
-                <div class="flex gap-4 justify-between">
-                    <Button texteBouton="Sauvegarder" />
-                    <SecButton texteBouton="Annuler" @click="$emit('cacherForm')" class="bg-gray-400 text-gray-900" />
-                </div>
+        <Input v-bind:erreur="appStore.erreursCellier.nom" v-model="form.nom" label="Nom de cellier" name="nom" type="text" />
 
-            </form>
-
+        <div class="flex gap-4 justify-between">
+            <Button texteBouton="Sauvegarder" />
+            <SecButton texteBouton="Annuler" @click="$emit('cacherForm')" class="bg-gray-400 text-gray-900" />
         </div>
-    </div>
+
+    </form>
+
 </template>
