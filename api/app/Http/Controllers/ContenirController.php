@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\Contenir;
 use App\Models\Bouteille;
 
-
 class ContenirController extends Controller
 {
         /**
@@ -20,21 +19,21 @@ class ContenirController extends Controller
             if($request->cellier_id) array_push($predicate, ['cellier_id', '=', $request->cellier_id]);
             if($request->mot_cle) array_push($predicate, ['nom', 'like', $request->mot_cle . '%']);
             
+            $query = Bouteille::where($predicate)
+            ->join('contenirs', 'bouteilles.id', '=', 'contenirs.bouteille_id')
+            ->with('pays:nom,id', 'type:nom,id');
             return response()->json(
-                Bouteille::where($predicate)
-                ->join('contenirs', 'bouteilles.id', '=', 'contenirs.bouteille_id')
-                ->with('pays:nom,id', 'type:nom,id')
-                ->get()
+                $query->get()
             );
 
         }else{
 
+            $query = Contenir::where([
+                ['cellier_id', '=', $request->id]
+            ]);
             return response()->json(
-                Contenir::where([
-                    ['cellier_id', '=', $request->id]
-                    ])
-                    ->get()
-                );
+                $query->get()
+             );
 
         }
     }

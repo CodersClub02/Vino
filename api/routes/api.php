@@ -16,7 +16,7 @@ use App\Http\Controllers\CellierController;
 */
 use App\Http\Controllers\ScraperController;
 
-Route::get('/scraper', [ScraperController::class, 'store'])->name('langue');
+Route::get('/scraper', [ScraperController::class, 'store']);
 
 
 Route::group(['middleware' => 'auth:sanctum'], function(){
