@@ -22,7 +22,7 @@ class Contenir extends Model
         'comentaire',
         'prix_paye',
         'quantite',
-        'mellisme',
+        'millesime',
     ];
 
 }

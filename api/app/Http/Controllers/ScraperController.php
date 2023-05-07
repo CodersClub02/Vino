@@ -88,8 +88,9 @@ class ScraperController extends Controller
 	}
 
 	private function recupereInfo($noeud) {
-		
-		$info['img'] = explode('?', $noeud->getElementsByTagName("img")->item(0)->getAttribute('src'))[0]; 
+
+		$info['img'] = explode('?', $noeud->getElementsByTagName("img")->item($noeud->getElementsByTagName("img")->length - 1)->getAttribute('src'))[0]; 
+
 		
         $a_titre = $noeud->getElementsByTagName("a")->item(0);
 		$info['url'] = $a_titre->getAttribute('href');

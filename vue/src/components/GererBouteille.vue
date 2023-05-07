@@ -35,14 +35,13 @@ const tableauNotes = [{ id: 1, nom: '1 étoile' }, { id: 2, nom: '2 étoiles' },
 
         <h2 class="sm:mx-auto sm:w-full sm:max-w-sm text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
             <template v-if="appStore.bouteilleSelectione.id">Modifier bouteille</template>
-            <template v-else>Ajouter bouteille à
-                {{ cellier.nomEnCours }}</template>
+            <template v-else>Ajouter bouteille à {{ appStore.cellierSelectione.nom }}</template>
         </h2>
 
 
         <form
             @submit.prevent="(appStore.bouteilleSelectione.id ? appStore.modifierBouteille(appStore.bouteilleSelectione) : appStore.ajouterBouteille(appStore.bouteilleSelectione))"
-            class="flex gap-8 flex-col mx-auto w-full ">
+            class="flex gap-16 flex-col mx-auto w-full ">
 
             <template v-if="!appStore.bouteilleSelectione.id">
                 <div>
@@ -52,12 +51,12 @@ const tableauNotes = [{ id: 1, nom: '1 étoile' }, { id: 2, nom: '2 étoiles' },
 
                     <div
                         class="mt-2 flex gap-6 w-full rounded-md border-0 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-rose-800 sm:text-sm sm:leading-6">
-                        <label class="flex gap-2 text-sm leading-6 text-gray-900 ">
+                        <label class="flex items-center gap-2 text-sm leading-6 text-gray-900 ">
                             <input type="radio" class="form-radio accent-rose-600" name="source" value="saq"
                                 v-model="appStore.bouteilleSelectione.source" checked>
                             la SAQ
                         </label>
-                        <label class="flex gap-2 text-sm leading-6 text-gray-900 ">
+                        <label class="flex items-center gap-2 text-sm leading-6 text-gray-900 ">
                             <input type="radio" class="form-radio accent-rose-600" name="source" value="autre"
                                 v-model="appStore.bouteilleSelectione.source">
                             Autre
@@ -68,7 +67,7 @@ const tableauNotes = [{ id: 1, nom: '1 étoile' }, { id: 2, nom: '2 étoiles' },
                 <Input list="suggestions" v-if="(appStore.bouteilleSelectione.source || 'saq') == 'saq'"
                     v-bind:erreur="appStore.erreursBouteille.nom" v-model="appStore.bouteilleSelectione.nom"
                     label="Code saq ou nom bouteille" type="text" autocomplete="off"
-                    @input="appStore.listeSuggestionsBouteilles($event.target.value), afficherSuggestionsBouteilles = true">
+                    @input="appStore.listeSuggestionsBouteilles($event.target.value), afficherSuggestionsBouteilles = true" @change="appStore.faireValeursBouteilleDefaut($event.target.value)">
                 <template v-slot:liste>
 
                     <datalist id="suggestions">
@@ -82,14 +81,16 @@ const tableauNotes = [{ id: 1, nom: '1 étoile' }, { id: 2, nom: '2 étoiles' },
                 </Input>
                 <template v-if="appStore.bouteilleSelectione.source == 'autre'">
 
-                    <Input v-bind:erreur="appStore.erreursBouteille.nom" v-model="appStore.bouteilleSelectione.nom"
+                <Input v-bind:erreur="appStore.erreursBouteille.nom" v-model="appStore.bouteilleSelectione.nom"
                         label="Nom de bouteille" name="nom" type="text" />
 
+
+                    <Input v-bind:erreur="appStore.erreursBouteille.millesime" v-model="appStore.bouteilleSelectione.millesime" label="Millésime" name="millesime" type="number" />
+                
                     <Input v-bind:erreur="appStore.erreursBouteille.format" v-model="appStore.bouteilleSelectione.format"
                         label="Format" name="format" type="text" />
 
-                    <Input v-bind:erreur="appStore.erreursBouteille.image" v-model="appStore.bouteilleSelectione.image"
-                        label="Image" name="image" type="file" accept="image/png, image/jpeg" />
+                    <!-- <Input v-bind:erreur="appStore.erreursBouteille.image" v-model="appStore.bouteilleSelectione.image" label="Image" name="image" type="file" accept="image/png, image/jpeg" /> -->
 
                     <Select v-model="appStore.bouteilleSelectione.type_id" :options="appStore.listeType"
                         v-bind:erreur="appStore.erreursBouteille.type_id" label="Type" />
@@ -116,9 +117,6 @@ const tableauNotes = [{ id: 1, nom: '1 étoile' }, { id: 2, nom: '2 étoiles' },
                 label="Quantité" name="quantite" type="number" min="1" />
 
 
-            <Input v-bind:erreur="appStore.erreursBouteille.mellisme" v-model="appStore.bouteilleSelectione.mellisme"
-                label="Méllisme" name="mellisme" type="number" />
-
             <Input v-bind:erreur="appStore.erreursBouteille.date_achat" v-model="appStore.bouteilleSelectione.date_achat"
                 label="Date d'achat" name="date_achat" type="date" />
 
@@ -127,11 +125,11 @@ const tableauNotes = [{ id: 1, nom: '1 étoile' }, { id: 2, nom: '2 étoiles' },
                 type="number"/>
 
             <Input v-bind:erreur="appStore.erreursBouteille.prix_paye" v-model="appStore.bouteilleSelectione.prix_paye"
-                label="Prix d'achat" name="prix_paye" type="number" />
+                label="Prix d'achat" name="prix_paye" type="number" step=".01" />
 
             <div class="flex gap-4 justify-between">
                 <Button texteBouton="Sauvegarder" />
-                <SecButton texteBouton="Annuler" @click="$emit('cacherFormBouteille')" class="bg-gray-400 text-gray-900" />
+                <SecButton texteBouton="Annuler" @click="$emit('cacherFormBouteille'), appStore.togglerBouteilleAgerer(-1)" class="bg-gray-400 text-gray-900" />
             </div>
 
         </form>
