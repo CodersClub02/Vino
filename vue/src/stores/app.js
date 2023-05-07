@@ -234,7 +234,7 @@ export const useAppStore = defineStore("app", {
                 }
                 // Si l'usager veut ajouter un cellier
                 else if (this.cellierNouveau) {
-                    const nouveauCellier = await axios.post(`/api/cellier/`, {
+                    const nouveauCellier = await axios.post(`/api/cellier`, {
                         nom: donnees.nom
                     })
                     localStorage.setItem('cellier_id', nouveauCellier.data.id)
@@ -291,7 +291,7 @@ export const useAppStore = defineStore("app", {
 
             this.mesResultatDeRechercheBouteille = []
             try {
-                const donnees = await axios.get(`/api/contenir/`, { params: { recherche: 'oui', mot_cle: motCle } })
+                const donnees = await axios.get(`/api/contenir`, { params: { recherche: 'oui', mot_cle: motCle } })
                 this.mesResultatDeRechercheBouteille = donnees.data
             } catch (error) {
 
