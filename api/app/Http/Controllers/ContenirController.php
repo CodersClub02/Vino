@@ -19,23 +19,24 @@ class ContenirController extends Controller
             if($request->cellier_id) array_push($predicate, ['cellier_id', '=', $request->cellier_id]);
             if($request->mot_cle) array_push($predicate, ['nom', 'like', $request->mot_cle . '%']);
             
-            $query = Bouteille::where($predicate)
+            $requete = Bouteille::where($predicate)
             ->join('contenirs', 'bouteilles.id', '=', 'contenirs.bouteille_id')
             ->with('pays:nom,id', 'type:nom,id');
-            return response()->json(
-                $query->get()
-            );
 
         }else{
 
-            $query = Contenir::where([
+            $requete = Contenir::where([
                 ['cellier_id', '=', $request->id]
             ]);
-            return response()->json(
-                $query->get()
-             );
 
         }
+
+        if($request->has('tri_par')){
+            $requete->orderBy($request->tri_par);
+        }
+        return response()->json(
+            $requete->get()
+        );
     }
 
     /**
@@ -116,7 +117,7 @@ class ContenirController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy( Contenir $contenir)
+    public function destroy(Contenir $contenir)
     {
         $contenir->delete();
         return response()->json(['status' => 'ok', 'message'=>'Bouteille est supprimée avec succès']);

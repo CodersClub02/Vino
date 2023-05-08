@@ -17,17 +17,18 @@ onMounted(async () => {
 
 const supprimerCellierForm = ref(false)
 const modeRecherche = ref(false)
+let recherche = ref(null)
 const cleTriage = ref([
     { id: 'type_id', nom: 'type' }, { id: 'pays_id', nom: 'pays' }, { id: 'millesime', nom: 'méllisme' }, { id: 'prix_paye', nom: 'prix payé' }, { id: 'date_achat', nom: 'date achat' }, { id: 'nom', nom: 'nom' }
 ])
 
 const trierMesBouteilles = (par) => {
-    if (modeRecherche) {
-        appStore.resultatRecherche = appStore.resultatRecherche.sort((a, b) => (a[par] > b[par]) ? 1 : ((b[par] > a[par]) ? -1 : 0))
+    if (modeRecherche.value == false) {
+        appStore.getBouteillesCellier(undefined, par)
+       
     } else {
-        appStore.mesBouteilleCellier = appStore.mesBouteilleCellier.sort((a, b) => (a[par] > b[par]) ? 1 : ((b[par] > a[par]) ? -1 : 0))
+        appStore.rechercherBouteilles(recherche, par)   
     }
-
 }
 </script>
 
@@ -164,7 +165,7 @@ const trierMesBouteilles = (par) => {
         <label @click="modeRecherche=!modeRecherche" class="bg-rose-900/25 h-10 w-10 rounded-full flex justify-center items-center">
              <img src="/icones/cacher-recherche.svg" class="h-6 block">
         </label>
-        <input @input="appStore.rechercherBouteilles($event.target.value)" placeholder="rechercher bouteille..." type="text" class="grow max-w-lg rounded-3xl border-0 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-rose-800 sm:text-sm sm:leading-6 m-auto">
+        <input @input="appStore.rechercherBouteilles($event.target.value), recherche=$event.target.value" placeholder="rechercher bouteille..." type="text" class="grow max-w-lg rounded-3xl border-0 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-rose-800 sm:text-sm sm:leading-6 m-auto">
     </nav>
     </template>
 </template>

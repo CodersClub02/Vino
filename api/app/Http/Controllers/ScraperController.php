@@ -32,7 +32,7 @@ class ScraperController extends Controller
     {
         //
     }
-    
+
      /**
      * Store a newly created resource in storage.
      */
@@ -89,9 +89,17 @@ class ScraperController extends Controller
 
 	private function recupereInfo($noeud) {
 
-		$info['img'] = explode('?', $noeud->getElementsByTagName("img")->item($noeud->getElementsByTagName("img")->length - 1)->getAttribute('src'))[0]; 
+        
+        $lesImages = $noeud->getElementsByTagName("img");
+        $img = null;
+        for ($i = 0; $i < $lesImages->length; $i++) {
+            $img = $lesImages->item($i);
+            if (str_contains($img->getAttribute('class'), 'product-image-photo')) {
+                    break;
+                }
+        }
+        $info['img'] = explode('?', $img->getAttribute('src') )[0]; 
 
-		
         $a_titre = $noeud->getElementsByTagName("a")->item(0);
 		$info['url'] = $a_titre->getAttribute('href');
 		
