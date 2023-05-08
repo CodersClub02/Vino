@@ -262,12 +262,12 @@ export const useAppStore = defineStore("app", {
          * @returns void
          * @description retrouver la liste des celliers d'un usager connecté depuis le serveur
          */
-        async getBouteillesCellier(cellier) {
+        async getBouteillesCellier(cellier, triPar) {
 
             this.mesBouteilleCellier = []
             try {
                 const cellier_id = cellier ? cellier.id : localStorage.getItem('cellier_id')
-                const donnees = await axios.get(`/api/cellier/${cellier_id}`)
+                const donnees = await axios.get(`/api/cellier/${cellier_id}`, { params: { tri_par: triPar } })
                 this.mesBouteilleCellier = donnees.data
                 localStorage.setItem('cellier_id', cellier_id)
                 cellier && (this.leCellierSelectione = cellier)
@@ -287,11 +287,11 @@ export const useAppStore = defineStore("app", {
          * @returns void
          * @description retrouver la liste des bouteille d'un usager connecté depuis le serveur
          */
-        async rechercherBouteilles(motCle) {
+        async rechercherBouteilles(motCle, triPar) {
 
             this.mesResultatDeRechercheBouteille = []
             try {
-                const donnees = await axios.get(`/api/contenir`, { params: { recherche: 'oui', mot_cle: motCle } })
+                const donnees = await axios.get(`/api/contenir`, { params: { recherche: 'oui', mot_cle: motCle, tri_par: triPar } })
                 this.mesResultatDeRechercheBouteille = donnees.data
             } catch (error) {
 
