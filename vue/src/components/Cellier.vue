@@ -35,18 +35,15 @@ const trierMesBouteilles = (par) => {
 <template>
 
     <!-- Aucun cellier -->
-    <div v-if="!appStore.afficherFormBouteille && appStore.celliers.length == 0" class="grid text-gray-600 p-5 gap-10">
 
-        <template v-if="!appStore.afficherForm">
-            <div class="flex flex-col gap-7 justify-center px-6 lg:px-8 sm:mx-auto sm:w-full sm:max-w-sm">
-                Vous n'avez aucun cellier. Créer un pour gérer vos bouteilles de vin.
-                <Button texte-bouton="Créer cellier" @click="appStore.togglerFormCellier('nouveau')" />
-            </div>
-            <img src="/aucune-bouteille.png">
-        </template>
-
+    <div v-if="!appStore.afficherForm && !appStore.afficherFormBouteille && appStore.celliers.length == 0" class="grid p-5 gap-10 content-center max-w-sm m-auto">
+        <div class="flex flex-col gap-7 justify-center text-gray-600">
+            Vous n'avez aucun cellier. Créer un pour gérer vos bouteilles de vin.
+            <Button texte-bouton="Créer cellier" @click="appStore.togglerFormCellier('nouveau')" />
+        </div>
+        <img src="/aucune-bouteille.png" class="mt-10">
     </div>
-    <GererCellier v-if="appStore.afficherForm" :form="form" @cacherForm="appStore.togglerFormCellier()" />
+    <GererCellier v-if="appStore.afficherForm"/>
 
     <!--  -->
     <header v-if="!modeRecherche && !appStore.afficherFormBouteille && appStore.celliers.length >= 1" class="flex items-center gap-4 bg-gray-100 p-5">

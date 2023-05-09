@@ -213,7 +213,7 @@ export const useAppStore = defineStore("app", {
                 const donnees = await axios.get('/api/cellier')
                 this.mesCelliers = donnees.data
                 if(!localStorage.getItem('cellier_id')) {
-                    localStorage.setItem('cellier_id', (this.mesCelliers ? this.mesCelliers[0].id : -1))
+                    localStorage.setItem('cellier_id', (this.mesCelliers[0] ? this.mesCelliers[0].id : -1))
                 }
                 this.leCellierSelectione = this.mesCelliers.filter(cel => cel.id == localStorage.getItem('cellier_id'))[0]
 
@@ -265,8 +265,10 @@ export const useAppStore = defineStore("app", {
         async getBouteillesCellier(cellier, triPar) {
 
             this.mesBouteilleCellier = []
+            const cellier_id = cellier ? cellier.id : localStorage.getItem('cellier_id')
+            if(cellier_id == -1) return
+            
             try {
-                const cellier_id = cellier ? cellier.id : localStorage.getItem('cellier_id')
                 const donnees = await axios.get(`/api/cellier/${cellier_id}`, { params: { tri_par: triPar } })
                 this.mesBouteilleCellier = donnees.data
                 localStorage.setItem('cellier_id', cellier_id)
