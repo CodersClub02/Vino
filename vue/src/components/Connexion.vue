@@ -18,10 +18,11 @@ const form = ref({
 </script>
 
 <template>
-    <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8 ">
         <div class="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
             <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-                <h2 class="text-rose-800 mt-10 text-center text-2xl font-bold leading-9 tracking-tight">Connecter à votre compte
+                <h2 class="text-rose-800 mt-10 text-center text-2xl font-bold leading-9 tracking-tight">Connecter à votre
+                    compte
                 </h2>
             </div>
 
@@ -44,7 +45,8 @@ const form = ref({
 
                 <p class="flex gap-4 align-baseline mt-10 text-center text-sm text-gray-500">
                     Non inscrit?
-                    <router-link :to="{ name: 'CreerCompte' }" class="font-semibold text-rose-800 hover:text-red-500">Créez votre compte</router-link>
+                    <router-link :to="{ name: 'CreerCompte' }" class="font-semibold text-rose-800 hover:text-red-500">Créez
+                        votre compte</router-link>
                 </p>
 
             </div>

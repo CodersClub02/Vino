@@ -19,6 +19,7 @@ export const useAppStore = defineStore("app", {
         afficherFormCellier: false,
         affchFormBouteille: false,
         affchFormSupprimerBouteille: false,
+        affchFormArchiverBouteille: false,
         bouteilleErreurs: [],
 
         laSuggestionsBouteilles: [],
@@ -44,6 +45,7 @@ export const useAppStore = defineStore("app", {
         afficherForm: (state) => state.afficherFormCellier,
         afficherFormBouteille: (state) => state.affchFormBouteille,
         afficherFormSupprimerBouteille: (state) => state.affchFormSupprimerBouteille,
+        afficherFormArchiverBouteille: (state) => state.affchFormArchiverBouteille,
         erreursBouteille: (state) => state.bouteilleErreurs,
         suggestionsBouteilles: (state) => state.laSuggestionsBouteilles,
         listeType: (state) => state.laListeType,
@@ -102,7 +104,7 @@ export const useAppStore = defineStore("app", {
             }
         },
 
-        togglerBouteilleAgerer(bouteille_id){
+        togglerBouteilleAgerer(bouteille_id) {
             this.laBouteilleAgerer = bouteille_id
         },
 
@@ -113,7 +115,7 @@ export const useAppStore = defineStore("app", {
          */
         async togglerFormBouteille(bouteilleSelectione) {
             this.affchFormBouteille = !this.affchFormBouteille
-            if(!bouteilleSelectione){
+            if (!bouteilleSelectione) {
                 bouteilleSelectione = {
                     source: 'saq',
                     cellier_id: localStorage.getItem('cellier_id'),
@@ -121,19 +123,29 @@ export const useAppStore = defineStore("app", {
             }
             bouteilleSelectione.quantite || (bouteilleSelectione.quantite = 1)
             bouteilleSelectione.garder_jusqu_a || (bouteilleSelectione.garder_jusqu_a = 2023)
-            bouteilleSelectione.date_achat || (bouteilleSelectione.date_achat = new Date().toISOString().slice(0,10))
-            
+            bouteilleSelectione.date_achat || (bouteilleSelectione.date_achat = new Date().toISOString().slice(0, 10))
+
             this.laBouteilleSelectione = bouteilleSelectione
         },
 
 
-         /**
-         * @author Hanane
-         * @returns void
-         * @description cacher et afficher le formulaire de suppression de bouteille
-         */
+        /**
+        * @author Hanane
+        * @returns void
+        * @description cacher et afficher le formulaire de suppression de bouteille
+        */
         async togglerFormSupprimerBouteille(bouteilleSelectione) {
             this.affchFormSupprimerBouteille = !this.affchFormSupprimerBouteille
+            this.laBouteilleSelectione = bouteilleSelectione
+        },
+
+        /**
+        * @author Hanane
+        * @returns void
+        * @description cacher et afficher le formulaire pour archiver une bouteille
+        */
+        async togglerFormArchiverBouteille(bouteilleSelectione) {
+            this.affchFormArchiverBouteille = !this.affchFormArchiverBouteille
             this.laBouteilleSelectione = bouteilleSelectione
         },
 
@@ -161,11 +173,12 @@ export const useAppStore = defineStore("app", {
 * @returns void
 * @description Modifier bouteille
 */
-        async modifierBouteille(donnees) {
+        async modifierBouteille(donnees, pasRafraichirCellier) {
 
             try {
 
                 await axios.put(`/api/contenir/${donnees.id}`, donnees)
+                if (!pasRafraichirCellier) await this.getBouteillesCellier(this.leCellierSelectione)
                 this.affchFormBouteille = false
                 this.togglerBouteilleAgerer(-1);
 
@@ -175,7 +188,7 @@ export const useAppStore = defineStore("app", {
 
         },
 
-         /**
+        /**
 * @author Hanane
 * @returns void
 * @description Supprimer bouteille
@@ -193,6 +206,26 @@ export const useAppStore = defineStore("app", {
             }
 
         },
+
+        /**
+* @author Hanane
+* @returns void
+* @description Archiver bouteille
+*/
+        async archiverBouteille() {
+            try {
+                this.laBouteilleSelectione.quantite = 0
+                await this.modifierBouteille(this.laBouteilleSelectione.id, false)
+                await this.getBouteillesCellier(this.leCellierSelectione)
+                await this.togglerFormArchiverBouteille()
+
+            } catch (error) {
+                this.bouteilleErreurs = error.response.data.errors
+            }
+
+        },
+
+
         /**
          * @author Saddek
          * @returns void
@@ -208,11 +241,11 @@ export const useAppStore = defineStore("app", {
          * @returns void
          * @description retrouver la liste des celliers d'un usager connecté depuis le serveur
          */
-        async getCelliers() { 
+        async getCelliers() {
             try {
                 const donnees = await axios.get('/api/cellier')
                 this.mesCelliers = donnees.data
-                if(!localStorage.getItem('cellier_id')) {
+                if (!localStorage.getItem('cellier_id')) {
                     localStorage.setItem('cellier_id', (this.mesCelliers[0] ? this.mesCelliers[0].id : -1))
                 }
                 this.leCellierSelectione = this.mesCelliers.filter(cel => cel.id == localStorage.getItem('cellier_id'))[0]
@@ -260,19 +293,41 @@ export const useAppStore = defineStore("app", {
         /**
          * @author Hanane
          * @returns void
-         * @description retrouver la liste des celliers d'un usager connecté depuis le serveur
+         * @description retrouver la liste des bouteilles de cellier d'un usager connecté depuis le serveur
          */
         async getBouteillesCellier(cellier, triPar) {
-
             this.mesBouteilleCellier = []
             const cellier_id = cellier ? cellier.id : localStorage.getItem('cellier_id')
-            if(cellier_id == -1) return
-            
+            if (cellier_id == -1) return
+
             try {
                 const donnees = await axios.get(`/api/cellier/${cellier_id}`, { params: { tri_par: triPar } })
                 this.mesBouteilleCellier = donnees.data
                 localStorage.setItem('cellier_id', cellier_id)
                 cellier && (this.leCellierSelectione = cellier)
+
+            } catch (error) {
+
+                if (error.response.status == 404) {
+                    this.mesBouteilleCellier = []
+                } else {
+                    this.mesBouteilleCellier = { 'erreur': 'un probléme' }
+                }
+
+            }
+        },
+
+        /**
+         * @author Hanane
+         * @returns void
+         * @description retrouver la liste des bouteilles archivées d'un usager connecté depuis le serveur
+         */
+        async getBouteillesArchive(triPar) {
+            this.mesBouteilleCellier = []
+
+            try {
+                const donnees = await axios.get(`/api/archive`, { params: { tri_par: triPar } })
+                this.mesBouteilleCellier = donnees.data
 
             } catch (error) {
 
@@ -305,5 +360,5 @@ export const useAppStore = defineStore("app", {
         },
 
     },
-        
+
 })

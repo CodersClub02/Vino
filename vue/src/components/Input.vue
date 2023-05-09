@@ -38,7 +38,8 @@ watch(erreur, (currentState, prevState) => {
                 @input="$emit('update:modelValue', $event.target.value), afficherErreur = false"
                 class="block w-full rounded-md border-0 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-rose-800 sm:text-sm sm:leading-6" />
         </div>
-        <span v-if="erreur && afficherErreur" class="text-red-400 min-h-2 text-sm py-2 block">{{ erreur[0] }}</span>
+        <span v-if="erreur && afficherErreur"
+            class="text-red-400 font-semibold min-h-2 text-sm py-2 block">{{ erreur[0] }}</span>
         <slot name="liste"></slot>
     </div>
 </template>
