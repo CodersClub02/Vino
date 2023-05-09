@@ -138,10 +138,10 @@ const trierMesBouteilles = (par) => {
         </template>
         <template v-else-if="appStore.celliers.length >= 1">
             <template v-if="!appStore.mesBouteilleCellier.length">
-                <span class=" text-2xl text-black  inset-0  flex flex-col justify-center items-center
-                ">Aucune bouteille dans <em class="text-3xl font-semibold"> {{ appStore.cellierSelectione?.nom }}
+                <span class=" text-xl text-black  inset-0  flex flex-col justify-center items-center
+                ">Aucune bouteille dans <em class="text-xl font-semibold"> {{ appStore.cellierSelectione?.nom }}
                     </em></span>
-                <img src="/aucune-bouteille.png" class="w-full">
+                <img src="/aucune-bouteille.png" class="max-w-lg w-full m-auto">
             </template>
 
 
