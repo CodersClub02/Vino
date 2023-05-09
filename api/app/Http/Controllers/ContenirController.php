@@ -13,9 +13,10 @@ class ContenirController extends Controller
      */
     public function index(Request $request)
     {
+        $predicate = [['quantite', '>', 0]];
+
         if($request->has('recherche')){
 
-            $predicate = [];
             if($request->cellier_id) array_push($predicate, ['cellier_id', '=', $request->cellier_id]);
             if($request->mot_cle) array_push($predicate, ['nom', 'like', $request->mot_cle . '%']);
             
@@ -24,10 +25,9 @@ class ContenirController extends Controller
             ->with('pays:nom,id', 'type:nom,id');
 
         }else{
-
-            $requete = Contenir::where([
-                ['cellier_id', '=', $request->id]
-            ]);
+            array_push($predicate, ['cellier_id', '=', $request->id]);
+            dd($predicate);
+            $requete = Contenir::where($predicate);
 
         }
 

@@ -19,6 +19,7 @@ export const useAppStore = defineStore("app", {
         afficherFormCellier: false,
         affchFormBouteille: false,
         affchFormSupprimerBouteille: false,
+        affchFormArchiverBouteille: false,
         bouteilleErreurs: [],
 
         laSuggestionsBouteilles: [],
@@ -44,6 +45,7 @@ export const useAppStore = defineStore("app", {
         afficherForm: (state) => state.afficherFormCellier,
         afficherFormBouteille: (state) => state.affchFormBouteille,
         afficherFormSupprimerBouteille: (state) => state.affchFormSupprimerBouteille,
+        afficherFormArchiverBouteille: (state) => state.affchFormArchiverBouteille,
         erreursBouteille: (state) => state.bouteilleErreurs,
         suggestionsBouteilles: (state) => state.laSuggestionsBouteilles,
         listeType: (state) => state.laListeType,
@@ -137,6 +139,16 @@ export const useAppStore = defineStore("app", {
             this.laBouteilleSelectione = bouteilleSelectione
         },
 
+        /**
+        * @author Hanane
+        * @returns void
+        * @description cacher et afficher le formulaire pour archiver une bouteille
+        */
+        async togglerFormArchiverBouteille(bouteilleSelectione) {
+            this.affchFormArchiverBouteille = !this.affchFormArchiverBouteille
+            this.laBouteilleSelectione = bouteilleSelectione
+        },
+
 
         /**
  * @author Hanane
@@ -161,12 +173,12 @@ export const useAppStore = defineStore("app", {
 * @returns void
 * @description Modifier bouteille
 */
-        async modifierBouteille(donnees) {
+        async modifierBouteille(donnees, pasRafraichirCellier) {
 
             try {
 
                 await axios.put(`/api/contenir/${donnees.id}`, donnees)
-                await this.getBouteillesCellier(this.leCellierSelectione)
+                if (!pasRafraichirCellier) await this.getBouteillesCellier(this.leCellierSelectione)
                 this.affchFormBouteille = false
                 this.togglerBouteilleAgerer(-1);
 
@@ -194,6 +206,26 @@ export const useAppStore = defineStore("app", {
             }
 
         },
+
+        /**
+* @author Hanane
+* @returns void
+* @description Archiver bouteille
+*/
+        async archiverBouteille() {
+            try {
+                this.laBouteilleSelectione.quantite = 0
+                await this.modifierBouteille(this.laBouteilleSelectione.id, false)
+                await this.getBouteillesCellier(this.leCellierSelectione)
+                await this.togglerFormArchiverBouteille()
+
+            } catch (error) {
+                this.bouteilleErreurs = error.response.data.errors
+            }
+
+        },
+
+
         /**
          * @author Saddek
          * @returns void

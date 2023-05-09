@@ -25,7 +25,7 @@ class CellierController extends Controller
      */
     public function show(Request $request, Cellier $cellier)
     {
-        $requete = Bouteille::where('cellier_id', '=', $cellier->id)
+        $requete = Bouteille::where([['quantite', '>', 0], ['cellier_id', '=', $cellier->id]])
             ->join('contenirs', 'bouteilles.id', '=', 'contenirs.bouteille_id')
             ->with('pays:nom,id', 'type:nom,id');
             if($request->has('tri_par')){
