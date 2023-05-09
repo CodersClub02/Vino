@@ -19,7 +19,7 @@ class Contenir extends Model
         'date_achat',
         'garder_jusqu_a',
         'notes',
-        'comentaire',
+        'commentaire',
         'prix_paye',
         'quantite',
         'millesime',

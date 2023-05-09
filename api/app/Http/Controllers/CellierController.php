@@ -23,14 +23,19 @@ class CellierController extends Controller
     /**
      * Afficher la liste des celliers.
      */
-    public function show(Cellier $cellier)
+    public function show(Request $request, Cellier $cellier)
     {
-        return response()->json(
-            Bouteille::where('cellier_id', '=', $cellier->id)
+        $requete = Bouteille::where('cellier_id', '=', $cellier->id)
             ->join('contenirs', 'bouteilles.id', '=', 'contenirs.bouteille_id')
-            ->with('pays:nom,id', 'type:nom,id')
-            ->get()
+            ->with('pays:nom,id', 'type:nom,id');
+            if($request->has('tri_par')){
+                $requete->orderBy($request->tri_par);
+            }
+
+        return response()->json(
+            $requete->get()
         );
+        
     }
     /**
      * Sauvegarder le cellier ajouté.

@@ -19,24 +19,24 @@ watch(props.bouteille, (currentState, prevState) => {
 <template>
     <article class="relative isolate flex flex-col gap-5 p-3 shadow-md bg-white max-w-xs mx-auto w-full">
 
-        <span class="absolute z-10 left-3 top-2 w-12 h-4" @click="appStore.togglerBouteilleAgerer(bouteille.id)">
+        <span class="absolute z-10 left-3 top-2 w-12 h-4 cursor-pointer" @click="appStore.togglerBouteilleAgerer(bouteille.id)">
             <img src="/icones/plus.svg">
         </span>
         <div class="absolute inset-0 z-10 bg-white flex gap-2 flex-col justify-center items-center" :class="appStore.bouteilleAgerer == bouteille.id ? '' : 'opacity-0 pointer-events-none'">
 
-            <img src="/icones/fermer.svg" @click="appStore.togglerBouteilleAgerer(-1)" class="absolute top-2 right-2 aspect-square h-4" />
+            <img src="/icones/fermer.svg" @click="appStore.togglerBouteilleAgerer(-1)" class="absolute top-2 right-2 aspect-square h-4 cursor-pointer" />
 
-            <label @click="appStore.togglerFormSupprimerBouteille(bouteille)" class="flex gap-4 items-center w-36">
+            <label @click="appStore.togglerFormSupprimerBouteille(bouteille)" class="flex gap-4 items-center w-36 cursor-pointer">
                 <img src="/icones/supprimer-bouteille.svg" class="h-5" />
                 supprimer
             </label>
             
-            <label @click="appStore.togglerFormBouteille(bouteille)" class="flex gap-4 items-center w-36">
+            <label @click="appStore.togglerFormBouteille(bouteille)" class="flex gap-4 items-center w-36 cursor-pointer">
                 <img src="/icones/modifier-bouteille.svg" class="h-5" />
                 modifier
             </label>
 
-            <a :href="bouteille.url_saq" class="flex gap-4 items-center w-36">
+            <a :href="bouteille.url_saq" class="flex gap-4 items-center w-36 cursor-pointer">
                 <img src="/icones/saq.svg" class="h-5" />
                 voir sur saq
             </a>

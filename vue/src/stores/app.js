@@ -104,7 +104,6 @@ export const useAppStore = defineStore("app", {
 
         togglerBouteilleAgerer(bouteille_id){
             this.laBouteilleAgerer = bouteille_id
-            console.log(this.laBouteilleAgerer);
         },
 
         /**
@@ -168,6 +167,7 @@ export const useAppStore = defineStore("app", {
 
                 await axios.put(`/api/contenir/${donnees.id}`, donnees)
                 this.affchFormBouteille = false
+                this.togglerBouteilleAgerer(-1);
 
             } catch (error) {
                 this.bouteilleErreurs = error.response.data.errors
@@ -213,7 +213,7 @@ export const useAppStore = defineStore("app", {
                 const donnees = await axios.get('/api/cellier')
                 this.mesCelliers = donnees.data
                 if(!localStorage.getItem('cellier_id')) {
-                    localStorage.setItem('cellier_id', this.mesCelliers[0].id)
+                    localStorage.setItem('cellier_id', (this.mesCelliers[0] ? this.mesCelliers[0].id : -1))
                 }
                 this.leCellierSelectione = this.mesCelliers.filter(cel => cel.id == localStorage.getItem('cellier_id'))[0]
 
@@ -234,7 +234,7 @@ export const useAppStore = defineStore("app", {
                 }
                 // Si l'usager veut ajouter un cellier
                 else if (this.cellierNouveau) {
-                    const nouveauCellier = await axios.post(`/api/cellier/`, {
+                    const nouveauCellier = await axios.post(`/api/cellier`, {
                         nom: donnees.nom
                     })
                     localStorage.setItem('cellier_id', nouveauCellier.data.id)
@@ -262,12 +262,14 @@ export const useAppStore = defineStore("app", {
          * @returns void
          * @description retrouver la liste des celliers d'un usager connecté depuis le serveur
          */
-        async getBouteillesCellier(cellier) {
+        async getBouteillesCellier(cellier, triPar) {
 
             this.mesBouteilleCellier = []
+            const cellier_id = cellier ? cellier.id : localStorage.getItem('cellier_id')
+            if(cellier_id == -1) return
+            
             try {
-                const cellier_id = cellier ? cellier.id : localStorage.getItem('cellier_id')
-                const donnees = await axios.get(`/api/cellier/${cellier_id}`)
+                const donnees = await axios.get(`/api/cellier/${cellier_id}`, { params: { tri_par: triPar } })
                 this.mesBouteilleCellier = donnees.data
                 localStorage.setItem('cellier_id', cellier_id)
                 cellier && (this.leCellierSelectione = cellier)
@@ -287,11 +289,11 @@ export const useAppStore = defineStore("app", {
          * @returns void
          * @description retrouver la liste des bouteille d'un usager connecté depuis le serveur
          */
-        async rechercherBouteilles(motCle) {
+        async rechercherBouteilles(motCle, triPar) {
 
             this.mesResultatDeRechercheBouteille = []
             try {
-                const donnees = await axios.get(`/api/contenir/`, { params: { recherche: 'oui', mot_cle: motCle } })
+                const donnees = await axios.get(`/api/contenir`, { params: { recherche: 'oui', mot_cle: motCle, tri_par: triPar } })
                 this.mesResultatDeRechercheBouteille = donnees.data
             } catch (error) {
 

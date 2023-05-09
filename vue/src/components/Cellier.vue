@@ -17,42 +17,41 @@ onMounted(async () => {
 
 const supprimerCellierForm = ref(false)
 const modeRecherche = ref(false)
+let recherche = ref(null)
 const cleTriage = ref([
     { id: 'type_id', nom: 'type' }, { id: 'pays_id', nom: 'pays' }, { id: 'millesime', nom: 'méllisme' }, { id: 'prix_paye', nom: 'prix payé' }, { id: 'date_achat', nom: 'date achat' }, { id: 'nom', nom: 'nom' }
 ])
 
 const trierMesBouteilles = (par) => {
-    if (modeRecherche) {
-        appStore.resultatRecherche = appStore.resultatRecherche.sort((a, b) => (a[par] > b[par]) ? 1 : ((b[par] > a[par]) ? -1 : 0))
-    } else {
-        appStore.mesBouteilleCellier = appStore.mesBouteilleCellier.sort((a, b) => (a[par] > b[par]) ? 1 : ((b[par] > a[par]) ? -1 : 0))
-    }
+    if (modeRecherche.value == false) {
+        appStore.getBouteillesCellier(undefined, par)
 
+    } else {
+        appStore.rechercherBouteilles(recherche, par)
+    }
 }
 </script>
 
 <template>
     <!-- Aucun cellier -->
-    <div v-if="!appStore.afficherFormBouteille && appStore.celliers.length == 0" class="grid text-gray-600 p-5 gap-10">
 
-        <template v-if="!appStore.afficherForm">
-            <div class="flex flex-col gap-7 justify-center px-6 lg:px-8 sm:mx-auto sm:w-full sm:max-w-sm">
-                Vous n'avez aucun cellier. Créer un pour gérer vos bouteilles de vin.
-                <Button texte-bouton="Créer cellier" @click="appStore.togglerFormCellier('nouveau')" />
-            </div>
-            <img src="/aucune-bouteille.png">
-        </template>
-
+    <div v-if="!appStore.afficherForm && !appStore.afficherFormBouteille && appStore.celliers.length == 0"
+        class="grid p-5 gap-10 content-center max-w-sm m-auto">
+        <div class="flex flex-col gap-7 justify-center text-gray-600">
+            Vous n'avez aucun cellier. Créer un pour gérer vos bouteilles de vin.
+            <Button texte-bouton="Créer cellier" @click="appStore.togglerFormCellier('nouveau')" />
+        </div>
+        <img src="/aucune-bouteille.png" class="mt-10">
     </div>
-    <GererCellier v-if="appStore.afficherForm" :form="form" @cacherForm="appStore.togglerFormCellier()" />
+    <GererCellier v-if="appStore.afficherForm" />
 
     <!--  -->
     <header v-if="!modeRecherche && !appStore.afficherFormBouteille && appStore.celliers.length >= 1"
         class="flex items-center gap-4 bg-gray-100 p-5">
         <div class="grow flex gap-5 overflow-x-auto text-gray-600 snap-x p-3">
             <span v-for="(cellier) in appStore.celliers"
-                class="cursor-pointer flex-none bg-white rounded w-300 shadow-md p-2 snap-center text-xl"
-                :class="{ 'bg-rose-400/10': appStore.cellierSelectione?.id === cellier.id }"
+                class="cursor-pointer flex-none rounded w-300 shadow-md p-2 snap-center text-xl"
+                :class="appStore.cellierSelectione?.id === cellier.id ? 'bg-rose-400/10' : 'bg-white'"
                 @click="appStore.getBouteillesCellier(cellier)">
                 {{ cellier.nom }}
                 <!-- <span class="block text-sm text-gray-500">{{ cellier.contenirs_count }}</span> -->
@@ -163,16 +162,9 @@ const trierMesBouteilles = (par) => {
             class="fixed bottom-2 left-2 bg-rose-900/25 h-10 w-10 rounded-full flex justify-center items-center">
             <img src="/icones/rechercher.svg" class=" h-6 block">
         </label>
-        <nav v-if="modeRecherche && !appStore.afficherFormBouteille && appStore.cellierSelectione?.nom"
-            class="flex gap-3 items-center fixed bottom-0 bg-rose-900/75 py-2 px-3 w-full">
-
-            <label @click="modeRecherche = !modeRecherche"
-                class="bg-rose-900/25 h-10 w-10 rounded-full flex justify-center items-center">
-                <img src="/icones/cacher-recherche.svg" class="h-6 block">
-            </label>
-            <input @input="appStore.rechercherBouteilles($event.target.value)" placeholder="rechercher bouteille..."
-                type="text"
-                class="grow max-w-lg rounded-3xl border-0 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-rose-800 sm:text-sm sm:leading-6 m-auto">
+        <input @input="appStore.rechercherBouteilles($event.target.value), recherche = $event.target.value"
+            placeholder="rechercher bouteille..." type="text"
+            class="grow max-w-lg rounded-3xl border-0 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-rose-800 sm:text-sm sm:leading-6 m-auto">
         </nav>
     </template>
 </template>
