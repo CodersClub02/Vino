@@ -162,9 +162,16 @@ const trierMesBouteilles = (par) => {
             class="fixed bottom-2 left-2 bg-rose-900/25 h-10 w-10 rounded-full flex justify-center items-center">
             <img src="/icones/rechercher.svg" class=" h-6 block">
         </label>
-        <input @input="appStore.rechercherBouteilles($event.target.value), recherche = $event.target.value"
-            placeholder="rechercher bouteille..." type="text"
-            class="grow max-w-lg rounded-3xl border-0 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-rose-800 sm:text-sm sm:leading-6 m-auto">
+        <nav v-if="modeRecherche && !appStore.afficherFormBouteille && appStore.cellierSelectione?.nom"
+            class="flex gap-3 items-center fixed bottom-0 bg-rose-900/75 py-2 px-3 w-full">
+
+            <label @click="modeRecherche = !modeRecherche"
+                class="bg-rose-900/25 h-10 w-10 rounded-full flex justify-center items-center">
+                <img src="/icones/cacher-recherche.svg" class="h-6 block">
+            </label>
+            <input @input="appStore.rechercherBouteilles($event.target.value), recherche = $event.target.value"
+                placeholder="rechercher bouteille..." type="text"
+                class="grow max-w-lg rounded-3xl border-0 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-rose-800 sm:text-sm sm:leading-6 m-auto">
         </nav>
     </template>
 </template>
