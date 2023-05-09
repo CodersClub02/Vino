@@ -21,7 +21,7 @@ class CellierController extends Controller
     }
 
     /**
-     * Afficher la liste des celliers.
+     * Afficher la liste des bouteilles de cellier.
      */
     public function show(Request $request, Cellier $cellier)
     {
@@ -37,6 +37,25 @@ class CellierController extends Controller
         );
         
     }
+
+     /**
+     * Afficher la liste des bouteilles archivées.
+     */
+    public function archive(Request $request)
+    {
+        $requete = Bouteille::where([['quantite', '=', 0]])
+            ->join('contenirs', 'bouteilles.id', '=', 'contenirs.bouteille_id')
+            ->with('pays:nom,id', 'type:nom,id');
+            if($request->has('tri_par')){
+                $requete->orderBy($request->tri_par);
+            }
+
+        return response()->json(
+            $requete->get()
+        );
+        
+    } 
+
     /**
      * Sauvegarder le cellier ajouté.
      */

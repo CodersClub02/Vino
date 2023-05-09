@@ -293,10 +293,9 @@ export const useAppStore = defineStore("app", {
         /**
          * @author Hanane
          * @returns void
-         * @description retrouver la liste des celliers d'un usager connecté depuis le serveur
+         * @description retrouver la liste des bouteilles de cellier d'un usager connecté depuis le serveur
          */
         async getBouteillesCellier(cellier, triPar) {
-
             this.mesBouteilleCellier = []
             const cellier_id = cellier ? cellier.id : localStorage.getItem('cellier_id')
             if (cellier_id == -1) return
@@ -306,6 +305,29 @@ export const useAppStore = defineStore("app", {
                 this.mesBouteilleCellier = donnees.data
                 localStorage.setItem('cellier_id', cellier_id)
                 cellier && (this.leCellierSelectione = cellier)
+
+            } catch (error) {
+
+                if (error.response.status == 404) {
+                    this.mesBouteilleCellier = []
+                } else {
+                    this.mesBouteilleCellier = { 'erreur': 'un probléme' }
+                }
+
+            }
+        },
+
+        /**
+         * @author Hanane
+         * @returns void
+         * @description retrouver la liste des bouteilles archivées d'un usager connecté depuis le serveur
+         */
+        async getBouteillesArchive(triPar) {
+            this.mesBouteilleCellier = []
+
+            try {
+                const donnees = await axios.get(`/api/archive`, { params: { tri_par: triPar } })
+                this.mesBouteilleCellier = donnees.data
 
             } catch (error) {
 

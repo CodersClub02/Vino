@@ -30,6 +30,7 @@ const trierMesBouteilles = (par) => {
         appStore.rechercherBouteilles(recherche, par)
     }
 }
+
 </script>
 
 <template>
@@ -162,11 +163,14 @@ const trierMesBouteilles = (par) => {
 
 
             <div v-else class="grid gap-6 lg:gap-10 lg:grid-cols-4 md:gap-10 md:grid-cols-2">
-                <select @input="trierMesBouteilles($event.target.value)"
-                    class="w-16 flex justify-center items-center text-gray-700 rounded cursor-pointer p-1">
-                    <option value="" selected>trier</option>
-                    <option v-for="(tri) in cleTriage" :value="tri.id">{{ tri.nom }}</option>
-                </select>
+                <div class="flex justify-end">
+                    <select @input="trierMesBouteilles($event.target.value)"
+                        class="w-16 flex justify-center items-center text-gray-700 rounded cursor-pointer p-1">
+                        <option value="" selected>trier</option>
+                        <option v-for="(tri) in cleTriage" :value="tri.id">{{ tri.nom }}</option>
+                    </select>
+                    <label @click="appStore.getBouteillesArchive()">Archive</label>
+                </div>
                 <Bouteille v-for="(bouteille) in appStore.mesBouteilleCellier" :bouteille="bouteille" />
             </div>
         </template>
