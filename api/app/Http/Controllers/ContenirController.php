@@ -48,10 +48,10 @@ class ContenirController extends Controller
             'nom' => 'required|string|max:200',
             'cellier_id' => 'required|exists:celliers,id',
             'date_achat' => 'required|date',
-            'garder_jusqu_a' => 'required|integer|min:2023',//date(Y)
-            'prix_paye' => 'required|numeric|min:0',
-            'quantite' => 'required|integer|min:0',
-            'millesime' => 'nullable:integer|min:1900|max:2023',
+            'garder_jusqu_a' => 'required|integer|gte:2023',//date(Y)
+            'prix_paye' => 'required|numeric|gte:0',
+            'quantite' => 'required|integer|gte:0',
+            'millesime' => 'nullable:integer|gte:1900|lte:2023',
             'format' => 'required_if:source,autre|string|max:20',
             'type_id' => 'required_if:source,autre|exists:types,id',
             'pays_id' => 'required_if:source,autre|exists:pays,id',
@@ -89,12 +89,12 @@ class ContenirController extends Controller
          $request->validate([
             'cellier_id' => 'required|exists:celliers,id,user_id,' . auth()->user()->id,
             'date_achat' => 'required|date',
-            'garder_jusqu_a' => 'required|integer|min:2023',//date(Y)',
+            'garder_jusqu_a' => 'required|integer|gte:2023',//date(Y)',
             'notes' => 'nullable|integer|between:1,5',
             'commentaire' => 'nullable|string',
-            'prix_paye' => 'numeric|min:0',
-            'quantite' => 'integer|min:0',
-            'millesime' => 'nullable|integer|min:1900|max:2023'
+            'prix_paye' => 'numeric|gte:0',
+            'quantite' => 'integer|gte:0',
+            'millesime' => 'nullable:integer|gte:1900|lte:2023',
         ]);
 
         $contenir->update([            
