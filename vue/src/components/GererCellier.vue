@@ -26,7 +26,7 @@ if(!appStore.cellierNouveau) form = appStore.cellierSelectione
 
         <div class="flex gap-4 justify-between">
             <Button texteBouton="Sauvegarder" />
-            <SecButton texteBouton="Annuler" @click="$emit('cacherForm')" class="bg-gray-400 text-gray-900" />
+            <SecButton texteBouton="Annuler" @click="appStore.togglerFormCellier()"/>
         </div>
 
     </form>
