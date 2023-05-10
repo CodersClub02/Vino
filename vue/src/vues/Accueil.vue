@@ -7,13 +7,15 @@ const authStore = useAuthStore()
 
 import Cellier from "../components/Cellier.vue";
 import Connexion from "../components/Connexion.vue";
+import AdminArea from "../components/AdminArea.vue";
 
 </script>
 
 <template>
 
 <main class="pb-32">
-    <Cellier v-if="authStore.user" />
+    <AdminArea v-if="authStore.user.est_admin" />
+    <Cellier v-else-if="authStore.user" />
     <Connexion v-else />
 </main>
 

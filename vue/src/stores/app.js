@@ -73,8 +73,9 @@ export const useAppStore = defineStore("app", {
 
         faireValeursBouteilleDefaut(nomBouteille) {
             const cetteBouteille = this.laSuggestionsBouteilles.filter(bout => bout.nom == nomBouteille)[0]
-            console.log(cetteBouteille);
-            this.laBouteilleSelectione.prix_paye = cetteBouteille.prix_saq
+            if(cetteBouteille){
+                this.laBouteilleSelectione.prix_paye = cetteBouteille.prix_saq
+            }
         },
 
         /**
@@ -339,6 +340,55 @@ export const useAppStore = defineStore("app", {
 
             }
         },
+
+                /**
+         * @author Hanane
+         * @returns void
+         * @description retrouver la liste des bouteilles archivées d'un usager connecté depuis le serveur
+         */
+        async getBouteillesArchive(triPar) {
+            this.mesBouteilleCellier = []
+
+            try {
+                const donnees = await axios.get(`/api/archive`, { params: { tri_par: triPar } })
+                this.mesBouteilleCellier = donnees.data
+
+            } catch (error) {
+
+                if (error.response.status == 404) {
+                    this.mesBouteilleCellier = []
+                } else {
+                    this.mesBouteilleCellier = { 'erreur': 'un probléme' }
+                }
+
+            }
+        },
+
+
+/**
+ * @author Saddek
+ * @returns void
+ * @description retrouver la liste des bouteilles par filtre
+ */
+async getBouteillesFiltre(donnes) {
+
+    this.mesBouteilleCellier = []
+
+    try {
+        const donnees = await axios.get(`/api/filtre`, { params: donnes })
+        this.mesBouteilleCellier = donnees.data
+
+    } catch (error) {
+
+        if (error.response.status == 404) {
+            this.mesBouteilleCellier = []
+        } else {
+            this.mesBouteilleCellier = { 'erreur': 'un probléme' }
+        }
+
+    }
+},
+
         /**
          * @author Saddek
          * @returns void
