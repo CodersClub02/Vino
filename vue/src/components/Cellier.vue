@@ -6,6 +6,7 @@ import SecButton from './SecButton.vue';
 import GererCellier from '../components/GererCellier.vue';
 import GererBouteille from '../components/GererBouteille.vue';
 import Bouteille from '../components/Bouteille.vue';
+import Filtre from '../components/Filtre.vue';
 import { useAppStore } from '../stores/app'
 
 
@@ -17,7 +18,7 @@ onMounted(async () => {
 
 const supprimerCellierForm = ref(false)
 const modeRecherche = ref(false)
-let recherche = ref(null)
+let motCle = ref(null)
 const cleTriage = ref([
     { id: 'type_id', nom: 'type' }, { id: 'pays_id', nom: 'pays' }, { id: 'millesime', nom: 'méllisme' }, { id: 'prix_paye', nom: 'prix payé' }, { id: 'date_achat', nom: 'date achat' }, { id: 'nom', nom: 'nom' }
 ])
@@ -31,6 +32,8 @@ const trierMesBouteilles = (par) => {
     }
 }
 
+const modeFiltre = ref(false)
+const afficherFiltre = ref(false)
 </script>
 
 <template>
@@ -153,6 +156,33 @@ const trierMesBouteilles = (par) => {
             </div>
 
         </template>
+
+        <template v-if="appStore.afficherFormBouteille">
+            <GererBouteille :erreur="authStore?.erreursBouteille" :cellier="appStore.cellierSelectione"
+                @cacherFormBouteille="appStore.togglerFormBouteille()" />
+        </template>
+
+        <template v-else-if="modeFiltre">
+            <div class="flex gap-2 items-center">
+                Résultat de recherche: 
+                <select @input="trierMesBouteilles($event.target.value)"
+                    class="w-16 flex justify-center items-center text-gray-700 rounded cursor-pointer p-1">
+                    <option value="" selected>trier</option>
+                    <option v-for="(tri) in cleTriage" :value="tri.id">{{ tri.nom }}</option>
+                </select>
+                <label @click="modeFiltre = false, afficherFiltre = false" class="cursor-pointer text-red-900">cacher filtrer</label>
+            </div>
+            <div v-if="!appStore.mesBouteilleCellier.length">
+                <span class="">Aucune bouteille trouvée</span>
+                <label @click="modeFiltre = false, afficherFiltre = false" class="cursor-pointer text-red-900">cacher filtrer</label>
+            </div>
+
+            <div v-else class="grid gap-6 lg:gap-10 lg:grid-cols-4 md:gap-10 md:grid-cols-2">
+                <Bouteille v-for="(bouteille) in appStore.mesBouteilleCellier" :bouteille="bouteille" />
+            </div>
+
+        </template>
+
         <template v-else-if="appStore.celliers.length >= 1">
             <template v-if="!appStore.mesBouteilleCellier.length">
                 <span class=" text-xl text-black  inset-0  flex flex-col justify-center items-center
@@ -162,18 +192,23 @@ const trierMesBouteilles = (par) => {
             </template>
 
 
-            <div v-else class="grid gap-6 lg:gap-10 lg:grid-cols-4 md:gap-10 md:grid-cols-2">
-                <div class="flex justify-end">
-                    <select @input="trierMesBouteilles($event.target.value)"
+            <template v-else >
+                <div class="flex justify-end gap-10">
+                        <select @input="trierMesBouteilles($event.target.value)"
                         class="w-16 flex justify-center items-center text-gray-700 rounded cursor-pointer p-1">
                         <option value="" selected>trier</option>
                         <option v-for="(tri) in cleTriage" :value="tri.id">{{ tri.nom }}</option>
                     </select>
-                    <label @click="appStore.getBouteillesArchive()">Archive</label>
+                    <label @click="modeFiltre = true, afficherFiltre = true" class="cursor-pointer text-red-900">filtrer</label>
+                    <label @click="appStore.getBouteillesArchive()" class="cursor-pointer text-red-900">archive</label>
                 </div>
-                <Bouteille v-for="(bouteille) in appStore.mesBouteilleCellier" :bouteille="bouteille" />
-            </div>
+                <div class="grid gap-6 lg:gap-10 lg:grid-cols-4 md:gap-10 md:grid-cols-2">
+                    <Bouteille v-for="(bouteille) in appStore.mesBouteilleCellier" :bouteille="bouteille" />
+                </div>
+            </template>
         </template>
+
+        <Filtre v-if="afficherFiltre" @cacherFormFiltre="afficherFiltre = false " />
 
     </div>
 
@@ -189,7 +224,7 @@ const trierMesBouteilles = (par) => {
                 class="bg-rose-900/25 h-10 w-10 rounded-full flex justify-center items-center">
                 <img src="/icones/cacher-recherche.svg" class="h-6 block">
             </label>
-            <input @input="appStore.rechercherBouteilles($event.target.value), recherche = $event.target.value"
+            <input @input="appStore.rechercherBouteilles($event.target.value), motCle = $event.target.value"
                 placeholder="rechercher bouteille..." type="text"
                 class="grow max-w-lg rounded-3xl border-0 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-rose-800 sm:text-sm sm:leading-6 m-auto">
         </nav>

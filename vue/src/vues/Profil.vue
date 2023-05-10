@@ -48,38 +48,36 @@ onMounted(async () => {
     </header>
 
     <main>
-        <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-            <div class="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-                <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-                    <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900 font-title">Mon compte</h2>
-                </div>
+        <div class="mx-auto max-w-7xl flex min-h-full flex-1 flex-col justify-center px-6 py-12">
+            <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+                <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900 font-title">Mon compte</h2>
+            </div>
 
-                <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                    <form class="space-y-6">
+            <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+                <form class="space-y-6">
 
-                        <Input v-bind:erreur="authStore.erreurs.nom" v-model="form.nom" label="Nom" name="nom"
-                            type="text" />
+                    <Input v-bind:erreur="authStore.erreurs.nom" v-model="form.nom" label="Nom" name="nom"
+                        type="text" />
 
-                        <Input v-bind:erreur="authStore.erreurs.email" v-model="form.courriel" label="Courriel" name="courriel"
-                            type="text" />
+                    <Input v-bind:erreur="authStore.erreurs.email" v-model="form.courriel" label="Courriel" name="courriel"
+                        type="text" />
 
 
-                            <Input v-if="modifier" v-bind:erreur="authStore.erreurs.password" v-model="form.mot_de_passe" label="Mot de
-                                    Passe" name="mot_de_passe"
-                            type="text" />
+                        <Input v-if="modifier" v-bind:erreur="authStore.erreurs.password" v-model="form.mot_de_passe" label="Mot de
+                                Passe" name="mot_de_passe"
+                        type="text" />
 
-                            <Input v-if="modifier" v-bind:erreur="authStore.erreurs.password" v-model="form.confirmer_mot_de_passe" label="Confirmez votre mot de
-                                    Passe" name="mot_de_passe"
-                            type="text" />
+                        <Input v-if="modifier" v-bind:erreur="authStore.erreurs.password" v-model="form.confirmer_mot_de_passe" label="Confirmez votre mot de
+                                Passe" name="mot_de_passe"
+                        type="text" />
 
-                        <div class="flex justify-between">
-                            <Button v-if="modifier" texteBouton="Sauvegarder" />
-                            <SecButton v-if="modifier" @click="toggleModifier()" texteBouton="Annuler" />
-                        <Button v-else @click="toggleModifier()" texteBouton="Modifier" class="w-full" />
-                        </div>
-                    </form>
+                    <div class="flex gap-3 justify-between">
+                        <Button v-if="modifier" texteBouton="Sauvegarder" />
+                        <SecButton v-if="modifier" @click="toggleModifier()" texteBouton="Annuler" />
+                    <Button v-else @click="toggleModifier()" texteBouton="Modifier" class="w-full" />
+                    </div>
+                </form>
 
-                </div>
             </div>
         </div>
     </main>
