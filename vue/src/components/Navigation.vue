@@ -19,23 +19,23 @@ const authUsager = useAuthStore();
     </router-link>
 
 
-  <div class="flex">
-    <router-link :to="{ name: 'Profil' }"
+    <div class="flex">
+
+      <router-link :to="{ name: 'Profil' }"
         :class="[active ? 'bg-gray-100' : '', 'flex flex-col gap-3 items-center px-4 py-2 text-sm text-white font-semibold']"
         v-if="authUsager.user">
         <font-awesome-icon icon="fa-solid fa-user" />
         Mon Profil
-    </router-link>
+      </router-link>
 
 
-
-    <button @click="authUsager.deconnecter()"
+      <button @click="authUsager.deconnecter()"
         :class="[active ? 'bg-gray-100' : '', 'flex flex-col gap-3 items-center px-4 py-2 text-sm text-white font-semibold']"
         v-if="authUsager.user">
         <font-awesome-icon icon="fa-solid fa-right-from-bracket" />
         Sortir
-    </button>
-  </div>
+      </button>
+    </div>
 
     <router-link :to="{ name: 'CreerCompte' }"
       :class="[active ? 'bg-gray-100' : '', 'flex flex-col gap-3 items-center px-4 py-2 text-sm text-white font-semibold']"

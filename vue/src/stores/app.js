@@ -29,7 +29,9 @@ export const useAppStore = defineStore("app", {
         laBouteilleSelectione: {},
         mesResultatDeRechercheBouteille: [],
         estALarecherche: false,
-        laBouteilleAgerer: 0
+        laBouteilleAgerer: 0,
+
+        lErreursSignaler: []
     }),
 
     /**
@@ -53,6 +55,7 @@ export const useAppStore = defineStore("app", {
         bouteilleSelectione: (state) => state.laBouteilleSelectione,
         cellierSelectione: (state) => state.leCellierSelectione,
         bouteilleAgerer: (state) => state.laBouteilleAgerer,
+        erreursSignaler: (state) => state.lErreursSignaler,
     },
 
     actions: {
@@ -73,11 +76,27 @@ export const useAppStore = defineStore("app", {
 
         faireValeursBouteilleDefaut(nomBouteille) {
             const cetteBouteille = this.laSuggestionsBouteilles.filter(bout => bout.nom == nomBouteille)[0]
-            if(cetteBouteille){
+            if (cetteBouteille) {
                 this.laBouteilleSelectione.prix_paye = cetteBouteille.prix_saq
             }
         },
 
+
+
+        /**
+* @author Hanane
+* @returns void
+* @description signaler une erreur pour une bouteille saq
+*/
+        async signalerErreur(donnees) {
+            try {
+                await axios.post('/api/anomalie', donnees)
+
+            } catch (error) {
+                this.lErreursSignaler = error.response.data.errors
+            }
+
+        },
         /**
         * @author Hanane
         * @description Retrouver la liste des pays
@@ -341,11 +360,11 @@ export const useAppStore = defineStore("app", {
             }
         },
 
-                /**
-         * @author Hanane
-         * @returns void
-         * @description retrouver la liste des bouteilles archivées d'un usager connecté depuis le serveur
-         */
+        /**
+ * @author Hanane
+ * @returns void
+ * @description retrouver la liste des bouteilles archivées d'un usager connecté depuis le serveur
+ */
         async getBouteillesArchive(triPar) {
             this.mesBouteilleCellier = []
 
@@ -365,29 +384,29 @@ export const useAppStore = defineStore("app", {
         },
 
 
-/**
- * @author Saddek
- * @returns void
- * @description retrouver la liste des bouteilles par filtre
- */
-async getBouteillesFiltre(donnes) {
+        /**
+         * @author Saddek
+         * @returns void
+         * @description retrouver la liste des bouteilles par filtre
+         */
+        async getBouteillesFiltre(donnes) {
 
-    this.mesBouteilleCellier = []
-
-    try {
-        const donnees = await axios.get(`/api/filtre`, { params: donnes })
-        this.mesBouteilleCellier = donnees.data
-
-    } catch (error) {
-
-        if (error.response.status == 404) {
             this.mesBouteilleCellier = []
-        } else {
-            this.mesBouteilleCellier = { 'erreur': 'un probléme' }
-        }
 
-    }
-},
+            try {
+                const donnees = await axios.get(`/api/filtre`, { params: donnes })
+                this.mesBouteilleCellier = donnees.data
+
+            } catch (error) {
+
+                if (error.response.status == 404) {
+                    this.mesBouteilleCellier = []
+                } else {
+                    this.mesBouteilleCellier = { 'erreur': 'un probléme' }
+                }
+
+            }
+        },
 
         /**
          * @author Saddek
