@@ -1,8 +1,9 @@
 <script setup>
-import { watch } from "vue";
+import { watch, ref } from "vue";
 import { useAppStore } from '../stores/app'
 const appStore = useAppStore()
 
+let detailBouteilleActive = ref(-1)
 const props = defineProps({
     bouteille: {
         type: Object,
@@ -19,8 +20,7 @@ watch(props.bouteille, (currentState, prevState) => {
 <template>
     <article class="relative isolate flex flex-col gap-5 p-3 shadow-md bg-white max-w-xs mx-auto w-full">
 
-        <span class="absolute z-10 left-3 top-2 w-12 h-4 cursor-pointer"
-            @click="appStore.togglerBouteilleAgerer(bouteille.id)">
+        <span class="absolute z-10 left-2 top-2 w-8 cursor-pointer" @click="appStore.togglerBouteilleAgerer(bouteille.id)">
             <img src="/icones/plus.svg">
         </span>
         <div class="absolute inset-0 z-10 bg-white flex gap-2 flex-col justify-center items-center"
@@ -39,11 +39,6 @@ watch(props.bouteille, (currentState, prevState) => {
                 <img src="/icones/modifier-bouteille.svg" class="h-5" />
                 modifier
             </label>
-
-            <a :href="bouteille.url_saq" class="flex gap-4 items-center w-36 cursor-pointer">
-                <img src="/icones/saq.svg" class="h-5" />
-                voir sur saq
-            </a>
 
         </div>
 
@@ -83,7 +78,32 @@ watch(props.bouteille, (currentState, prevState) => {
                 </div>
 
             </section>
+
         </div>
+        <template v-if="bouteille.code_saq">
+            <label @click="detailBouteilleActive = (detailBouteilleActive == bouteille.id ? -1 : bouteille.id)"
+                class="flex gap-1 cursor-pointer items-center text-gray-400 text-sm">
+                <template v-if="detailBouteilleActive != bouteille.id">
+                    plus de détails
+                    <img class="w-3" src="/icones/plus-details.svg">
+                </template>
+                <template v-else>
+                    moins de détails
+                    <img class="w-3 rotate-180" src="/icones/plus-details.svg">
+                </template>
+            </label>
+            <div class="flex-col text-gray-600" :class="detailBouteilleActive == bouteille.id ? 'flex' : 'hidden'">
+                <span>Code SAQ: {{ bouteille.code_saq }}</span>
+                <span>{{ bouteille.prix_saq }} $</span>
+                <span class="flex justify-between text-sm">
+                    <a :href="bouteille.url_saq" class="flex gap-1  text-rose-900 items-center cursor-pointer">
+                        voir sur saq.com
+
+                    </a>
+                    <label class="border border-gray p-1 px-2 block rounded ">signaler</label>
+                </span>
+            </div>
+        </template>
 
     </article>
 </template>
