@@ -1,6 +1,7 @@
 <script setup>
 import { watch, ref } from "vue";
 import { useAppStore } from '../stores/app'
+import Signaler from "./Signaler.vue";
 const appStore = useAppStore()
 
 let detailBouteilleActive = ref(-1)
@@ -101,6 +102,7 @@ watch(props.bouteille, (currentState, prevState) => {
 
                     </a>
                     <label class="border border-gray p-1 px-2 block rounded ">signaler</label>
+                    <Signaler />
                 </span>
             </div>
         </template>
