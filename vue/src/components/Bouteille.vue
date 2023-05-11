@@ -1,7 +1,6 @@
 <script setup>
 import { watch, ref } from "vue";
 import { useAppStore } from '../stores/app'
-import Signaler from "./Signaler.vue";
 const appStore = useAppStore()
 
 let detailBouteilleActive = ref(-1)
@@ -49,7 +48,7 @@ watch(props.bouteille, (currentState, prevState) => {
             </picture>
             <section class="flex flex-col gap-2 max-w-fit">
                 <header class="flex flex-col gap-0 items-baseline w-full">
-                    <h1 class="text-md w-full line-clamp-2 h-12" style="color: #ad5f00;">
+                    <h1 class="text-md w-full line-clamp-2 h-12 text-rose-800 leading-5">
                         {{ bouteille.nom }}
                     </h1>
                     <h2 class="md:truncate lg:truncate xl:truncate text-xs lowercase text-gray-400">
@@ -61,7 +60,7 @@ watch(props.bouteille, (currentState, prevState) => {
                     </h2>
                 </header>
 
-                <div class="w-full flex gap-2 justify-center items-center p-1">
+                <div class="w-full flex gap-2 justify-center items-center p-1 mt-3">
                     <span v-for="i in 5"
                         class="flex flex-col justify-center items-center rounded-3xl cursor-pointer w-5 h-5"
                         @click="bouteille.notes = i">
@@ -97,12 +96,17 @@ watch(props.bouteille, (currentState, prevState) => {
                 <span>Code SAQ: {{ bouteille.code_saq }}</span>
                 <span>{{ bouteille.prix_saq }} $</span>
                 <span class="flex justify-between text-sm">
-                    <a :href="bouteille.url_saq" class="flex gap-1  text-rose-900 items-center cursor-pointer">
+                    <a :href="bouteille.url_saq" target="_blank"
+                        class="flex gap-1  text-rose-900 items-center cursor-pointer">
                         voir sur saq.com
 
                     </a>
-                    <label class="border border-gray p-1 px-2 block rounded ">signaler</label>
-                    <Signaler />
+
+                    <label v-if="bouteille.signalee" class="border border-gray p-1 px-2 block rounded ">signalée
+                    </label>
+
+                    <label v-else @click="appStore.togglerFormSignaler(bouteille)"
+                        class="border border-gray p-1 px-2 block rounded ">signaler</label>
                 </span>
             </div>
         </template>

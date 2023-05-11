@@ -16,13 +16,12 @@ const appStore = useAppStore()
 
 const signaler = ref({
     message: null,
-    bouteille_id: 1,
+    bouteille_id: appStore.bouteilleASignaler.id,
 })
 </script>
 
 <template>
-    <div class="w-full bg-gray-900/10 fixed inset-0 flex justify-center items-center hidden"
-        @click.self="$emit('cacherFormSignaler')">
+    <div class="w-full bg-gray-900/10 fixed inset-0 flex justify-center items-center">
 
         <form @submit.prevent="appStore.signalerErreur(signaler), $emit('cacherFormSignaler')"
             class="flex gap-16 flex-col max-w-md w-full bg-white p-5 ">
@@ -34,7 +33,8 @@ const signaler = ref({
 
             <div class="flex gap-4 justify-between">
                 <Button texteBouton="Envoyer" />
-                <SecButton texteBouton="Annuler" @click="$emit('cacherFormSignaler')" class="bg-gray-400 text-gray-900" />
+                <SecButton texteBouton="Annuler" @click="appStore.togglerFormSignaler()"
+                    class="bg-gray-400 text-gray-900" />
             </div>
 
         </form>

@@ -7,6 +7,7 @@ import GererCellier from '../components/GererCellier.vue';
 import GererBouteille from '../components/GererBouteille.vue';
 import Bouteille from '../components/Bouteille.vue';
 import Filtre from '../components/Filtre.vue';
+import Signaler from "./Signaler.vue";
 import { useAppStore } from '../stores/app'
 
 
@@ -164,17 +165,19 @@ const afficherFiltre = ref(false)
 
         <template v-else-if="modeFiltre">
             <div class="flex gap-2 items-center">
-                Résultat de recherche: 
+                Résultat de recherche:
                 <select @input="trierMesBouteilles($event.target.value)"
                     class="w-16 flex justify-center items-center text-gray-700 rounded cursor-pointer p-1">
                     <option value="" selected>trier</option>
                     <option v-for="(tri) in cleTriage" :value="tri.id">{{ tri.nom }}</option>
                 </select>
-                <label @click="modeFiltre = false, afficherFiltre = false" class="cursor-pointer text-red-900">cacher filtrer</label>
+                <label @click="modeFiltre = false, afficherFiltre = false" class="cursor-pointer text-red-900">cacher
+                    filtrer</label>
             </div>
             <div v-if="!appStore.mesBouteilleCellier.length">
                 <span class="">Aucune bouteille trouvée</span>
-                <label @click="modeFiltre = false, afficherFiltre = false" class="cursor-pointer text-red-900">cacher filtrer</label>
+                <label @click="modeFiltre = false, afficherFiltre = false" class="cursor-pointer text-red-900">cacher
+                    filtrer</label>
             </div>
 
             <div v-else class="grid gap-6 lg:gap-10 lg:grid-cols-4 md:gap-10 md:grid-cols-2">
@@ -192,14 +195,15 @@ const afficherFiltre = ref(false)
             </template>
 
 
-            <template v-else >
+            <template v-else>
                 <div class="flex justify-end gap-10">
-                        <select @input="trierMesBouteilles($event.target.value)"
+                    <select @input="trierMesBouteilles($event.target.value)"
                         class="w-16 flex justify-center items-center text-gray-700 rounded cursor-pointer p-1">
                         <option value="" selected>trier</option>
                         <option v-for="(tri) in cleTriage" :value="tri.id">{{ tri.nom }}</option>
                     </select>
-                    <label @click="modeFiltre = true, afficherFiltre = true" class="cursor-pointer text-red-900">filtrer</label>
+                    <label @click="modeFiltre = true, afficherFiltre = true"
+                        class="cursor-pointer text-red-900">filtrer</label>
                     <label @click="appStore.getBouteillesArchive()" class="cursor-pointer text-red-900">archive</label>
                 </div>
                 <div class="grid gap-6 lg:gap-10 lg:grid-cols-4 md:gap-10 md:grid-cols-2">
@@ -208,7 +212,7 @@ const afficherFiltre = ref(false)
             </template>
         </template>
 
-        <Filtre v-if="afficherFiltre" @cacherFormFiltre="afficherFiltre = false " />
+        <Filtre v-if="afficherFiltre" @cacherFormFiltre="afficherFiltre = false" />
 
     </div>
 
@@ -229,4 +233,5 @@ const afficherFiltre = ref(false)
                 class="grow max-w-lg rounded-3xl border-0 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-rose-800 sm:text-sm sm:leading-6 m-auto">
         </nav>
     </template>
+    <Signaler v-if="appStore.bouteilleASignaler?.id" />
 </template>
