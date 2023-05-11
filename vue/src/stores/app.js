@@ -31,7 +31,8 @@ export const useAppStore = defineStore("app", {
         estALarecherche: false,
         laBouteilleAgerer: 0,
 
-        lErreursSignaler: []
+        lErreursSignaler: [],
+        laBouteilleASignaler: {},
     }),
 
     /**
@@ -56,6 +57,8 @@ export const useAppStore = defineStore("app", {
         cellierSelectione: (state) => state.leCellierSelectione,
         bouteilleAgerer: (state) => state.laBouteilleAgerer,
         erreursSignaler: (state) => state.lErreursSignaler,
+        bouteilleASignaler: (state) => state.laBouteilleASignaler,
+
     },
 
     actions: {
@@ -81,6 +84,15 @@ export const useAppStore = defineStore("app", {
             }
         },
 
+        /**
+* @author Hanane
+* @returns void
+* @description afficher ou cacher le formulaire pour signaler une erreur
+*/
+        togglerFormSignaler(donnees) {
+            this.laBouteilleASignaler = donnees;
+        },
+
 
 
         /**
@@ -91,6 +103,7 @@ export const useAppStore = defineStore("app", {
         async signalerErreur(donnees) {
             try {
                 await axios.post('/api/anomalie', donnees)
+                this.togglerFormSignaler()
 
             } catch (error) {
                 this.lErreursSignaler = error.response.data.errors

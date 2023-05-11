@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Contenir;
+use App\Models\Cellier;
 
 class User extends Authenticatable
 {
@@ -41,4 +43,15 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+     public function contenirs()
+    {
+        return $this->hasManyThrough(Contenir::class, Cellier::class);
+    }
+
+    public function celliers()
+    {
+        return $this->hasMany(Cellier::class);
+    }
 }
