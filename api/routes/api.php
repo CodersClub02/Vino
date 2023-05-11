@@ -47,4 +47,7 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::model('anomalie', 'App\Models\Anomalie');
     Route::apiResource('anomalie', 'App\Http\Controllers\AnomalieController');
 
+    // Admin routes
+    Route::get('membres', [App\Http\Controllers\AdminController::class, 'membres']);
+
 });
