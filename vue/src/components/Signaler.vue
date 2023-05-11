@@ -1,0 +1,43 @@
+<script setup>
+/**
+ * @author Hanane
+ * @description Formulaire pour signaler une erreur dans les informations une bouteille du saq
+ */
+
+import { ref } from 'vue';
+import { useAppStore } from '../stores/app'
+import Button from "../components/Button.vue"
+import SecButton from "../components/SecButton.vue"
+import Textarea from './Textarea.vue';
+
+const appStore = useAppStore()
+
+
+
+const signaler = ref({
+    message: null,
+    bouteille_id: 1,
+})
+</script>
+
+<template>
+    <div class="w-full bg-gray-900/10 fixed inset-0 flex justify-center items-center hidden"
+        @click.self="$emit('cacherFormSignaler')">
+
+        <form @submit.prevent="appStore.signalerErreur(signaler), $emit('cacherFormSignaler')"
+            class="flex gap-16 flex-col max-w-md w-full bg-white p-5 ">
+            <span>Vous avez trouvé une erreur pour cette bouteille? Merci de nous la mentionner dans le champ
+                suivant</span>
+
+            <Textarea v-bind:erreur="appStore.erreursSignaler.message" v-model="signaler.message" label="Anomalie"
+                name="message" />
+
+            <div class="flex gap-4 justify-between">
+                <Button texteBouton="Envoyer" />
+                <SecButton texteBouton="Annuler" @click="$emit('cacherFormSignaler')" class="bg-gray-400 text-gray-900" />
+            </div>
+
+        </form>
+
+    </div>
+</template>
