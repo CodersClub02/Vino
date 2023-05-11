@@ -42,5 +42,9 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::model('type', 'App\Models\Type');
     Route::apiResource('type', 'App\Http\Controllers\TypeController');
 
-    Route::get('/archive', [App\Http\Controllers\CellierController::class, 'archive']);
+    Route::get('archive', [App\Http\Controllers\CellierController::class, 'archive']);
+
+    Route::model('anomalie', 'App\Models\Anomalie');
+    Route::apiResource('anomalie', 'App\Http\Controllers\AnomalieController');
+
 });
