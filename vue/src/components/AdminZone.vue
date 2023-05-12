@@ -5,7 +5,7 @@ const authStore = useAuthStore()
 
 import Input from "../components/Input.vue";
 import Button from "../components/Button.vue";
-
+import Membres from "./Membres.vue";
 </script>
 
 <template>
@@ -22,9 +22,7 @@ import Button from "../components/Button.vue";
 
     <div class="mx-auto max-w-7xl flex min-h-full flex-1 flex-col justify-center px-6 py-12">
 
-
-
-
+        <Membres />
 
     </div>
 </template>
