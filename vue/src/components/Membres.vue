@@ -27,8 +27,8 @@ onMounted(async () => {
             <td>{{ membre.name }}</td>
             <td>{{ membre.email }}</td>
             <td>{{ membre.created_at }}</td>
-            <td>{{ membre.celliers }}</td>
-            <td>{{ membre.bouteilles }}</td>
+            <td>{{ membre.celliers_count }}</td>
+            <td>{{ membre.contenirs_count }}</td>
             <td>{{ membre.actif }}</td>
         </tr>
 
