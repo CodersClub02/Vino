@@ -34,7 +34,7 @@ class CellierController extends Controller
             }
 
         return response()->json(
-            $requete->get()
+            $requete->select('*', 'contenirs.*')->get()
         );
         
     }

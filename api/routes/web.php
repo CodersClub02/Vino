@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return ['Laravel' => app()->version()];
+    return "Svp, ceci est une API, utilisez '/api/' dans l'url";
 });
 
 require __DIR__.'/auth.php';

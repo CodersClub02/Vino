@@ -110,6 +110,7 @@ export const useAppStore = defineStore("app", {
             }
 
         },
+        
         /**
         * @author Hanane
         * @description Retrouver la liste des pays
