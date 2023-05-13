@@ -15,6 +15,7 @@ use App\Http\Controllers\CellierController;
 |
 */
 use App\Http\Controllers\ScraperController;
+use App\Models\User;
 
 Route::get('/scraper', [ScraperController::class, 'store']);
 
@@ -49,7 +50,7 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
 
     // Admin routes
     Route::get('membres', [App\Http\Controllers\AdminController::class, 'membres']);
-    Route::put('membres', [App\Http\Controllers\AdminController::class, 'suspendre']);
+    Route::put('membres/{user}', [App\Http\Controllers\AdminController::class, 'modifierStatut']);
     Route::get('signalements', [App\Http\Controllers\AdminController::class, 'signalements']);
     Route::put('signalements', [App\Http\Controllers\AdminController::class, 'resoudre']);
 

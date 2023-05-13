@@ -51,11 +51,12 @@ export const useAdminStore = defineStore("admin", {
         /**
         * @author Hanane
         * @returns void
-        * @description signaler une erreur pour une bouteille saq
+        * @description Modifier l'état d'un membre(actif/suspendu)
         */
-        async suspendreMembre(membre) {
+        async modifierStatutMembre(membre) {
             try {
-                await axios.put(`/api/membre/${membre.id}`)
+                await axios.put(`/api/membres/${membre.id}`)
+                this.getMembres()
             } catch (error) {
             }
 
@@ -74,15 +75,15 @@ export const useAdminStore = defineStore("admin", {
 
             }
         },
-/*
-* @author Hanane
-* @returns void
-* @description ajouter bouteille
-*/
+        /*
+        * @author Hanane
+        * @returns void
+        * @description ajouter bouteille
+        */
         async togglerFormSignalement(donnees) {
             this.laBouteilleACorriger = {}
-            if(!donnees) return
-            
+            if (!donnees) return
+
             try {
                 const response = await axios.get(`/api/bouteille/${donnees.bouteille_id}`)
                 this.laBouteilleACorriger = response.data
@@ -111,6 +112,6 @@ export const useAdminStore = defineStore("admin", {
 
         },
 
-        
+
     }
 })
