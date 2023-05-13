@@ -3,11 +3,13 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\Bouteille;
 use App\Models\User;
+
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Cellier>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Anomalie>
  */
-class CellierFactory extends Factory
+class AnomalieFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,8 +19,11 @@ class CellierFactory extends Factory
     public function definition(): array
     {
         return [
-            'nom' => fake()->word(),
+            'bouteille_id' => Bouteille::inRandomOrder()->first(),
             'user_id' => User::inRandomOrder()->first(),
+            'message' => fake()->paragraph(),
+            'resolue' => numberBetween(0, 1),
+            'date_resolution' => fake()->dateTime()
         ];
     }
 }
