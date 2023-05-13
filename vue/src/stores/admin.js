@@ -48,6 +48,18 @@ export const useAdminStore = defineStore("admin", {
             }
         },
 
+        /**
+        * @author Hanane
+        * @returns void
+        * @description signaler une erreur pour une bouteille saq
+        */
+        async suspendreMembre(membre) {
+            try {
+                await axios.put(`/api/membre/${membre.id}`)
+            } catch (error) {
+            }
+
+        },
 
         /**
          * @author Saddek
