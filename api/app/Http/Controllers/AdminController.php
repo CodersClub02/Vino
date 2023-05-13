@@ -16,7 +16,7 @@ class AdminController extends Controller
     {
          return response()->json(
             User::withCount('contenirs', 'celliers')
-            ->whereNot('user_id', auth()?->user()?->id)
+            ->whereNot('id', auth()?->user()?->id)
             ->get()
         );
     }
