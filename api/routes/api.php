@@ -49,5 +49,8 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
 
     // Admin routes
     Route::get('membres', [App\Http\Controllers\AdminController::class, 'membres']);
+    Route::put('membres', [App\Http\Controllers\AdminController::class, 'suspendre']);
+    Route::get('signalements', [App\Http\Controllers\AdminController::class, 'signalements']);
+    Route::put('signalements', [App\Http\Controllers\AdminController::class, 'resoudre']);
 
 });
