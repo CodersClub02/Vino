@@ -99,14 +99,13 @@ watch(props.bouteille, (currentState, prevState) => {
                     <a :href="bouteille.url_saq" target="_blank"
                         class="flex gap-1  text-rose-900 items-center cursor-pointer">
                         voir sur saq.com
-
                     </a>
 
                     <label v-if="bouteille.signalee" class="border border-gray p-1 px-2 block rounded ">signalée
                     </label>
 
                     <label v-else @click="appStore.togglerFormSignaler(bouteille)"
-                        class="border border-gray p-1 px-2 block rounded ">signaler</label>
+                        class="border border-gray p-1 px-2 block rounded ">signaler..</label>
                 </span>
             </div>
         </template>
