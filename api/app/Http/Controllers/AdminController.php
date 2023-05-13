@@ -81,12 +81,21 @@ class AdminController extends Controller
 
     }
 
+
+
     /**
-     * Show the form for creating a new resource.
+     * @author: Hanane
+     * @return: json
+     * Suspendre/Aciver le compte d'un membre.
      */
-    public function create()
+    public function modifierStatut(User $user)
     {
-        //
+        $user->update([
+            "actif" => !$user->actif
+        ]);
+
+        return response()->json(['status' => 'ok', 'message'=>'Membre est suspendu avec succès']);
+
     }
 
     /**

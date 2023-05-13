@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from "vue";
 import Membres from "./Membres.vue";
+import Signalements from "./Signalements.vue";
 
 const zone = ref('signalements');
 </script>
@@ -20,8 +21,8 @@ const zone = ref('signalements');
     </header>
 
     <div class="mx-auto max-w-7xl flex min-h-full flex-1 flex-col justify-center px-6 py-12">
-
-        <Membres />
+        <Signalements v-if="zone == 'signalements'" />
+        <Membres v-else />
 
     </div>
 </template>
