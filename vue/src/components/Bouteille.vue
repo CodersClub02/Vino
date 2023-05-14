@@ -30,13 +30,13 @@ watch(props.bouteille, (currentState, prevState) => {
                 class="absolute top-2 right-2 aspect-square h-4 cursor-pointer" />
 
             <label @click="appStore.togglerFormSupprimerBouteille(bouteille)"
-                class="flex gap-4 items-center w-36 cursor-pointer">
-                <img src="/icones/supprimer-bouteille.svg" class="h-5" />
+                class="flex gap-4 items-center w-36 cursor-pointer mb-4">
+                <img src="/icones/supprimer.svg" class="h-5 " />
                 supprimer
             </label>
 
             <label @click="appStore.togglerFormBouteille(bouteille)" class="flex gap-4 items-center w-36 cursor-pointer">
-                <img src="/icones/modifier-bouteille.svg" class="h-5" />
+                <img src="/icones/modifier.svg" class="h-5" />
                 modifier
             </label>
 

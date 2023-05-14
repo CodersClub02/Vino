@@ -7,14 +7,15 @@ const zone = ref('signalements');
 </script>
 
 <template>
-    <header class="flex bg-white shadow mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+    <header class="flex bg-white shadow   px-4 py-6 sm:px-6 lg:px-8 w-full">
 
         <label @click="zone = 'signalements'"
-            :class="[zone == 'signalements' ? 'bg-gray-100' : '', 'flex  gap-2  px-4 py-2 text-sm']"
+            :class="[zone == 'signalements' ? 'bg-gray-100 text-rose-800 font-semibold' : '', 'flex  gap-2  px-4 py-2 text-sm']"
             class="cursor-pointer">Signalements
         </label>
 
-        <label @click="zone = 'membres'" :class="[zone == 'membres' ? 'bg-gray-100' : '', 'flex  gap-2  px-4 py-2 text-sm']"
+        <label @click="zone = 'membres'"
+            :class="[zone == 'membres' ? 'bg-gray-100 text-rose-800 font-semibold' : '', 'flex  gap-2  px-4 py-2 text-sm']"
             class="cursor-pointer">Membres
         </label>
 

@@ -1,9 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="256" height="256" viewBox="0 0 256 256" xml:space="preserve">
-
-<defs>
-</defs>
-<g style="stroke: none; stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: none; fill-rule: nonzero; opacity: 1;" transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)" >
-	<path d="M 9 90 c -2.303 0 -4.606 -0.879 -6.364 -2.636 c -3.515 -3.515 -3.515 -9.214 0 -12.729 l 72 -72 c 3.516 -3.515 9.213 -3.515 12.729 0 c 3.515 3.515 3.515 9.213 0 12.728 l -72 72 C 13.606 89.121 11.303 90 9 90 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
-	<path d="M 81 90 c -2.304 0 -4.606 -0.879 -6.364 -2.636 l -72 -72 c -3.515 -3.515 -3.515 -9.213 0 -12.728 c 3.515 -3.515 9.213 -3.515 12.728 0 l 72 72 c 3.515 3.515 3.515 9.214 0 12.729 C 85.606 89.121 83.304 90 81 90 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
-</g>
+<svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M26.6966 254.307C20.2252 254.307 13.7537 251.837 8.81375 246.899C-1.0634 237.022 -1.0634 221.008 8.81375 211.131L211.134 8.81094C221.014 -1.06621 237.022 -1.06621 246.902 8.81094C256.779 18.6881 256.779 34.6995 246.902 44.5766L44.5822 246.897C39.6394 251.837 33.168 254.307 26.6966 254.307Z" fill="#595959"/>
+<path d="M229.017 254.307C222.542 254.307 216.074 251.837 211.134 246.9L8.81375 44.5795C-1.0634 34.7024 -1.0634 18.691 8.81375 8.81387C18.6909 -1.06328 34.7023 -1.06328 44.5794 8.81387L246.899 211.134C256.777 221.011 256.777 237.025 246.899 246.902C241.959 251.837 235.491 254.307 229.017 254.307Z" fill="#595959"/>
 </svg>

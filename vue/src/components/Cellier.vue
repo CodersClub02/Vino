@@ -42,11 +42,12 @@ const afficherFiltre = ref(false)
 
     <div v-if="!appStore.afficherForm && !appStore.afficherFormBouteille && appStore.celliers.length == 0"
         class="grid p-5 gap-10 content-center max-w-sm m-auto">
-        <div class="flex flex-col gap-7 justify-center text-gray-600">
+        <div class="flex flex-col gap-7 justify-center text-gray-600 mt-10 text-lg">
             Vous n'avez aucun cellier. Créer un pour gérer vos bouteilles de vin.
+            <img src="/aucun-cellier.gif" class="">
             <Button texte-bouton="Créer cellier" @click="appStore.togglerFormCellier('nouveau')" />
         </div>
-        <img src="/aucune-bouteille.png" class="mt-10">
+
     </div>
     <GererCellier v-if="appStore.afficherForm" />
 
@@ -62,8 +63,8 @@ const afficherFiltre = ref(false)
                 <!-- <span class="block text-sm text-gray-500">{{ cellier.contenirs_count }}</span> -->
             </span>
         </div>
-        <font-awesome-icon icon="fa-solid fa-circle-plus" @click="appStore.togglerFormCellier('nouveau')"
-            class="text-gray-400 cursor-pointer text-4xl shadow-md" />
+        <img src="/icones/ajouter.svg" alt="ajouter cellier" @click="appStore.togglerFormCellier('nouveau')"
+            class="cursor-pointer  drop-shadow w-12" />
     </header>
 
     <div class="grid text-gray-600 p-5 gap-10">
@@ -125,11 +126,10 @@ const afficherFiltre = ref(false)
                 {{ appStore.cellierSelectione?.nom }}
             </div>
             <div class="flex gap-10">
-                <font-awesome-icon icon="fa-solid fa-trash" class="text-gray-400 cursor-pointer text-xl"
+                <img src="/icones/supprimer.svg" class="w-5 cursor-pointer "
                     @click="supprimerCellierForm = !supprimerCellierForm" />
 
-                <font-awesome-icon icon="fa-solid fa-pen-to-square" @click="appStore.togglerFormCellier()"
-                    class="text-gray-400 cursor-pointer text-xl" />
+                <img src="/icones/modifier.svg" @click="appStore.togglerFormCellier()" class="cursor-pointer w-5" />
             </div>
         </div>
 
@@ -202,9 +202,10 @@ const afficherFiltre = ref(false)
                         <option value="" selected>trier</option>
                         <option v-for="(tri) in cleTriage" :value="tri.id">{{ tri.nom }}</option>
                     </select>
-                    <label @click="modeFiltre = true, afficherFiltre = true"
-                        class="cursor-pointer text-red-900">filtrer</label>
-                    <label @click="appStore.getBouteillesArchive()" class="cursor-pointer text-red-900">archive</label>
+                    <label @click="modeFiltre = true, afficherFiltre = true" class="cursor-pointer text-red-900"><img
+                            src="/icones/filtre.svg" class="w-8" alt="filtrer"> filtre</label>
+                    <label @click="appStore.getBouteillesArchive()" class="cursor-pointer text-red-900"> <img
+                            src="/icones/archive.svg" class="w-8" alt="archive"> archive</label>
                 </div>
                 <div class="grid gap-6 lg:gap-10 lg:grid-cols-4 md:gap-10 md:grid-cols-2">
                     <Bouteille v-for="(bouteille) in appStore.mesBouteilleCellier" :bouteille="bouteille" />
