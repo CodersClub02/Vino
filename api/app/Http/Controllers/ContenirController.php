@@ -8,17 +8,20 @@ use App\Models\Bouteille;
 
 class ContenirController extends Controller
 {
-        /**
+    /**
      * Display a listing of the resource.
-     */
+    */
     public function index(Request $request)
     {
         $predicate = [['quantite', '>', 0]];
 
-        if($request->has('recherche')){
+        if($request->has('recherche') || $request->has('filtre')){
 
-            if($request->cellier_id) array_push($predicate, ['cellier_id', '=', $request->cellier_id]);
-            if($request->mot_cle) array_push($predicate, ['nom', 'like', $request->mot_cle . '%']);
+            if($request->has('cellier_id')) array_push($predicate, ['cellier_id', '=', $request->cellier_id]);
+            if($request->has('mot_cle')) array_push($predicate, ['nom', 'like', $request->mot_cle . '%']);
+            if($request->has('notes')) array_push($predicate, ['notes', '=', $request->notes ]);
+            if($request->has('type_id')) array_push($predicate, ['type_id', '=', $request->type_id ]);
+            if($request->has('pays_id')) array_push($predicate, ['pays_id', '=', $request->pays_id ]);
             
             $requete = Bouteille::where($predicate)
             ->join('contenirs', 'bouteilles.id', '=', 'contenirs.bouteille_id')
@@ -121,7 +124,6 @@ class ContenirController extends Controller
     {
         $contenir->delete();
         return response()->json(['status' => 'ok', 'message'=>'Bouteille est supprimée avec succès']);
-
     }
 
 }

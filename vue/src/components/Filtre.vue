@@ -18,14 +18,17 @@ onMounted(async () => {
 })
 
 const filtre = ref({})
+const tableauNotes = [{ id: 1, nom: '1 étoile' }, { id: 2, nom: '2 étoiles' }, { id: 3, nom: '3 étoiles' }, { id: 4, nom: '4 étoiles' }, { id: 5, nom: '5 étoiles' }]
 </script>
 
 <template>
-    <div class="w-full bg-gray-900/10 fixed inset-0 flex justify-center items-center" @click.self="$emit('cacherFormFiltre')">
+    <div class="w-full fixed z-10 inset-0 bg-white flex justify-center items-center">
 
         <form
             @submit.prevent="appStore.getBouteillesFiltre(filtre), $emit('cacherFormFiltre')"
             class="flex gap-16 flex-col max-w-md w-full bg-white p-5">
+
+            <Select v-model="filtre.notes" :options="tableauNotes" label="Notes" />
 
             <Select v-model="filtre.type_id" :options="appStore.listeType" label="Type" />
 
