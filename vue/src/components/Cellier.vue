@@ -63,9 +63,10 @@ const afficherFiltre = ref(false)
                 {{ cellier.nom }}
             </span>
         </div>
-        <img src="/icones/ajouter.svg" @click="appStore.togglerFormCellier('nouveau')" class="cursor-pointer drop-shadow w-12 h-12" />
 
-        <img src="/icones/archive.svg" @click="appStore.getBouteillesArchive()" class="cursor-pointer drop-shadow w-12 h-12" />
+        <img src="/icones/ajouter.svg" @click="appStore.togglerFormCellier('nouveau')" class="cursor-pointer drop-shadow w-9 h-9" />
+
+        <img src="/icones/archive.svg" @click="appStore.getBouteillesArchive()" class="cursor-pointer drop-shadow w-9 h-9" />
         
     </header>
 
