@@ -20,6 +20,7 @@ class AdminController extends Controller
             User::withCount('contenirs', 'celliers')
             ->whereNot('id', auth()?->user()?->id)
             ->get()
+            
         );
     }
 
