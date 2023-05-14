@@ -28,7 +28,7 @@ const tableauNotes = [{ id: 1, nom: '1 étoile' }, { id: 2, nom: '2 étoiles' },
             @submit.prevent="appStore.getBouteillesFiltre(filtre), $emit('cacherFormFiltre')"
             class="flex gap-16 flex-col max-w-md w-full bg-white p-5">
 
-            <Select v-model="filtre.note" :options="tableauNotes" label="Notes" />
+            <Select v-model="filtre.notes" :options="tableauNotes" label="Notes" />
 
             <Select v-model="filtre.type_id" :options="appStore.listeType" label="Type" />
 

@@ -386,7 +386,8 @@ export const useAppStore = defineStore("app", {
             this.mesBouteilleCellier = []
 
             try {
-                const donnees = await axios.get(`/api/filtre`, { params: donnes })
+                donnes.filtre = 'oui'
+                const donnees = await axios.get(`/api/contenir`, { params: donnes })
                 this.mesBouteilleCellier = donnees.data
 
             } catch (error) {
