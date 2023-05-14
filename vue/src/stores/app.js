@@ -351,28 +351,6 @@ export const useAppStore = defineStore("app", {
             }
         },
 
-        /**
-         * @author Hanane
-         * @returns void
-         * @description retrouver la liste des bouteilles archivées d'un usager connecté depuis le serveur
-         */
-        async getBouteillesArchive(triPar) {
-            this.mesBouteilleCellier = []
-
-            try {
-                const donnees = await axios.get(`/api/archive`, { params: { tri_par: triPar } })
-                this.mesBouteilleCellier = donnees.data
-
-            } catch (error) {
-
-                if (error.response.status == 404) {
-                    this.mesBouteilleCellier = []
-                } else {
-                    this.mesBouteilleCellier = { 'erreur': 'un probléme' }
-                }
-
-            }
-        },
 
         /**
  * @author Hanane
