@@ -19,6 +19,7 @@ onMounted(async () => {
 
 const supprimerCellierForm = ref(false)
 const modeRecherche = ref(false)
+const modeArchive = ref(false)
 let motCle = ref(null)
 const cleTriage = ref([
     { id: 'type_id', nom: 'type' }, { id: 'pays_id', nom: 'pays' }, { id: 'millesime', nom: 'méllisme' }, { id: 'prix_paye', nom: 'prix payé' }, { id: 'date_achat', nom: 'date achat' }, { id: 'nom', nom: 'nom' }
@@ -52,8 +53,7 @@ const afficherFiltre = ref(false)
     <GererCellier v-if="appStore.afficherForm" />
 
     <!--  -->
-    <header v-if="!modeRecherche && !appStore.afficherFormBouteille && appStore.celliers.length >= 1"
-        class="flex items-center gap-4 p-5">
+    <header v-if="!modeArchive && !modeRecherche && !appStore.afficherFormBouteille && appStore.celliers.length >= 1" class="flex items-center gap-4 p-5">
         <div class="grow flex gap-5 bg-gray-200 rounded overflow-x-auto text-gray-600 snap-x p-3">
             
             <span v-for="(cellier) in appStore.celliers"
@@ -66,8 +66,8 @@ const afficherFiltre = ref(false)
 
         <img src="/icones/ajouter.svg" @click="appStore.togglerFormCellier('nouveau')" class="cursor-pointer drop-shadow w-9 h-9" />
 
-        <img src="/icones/archive.svg" @click="appStore.getBouteillesArchive()" class="cursor-pointer drop-shadow w-9 h-9" />
-        
+        <img src="/icones/archive.svg" @click="appStore.getBouteillesArchive(), modeArchive=!modeArchive" class="cursor-pointer drop-shadow w-9 h-9" />
+
     </header>
 
     <div class="grid text-gray-600 p-5 gap-10">
@@ -123,7 +123,7 @@ const afficherFiltre = ref(false)
         </div>
 
 
-        <div v-if="!modeRecherche && !appStore.afficherFormBouteille && appStore.celliers.length >= 1 && !appStore.afficherForm && !supprimerCellierForm"
+        <div v-if="!modeArchive && !modeRecherche && !appStore.afficherFormBouteille && appStore.celliers.length >= 1 && !appStore.afficherForm && !supprimerCellierForm"
             class="flex gap-6 justify-between items-center border-b-2 px-3">
             <div class="text-2xl font-title font-semibold text-rose-800">
                 {{ appStore.cellierSelectione?.nom }}
@@ -200,6 +200,7 @@ const afficherFiltre = ref(false)
 
             <template v-else>
                 <div class="flex justify-end items-center gap-5">
+
                     <select @input="trierMesBouteilles($event.target.value)"
                         class="w-20 flex justify-center items-center text-gray-700 rounded cursor-pointer px-2 h-10 bg-gray-200">
                         <option value="" selected>trier</option>
@@ -208,6 +209,9 @@ const afficherFiltre = ref(false)
                     <label @click="modeFiltre = true, afficherFiltre = true" class="cursor-pointer w-10 flex justify-center items-center text-gray-700 rounded px-2 h-10 bg-gray-200">
                         <img src="/icones/filtre.svg" class="w-6" alt="filtrer">
                     </label>
+
+                    <img src="/icones/archive.svg" @click="appStore.getBouteillesArchive(), modeArchive=!modeArchive" class="cursor-pointer drop-shadow w-9 h-9" />
+
                 </div>
                 <div class="grid gap-6 lg:gap-10 lg:grid-cols-4 md:gap-10 md:grid-cols-2">
                     <Bouteille v-for="(bouteille) in appStore.mesBouteilleCellier" :bouteille="bouteille" />
