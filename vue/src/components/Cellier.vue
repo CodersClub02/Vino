@@ -53,8 +53,8 @@ const afficherFiltre = ref(false)
 
     <!--  -->
     <header v-if="!modeRecherche && !appStore.afficherFormBouteille && appStore.celliers.length >= 1"
-        class="flex items-center gap-4 bg-gray-100 p-5">
-        <div class="grow flex gap-5 overflow-x-auto text-gray-600 snap-x p-3">
+        class="flex items-center gap-4 p-5">
+        <div class="grow flex gap-5 bg-gray-200 rounded overflow-x-auto text-gray-600 snap-x p-3">
             
             <span v-for="(cellier) in appStore.celliers"
                 class="cursor-pointer flex-none rounded w-300 shadow-md p-2 snap-center text-xl"
