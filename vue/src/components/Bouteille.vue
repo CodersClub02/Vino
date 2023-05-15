@@ -67,7 +67,8 @@ watch(props.bouteille, (currentState, prevState) => {
                         <img :src="'/icones/etoile' + (i <= bouteille.notes ? '-solide' : '') + '.png'">
                     </span>
                 </div>
-                <div class="w-full flex gap-2 justify-center items-center py-1 px-1">
+                <div class="w-full flex gap-2 justify-center items-center py-1 px-1"
+                    :class="bouteille.quantite ? '' : 'pointer-events-none'">
                     <span
                         class="flex flex-col gap-3 justify-center items-center aspect-square text-2xl text-gray-400 shadow-md rounded-3xl border cursor-pointer w-7 h-7"
                         @click="(bouteille.quantite > 1 ? --bouteille.quantite : appStore.togglerFormArchiverBouteille(bouteille))">-</span>
@@ -105,7 +106,8 @@ watch(props.bouteille, (currentState, prevState) => {
                         class="border border-gray p-1 px-2 block rounded ">
                         {{ bouteille.anomalie ? 'modifier' : 'signaler' }} </label>
                 </span>
-                <div v-if="bouteille.anomalie" class="border border-gray p-1 px-2 block rounded ">{{ bouteille.anomalie }}</div>
+                <div v-if="bouteille.anomalie" class="border border-gray p-1 px-2 block rounded ">{{ bouteille.anomalie }}
+                </div>
             </div>
         </template>
 

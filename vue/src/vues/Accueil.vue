@@ -12,7 +12,8 @@ import AdminZone from "../components/AdminZone.vue";
 </script>
 
 <template>
-    <main class="pb-32">
+    <main class="relative pb-32 min-h-screen">
+
         <AdminZone v-if="authStore.user?.est_admin" />
         <Cellier v-else-if="authStore.user" />
         <Connexion v-else />
