@@ -101,12 +101,11 @@ watch(props.bouteille, (currentState, prevState) => {
                         voir sur saq.com
                     </a>
 
-                    <label v-if="bouteille.signalee" class="border border-gray p-1 px-2 block rounded ">signalée
-                    </label>
-
-                    <label v-else @click="appStore.togglerFormSignaler(bouteille)"
-                        class="border border-gray p-1 px-2 block rounded ">signaler..</label>
+                    <label @click="appStore.togglerFormSignaler(bouteille)"
+                        class="border border-gray p-1 px-2 block rounded ">
+                        {{ bouteille.anomalie ? 'modifier' : 'signaler' }} </label>
                 </span>
+                <div v-if="bouteille.anomalie" class="border border-gray p-1 px-2 block rounded ">{{ bouteille.anomalie }}</div>
             </div>
         </template>
 

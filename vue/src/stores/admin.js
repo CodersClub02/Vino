@@ -38,14 +38,30 @@ export const useAdminStore = defineStore("admin", {
          * @author Hanane
          * @returns void
          * @description Retrouver la liste des membres 
-         */
-        async getMembres() {
+        */
+
+        async getMembres(page) {
+
+            if(page == this.laListeMembres.page_en_cours) return
+            
             try {
-                const donnees = await axios.get('/api/membres')
-                this.laListeMembres = donnees.data
+                const donnees = await axios.get('/api/membres', {params: {page: page||this.laListeMembres.page_en_cours}})
+                this.laListeMembres = donnees.data.data
+
+                Object.assign(this.laListeMembres, this.pagination(donnees.data.current_page, donnees.data.last_page))
+
             } catch (error) {
 
             }
+        },
+
+        pagination(current_page, last_page) {
+            const premiere_page = 1
+            const page_precedente = (current_page -1) || 1
+            const page_en_cours = current_page
+            const page_suivante = ((current_page + 1) >= last_page ? last_page : (current_page + 1))
+            const derniere_page = last_page
+            return {premiere_page, page_precedente, page_en_cours, page_suivante, derniere_page}
         },
 
         /**
@@ -67,10 +83,16 @@ export const useAdminStore = defineStore("admin", {
          * @returns void
          * @description Retrouver la liste des signalements des erreurs bouteilles avec membre 
          */
-        async getSignalements() {
+        async getSignalements(page) {
+
+            if(page === this.laListeSignalements.page_en_cours) return
+            
             try {
-                const donnees = await axios.get('/api/signalements')
-                this.laListeSignalements = donnees.data
+                const donnees = await axios.get('/api/signalements', {params: {page: page||this.laListeSignalements.page_en_cours}})
+                this.laListeSignalements = donnees.data.data
+
+                Object.assign(this.laListeSignalements, this.pagination(donnees.data.current_page, donnees.data.last_page))
+
             } catch (error) {
 
             }
@@ -88,6 +110,7 @@ export const useAdminStore = defineStore("admin", {
                 const response = await axios.get(`/api/bouteille/${donnees.bouteille_id}`)
                 this.laBouteilleACorriger = response.data
                 Object.assign(this.laBouteilleACorriger, donnees)
+                console.log(donnees);
 
             } catch (error) {
                 this.lesErreursBouteilleAcorriger = error.response.data.errors

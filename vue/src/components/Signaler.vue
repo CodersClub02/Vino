@@ -15,8 +15,8 @@ const appStore = useAppStore()
 
 
 const signaler = ref({
-    message: null,
-    bouteille_id: appStore.bouteilleASignaler.id,
+    anomalie: appStore.bouteilleASignaler.anomalie,
+    id: appStore.bouteilleASignaler.id,
 })
 </script>
 
@@ -25,11 +25,10 @@ const signaler = ref({
 
         <form @submit.prevent="appStore.signalerErreur(signaler), $emit('cacherFormSignaler')"
             class="flex gap-16 flex-col max-w-md w-full bg-white p-5 ">
-            <span>Vous avez trouvé une erreur pour cette bouteille? Merci de nous la mentionner dans le champ
-                suivant</span>
+            <span>Vous avez trouvé une erreur pour cette bouteille? Merci de nous la mentionner dans le champ suivant</span>
 
-            <Textarea v-bind:erreur="appStore.erreursSignaler.message" v-model="signaler.message" label="Anomalie"
-                name="message" />
+            <Textarea v-bind:erreur="appStore.erreursSignaler.anomalie" v-model="signaler.anomalie" label="Anomalie"
+                name="anomalie" />
 
             <div class="flex gap-4 justify-between">
                 <Button texteBouton="Envoyer" />

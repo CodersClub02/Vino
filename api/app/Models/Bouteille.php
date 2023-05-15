@@ -32,6 +32,7 @@ class Bouteille extends Model
     {
         return $this->belongsTo(Pays::class, 'pays_id');
     }
+    
     public function type()
     {
         return $this->belongsTo(Type::class);

@@ -27,6 +27,7 @@ class ContenirFactory extends Factory
             'prix_paye' => fake()->numberBetween(10, 1000),
             'quantite' => fake()->numberBetween(0, 10),
             'millesime' => fake()->numberBetween(1900, 2023),
+            'anomalie' => fake()->sentence(),
         ];
     }
 }

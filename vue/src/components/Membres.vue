@@ -5,8 +5,7 @@ import { useAdminStore } from '../stores/admin'
 
 const adminStore = useAdminStore()
 onMounted(async () => {
-    await adminStore.getMembres()
-
+    await adminStore.getMembres(1)
 })
 </script>
 
@@ -30,6 +29,14 @@ onMounted(async () => {
                     @click="adminStore.modifierStatutMembre(membre)">activer</label>
             </div>
         </article>
+
+        <div class="fixed bottom-0 left-0 w-full p-5 flex justify-center gap-10 bg-gray-800">
+            <label @click="adminStore.getMembres(1)" class="flex justify-center items-center w-10 h-10 bg-red-400 rounded-full">1</label>
+            <label @click="adminStore.getMembres(adminStore.listeMembres.page_precedente)" class="flex justify-center items-center w-10 h-10 bg-red-400 rounded-full">{{ adminStore.listeMembres.page_precedente }}</label>
+            <label class="flex justify-center items-center w-10 h-10 bg-red-400 rounded-full text-white">{{ adminStore.listeMembres.page_en_cours }}</label>
+            <label @click="adminStore.getMembres(adminStore.listeMembres.page_suivante)" class="flex justify-center items-center w-10 h-10 bg-red-400 rounded-full">{{ adminStore.listeMembres.page_suivante }}</label>
+            <label @click="adminStore.getMembres(adminStore.listeMembres.derniere_page)" class="flex justify-center items-center w-10 h-10 bg-red-400 rounded-full">{{ adminStore.listeMembres.derniere_page }}</label>
+        </div>
 
     </article>
 </template>
