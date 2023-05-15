@@ -11,6 +11,7 @@ export const useAppStore = defineStore("app", {
      */
 
     state: () => ({
+        leChargement: false,
         mesCelliers: [],
         leCellierSelectione: [],
         mesBouteilleCellier: [],
@@ -41,6 +42,7 @@ export const useAppStore = defineStore("app", {
      */
 
     getters: {
+        chargement: (state) => state.leChargement,
         resultatRecherche: (state) => state.mesResultatDeRechercheBouteille,
         celliers: (state) => state.mesCelliers,
         erreursCellier: (state) => state.cellierErreurs,
@@ -110,7 +112,7 @@ export const useAppStore = defineStore("app", {
             }
 
         },
-        
+
         /**
         * @author Hanane
         * @description Retrouver la liste des pays
@@ -190,6 +192,7 @@ export const useAppStore = defineStore("app", {
  * @description ajouter bouteille
  */
         async ajouterBouteille(donnees) {
+            this.leChargement = true
             try {
                 await axios.post('/api/contenir', donnees)
                 this.togglerFormBouteille()
@@ -198,6 +201,7 @@ export const useAppStore = defineStore("app", {
             } catch (error) {
                 this.bouteilleErreurs = error.response.data.errors
             }
+            this.leChargement = false
 
         },
 
@@ -208,7 +212,7 @@ export const useAppStore = defineStore("app", {
 * @description Modifier bouteille
 */
         async modifierBouteille(donnees, pasRafraichirCellier) {
-
+            this.leChargement = true
             try {
 
                 await axios.put(`/api/contenir/${donnees.id}`, donnees)
@@ -220,6 +224,8 @@ export const useAppStore = defineStore("app", {
                 this.bouteilleErreurs = error.response.data.errors
             }
 
+            this.leChargement = false
+
         },
 
         /**
@@ -228,7 +234,7 @@ export const useAppStore = defineStore("app", {
 * @description Supprimer bouteille
 */
         async supprimerBouteille() {
-
+            this.leChargement = true
             try {
 
                 await axios.delete(`/api/contenir/${this.laBouteilleSelectione.id}`)
@@ -238,6 +244,7 @@ export const useAppStore = defineStore("app", {
             } catch (error) {
                 this.bouteilleErreurs = error.response.data.errors
             }
+            this.leChargement = false
 
         },
 
@@ -247,6 +254,7 @@ export const useAppStore = defineStore("app", {
 * @description Archiver bouteille
 */
         async archiverBouteille() {
+            this.leChargement = true
             try {
                 this.laBouteilleSelectione.quantite = 0
                 await this.modifierBouteille(this.laBouteilleSelectione.id, false)
@@ -256,6 +264,7 @@ export const useAppStore = defineStore("app", {
             } catch (error) {
                 this.bouteilleErreurs = error.response.data.errors
             }
+            this.leChargement = false
 
         },
 
@@ -276,6 +285,7 @@ export const useAppStore = defineStore("app", {
          * @description retrouver la liste des celliers d'un usager connecté depuis le serveur
          */
         async getCelliers() {
+            this.leChargement = true
             try {
                 const donnees = await axios.get('/api/cellier')
                 this.mesCelliers = donnees.data
@@ -287,9 +297,11 @@ export const useAppStore = defineStore("app", {
             } catch (error) {
                 this.cellierErreurs = error.response.data.errors
             }
+            this.leChargement = false
         },
 
         async gererCellier(donnees) {
+            this.leChargement = true
             try {
                 // Si l'usager veut supprimer un cellier
                 if (!donnees) {
@@ -322,6 +334,7 @@ export const useAppStore = defineStore("app", {
             } catch (error) {
                 this.cellierErreurs = error.response.data.errors
             }
+            this.leChargement = false
         },
 
         /**
@@ -330,6 +343,7 @@ export const useAppStore = defineStore("app", {
          * @description retrouver la liste des bouteilles de cellier d'un usager connecté depuis le serveur
          */
         async getBouteillesCellier(cellier, triPar) {
+            this.leChargement = true
             this.mesBouteilleCellier = []
             const cellier_id = cellier ? cellier.id : localStorage.getItem('cellier_id')
             if (cellier_id == -1) return
@@ -349,6 +363,7 @@ export const useAppStore = defineStore("app", {
                 }
 
             }
+            this.leChargement = false
         },
 
 
@@ -358,6 +373,7 @@ export const useAppStore = defineStore("app", {
  * @description retrouver la liste des bouteilles archivées d'un usager connecté depuis le serveur
  */
         async getBouteillesArchive(triPar) {
+            this.leChargement = true
             this.mesBouteilleCellier = []
 
             try {
@@ -369,10 +385,11 @@ export const useAppStore = defineStore("app", {
                 if (error.response.status == 404) {
                     this.mesBouteilleCellier = []
                 } else {
-                    this.mesBouteilleCellier = { 'erreur': 'un probléme' }
+                    this.mesBouteilleCellier = { 'erreur': 'un problème' }
                 }
 
             }
+            this.leChargement = false
         },
 
 
@@ -382,7 +399,8 @@ export const useAppStore = defineStore("app", {
          * @description retrouver la liste des bouteilles par filtre
          */
         async getBouteillesFiltre(donnes) {
-
+            this.leChargement = true
+            donnes.cellier_id = this.leCellierSelectione.id
             this.mesBouteilleCellier = []
 
             try {
@@ -395,10 +413,11 @@ export const useAppStore = defineStore("app", {
                 if (error.response.status == 404) {
                     this.mesBouteilleCellier = []
                 } else {
-                    this.mesBouteilleCellier = { 'erreur': 'un probléme' }
+                    this.mesBouteilleCellier = { 'erreur': 'un problème' }
                 }
 
             }
+            this.leChargement = false
         },
 
         /**
@@ -407,6 +426,7 @@ export const useAppStore = defineStore("app", {
          * @description retrouver la liste des bouteille d'un usager connecté depuis le serveur
          */
         async rechercherBouteilles(motCle, triPar) {
+            this.leChargement = true
 
             this.mesResultatDeRechercheBouteille = []
             try {
@@ -419,6 +439,7 @@ export const useAppStore = defineStore("app", {
                 }
 
             }
+            this.leChargement = false
         },
 
     },
