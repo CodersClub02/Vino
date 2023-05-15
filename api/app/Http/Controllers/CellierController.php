@@ -26,15 +26,14 @@ class CellierController extends Controller
     public function show(Request $request, Cellier $cellier)
     {
         $requete = Bouteille::where([['quantite', '>', 0], ['cellier_id', '=', $cellier->id]])
-            ->leftJoin('contenirs', 'bouteilles.id', '=', 'contenirs.bouteille_id')
-            ->leftJoin('anomalies','bouteilles.id', '=', 'anomalies.bouteille_id')
+            ->join('contenirs', 'bouteilles.id', '=', 'contenirs.bouteille_id')
             ->with('pays:nom,id', 'type:nom,id');
             if($request->has('tri_par')){
                 $requete->orderBy($request->tri_par);
             }
 
         return response()->json(
-            $requete->select('*', 'contenirs.*')->get()
+            $requete->get()
         );
         
     }

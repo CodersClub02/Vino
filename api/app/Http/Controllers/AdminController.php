@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Bouteille;
 use App\Models\Cellier;
+use App\Models\Contenir;
 use App\Models\Anomalie;
 use Illuminate\Http\Request;
 
@@ -31,10 +32,11 @@ class AdminController extends Controller
     public function signalements()
     {
          return response()->json(
-            Anomalie::join('bouteilles', 'bouteilles.id', '=', 'anomalies.bouteille_id')
-            ->join('users', 'users.id', '=', 'anomalies.user_id')
-            ->where('resolue', '=', '0')
-            ->select("bouteille_id", "anomalies.id as anomalie_id", "message", "resolue", "date_resolution", "type_id", "pays_id", "nom", "code_saq", "description_saq", "format", "prix_saq", "url_saq", "url_image_saq", "name")
+            Cellier::join('contenirs', 'celliers.id', '=', 'contenirs.cellier_id')
+            ->join('users', 'users.id', '=', 'celliers.user_id')
+            ->join('bouteilles', 'bouteilles.id', '=', 'contenirs.bouteille_id')
+            ->select("contenirs.id as contenir_id", "bouteille_id", "anomalie", "type_id", "pays_id", "bouteilles.nom", "code_saq", "description_saq", "format", "prix_saq", "url_saq", "url_image_saq", "name")
+            ->whereNotNull('anomalie')
             ->get()
         );
 
@@ -58,7 +60,6 @@ class AdminController extends Controller
             'url_image_saq' => 'required|url',
         ]);
 
-
         $corrigerBouteille = Bouteille::where('id', $request->bouteille_id)
         ->update([
            'type_id' => $request->type_id,
@@ -72,11 +73,8 @@ class AdminController extends Controller
            'url_image_saq' => $request->url_image_saq
         ]);
         
-        Anomalie::where('id', $request->anomalie_id)
-            ->update([
-                'resolue' => true,
-                'date_resolution' => now()
-            ]);
+        Contenir::where('id', $request->contenir_id)
+        ->update(['anomalie' => null]);
 
         return response()->json(['status' => 'ok', 'message'=>'Bouteille mis à jour avec succès']);
 

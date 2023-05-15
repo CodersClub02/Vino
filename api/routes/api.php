@@ -15,7 +15,7 @@ use App\Http\Controllers\CellierController;
 |
 */
 use App\Http\Controllers\ScraperController;
-use App\Models\User;
+use App\Models\Contenir;
 
 Route::get('/scraper', [ScraperController::class, 'store']);
 
@@ -36,7 +36,8 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
 
     Route::model('contenir', 'App\Models\Contenir');
     Route::apiResource('contenir', 'App\Http\Controllers\ContenirController');
-    
+    Route::put('anomalie/{contenir}', [App\Http\Controllers\ContenirController::class, 'signaler']);
+
     Route::model('pays', 'App\Models\Pays');
     Route::apiResource('pays', 'App\Http\Controllers\PaysController');
     
@@ -44,9 +45,6 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::apiResource('type', 'App\Http\Controllers\TypeController');
 
     Route::get('archive', [App\Http\Controllers\CellierController::class, 'archive']);
-
-    Route::model('anomalie', 'App\Models\Anomalie');
-    Route::apiResource('anomalie', 'App\Http\Controllers\AnomalieController');
 
     // Admin routes
     Route::get('membres', [App\Http\Controllers\AdminController::class, 'membres']);

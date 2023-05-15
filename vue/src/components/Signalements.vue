@@ -39,14 +39,10 @@ onMounted(async () => {
 
             <div class="flex flex-col bg-orange-200 p-2">
                     <span>{{ signalement.name }}</span>
-                    <span>{{ signalement.message }}</span>
-                    
-                    <div v-if="signalement.resolue" class="flex justify-between bg-slate-400 p-2 text-green-500">
-                        <span>résolu</span>
-                        <span>{{ signalement.date_resolution }}</span>
-                    </div>
-                    <div v-else class="flex justify-end bg-slate-400 p-2">
-                        <label @click="adminStore.togglerFormSignalement({bouteille_id: signalement.bouteille_id, name: signalement.name, anomalie_id: signalement.anomalie_id, message: signalement.message})" class="cursor-pointer">Résoudre</label>
+                    <span>{{ signalement.anomalie }}</span>
+
+                    <div class="flex justify-end bg-slate-400 p-2">
+                        <label @click="adminStore.togglerFormSignalement({contenir_id: signalement.contenir_id, bouteille_id: signalement.bouteille_id, name: signalement.name, anomalie: signalement.anomalie})" class="cursor-pointer">Résoudre</label>
                     </div>
                 </div>
         </div>

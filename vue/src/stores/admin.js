@@ -88,6 +88,7 @@ export const useAdminStore = defineStore("admin", {
                 const response = await axios.get(`/api/bouteille/${donnees.bouteille_id}`)
                 this.laBouteilleACorriger = response.data
                 Object.assign(this.laBouteilleACorriger, donnees)
+                console.log(donnees);
 
             } catch (error) {
                 this.lesErreursBouteilleAcorriger = error.response.data.errors

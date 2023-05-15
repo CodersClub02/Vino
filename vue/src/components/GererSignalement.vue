@@ -28,7 +28,7 @@ onMounted(async () => {
 
         <header class="flex flex-col">
             <span>{{ adminStore.bouteilleACorriger.name }}</span>
-            <span>{{ adminStore.bouteilleACorriger.message }}</span>
+            <span>{{ adminStore.bouteilleACorriger.anomalie }}</span>
         </header>
 
 
@@ -63,7 +63,7 @@ onMounted(async () => {
 
             <div class="flex gap-4 justify-between">
                 <Button texteBouton="Sauvegarder" />
-                <SecButton texteBouton="Annuler" @click="togglerFormSignalement(), this.togglerFormSignalement()" class="bg-gray-400 text-gray-900" />
+                <SecButton texteBouton="Annuler" @click="adminStore.togglerFormSignalement()" class="bg-gray-400 text-gray-900" />
             </div>
 
         </form>

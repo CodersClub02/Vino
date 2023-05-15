@@ -102,7 +102,7 @@ export const useAppStore = defineStore("app", {
 */
         async signalerErreur(donnees) {
             try {
-                await axios.post('/api/anomalie', donnees)
+                await axios.put(`/api/anomalie/${donnees.id}`, donnees)
                 this.togglerFormSignaler()
 
             } catch (error) {

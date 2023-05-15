@@ -25,6 +25,7 @@ class ContenirController extends Controller
             
             $requete = Bouteille::where($predicate)
             ->join('contenirs', 'bouteilles.id', '=', 'contenirs.bouteille_id')
+            ->select('*')
             ->with('pays:nom,id', 'type:nom,id');
 
         }else{
@@ -115,6 +116,23 @@ class ContenirController extends Controller
         
            
         return response()->json(['status' => 'ok', 'message'=>'Bouteille est mise à jour avec succès']);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function signaler(Request $request, Contenir $contenir)
+    {
+        $request->validate([
+            'anomalie' => 'required|string|min:4|max:200',
+        ]);
+
+        $contenir->update([
+            'anomalie' => $request->anomalie,
+        ]);
+
+        return response()->json(['status' => 'ok', 'message'=>'Bouteille signalée avec succès']);
+
     }
 
     /**

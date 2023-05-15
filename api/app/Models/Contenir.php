@@ -23,6 +23,7 @@ class Contenir extends Model
         'prix_paye',
         'quantite',
         'millesime',
+        'anomalie'
     ];
 
 }
