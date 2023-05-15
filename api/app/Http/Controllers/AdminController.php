@@ -20,8 +20,7 @@ class AdminController extends Controller
          return response()->json(
             User::withCount('contenirs', 'celliers')
             ->whereNot('id', auth()?->user()?->id)
-            ->get()
-            
+            ->paginate(20)            
         );
     }
 
@@ -37,7 +36,7 @@ class AdminController extends Controller
             ->join('bouteilles', 'bouteilles.id', '=', 'contenirs.bouteille_id')
             ->select("contenirs.id as contenir_id", "bouteille_id", "anomalie", "type_id", "pays_id", "bouteilles.nom", "code_saq", "description_saq", "format", "prix_saq", "url_saq", "url_image_saq", "name")
             ->whereNotNull('anomalie')
-            ->get()
+            ->paginate(20)
         );
 
     }
@@ -80,8 +79,6 @@ class AdminController extends Controller
 
     }
 
-
-
     /**
      * @author: Hanane
      * @return: json
@@ -97,43 +94,4 @@ class AdminController extends Controller
 
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(User $user)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(User $user)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, User $user)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(User $user)
-    {
-        //
-    }
 }

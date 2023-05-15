@@ -7,12 +7,12 @@ import { useAdminStore } from '../stores/admin'
 
 const adminStore = useAdminStore()
 onMounted(async () => {
-    await adminStore.getSignalements()
+    await adminStore.getSignalements(1)
 })
 </script>
 
 <template>
-<article v-if="!adminStore.listeSignalements" class="flex items-center flex-col gap-6 p-6">
+<article v-if="!adminStore.listeSignalements.length" class="flex items-center flex-col gap-6 p-6">
     <h2 class="text-orange-400 text-xl">Aucun signalement</h2>
     <div>tout est bon pour l'instant</div>
 </article>
@@ -45,6 +45,14 @@ onMounted(async () => {
                         <label @click="adminStore.togglerFormSignalement({contenir_id: signalement.contenir_id, bouteille_id: signalement.bouteille_id, name: signalement.name, anomalie: signalement.anomalie})" class="cursor-pointer">Résoudre</label>
                     </div>
                 </div>
+        </div>
+
+        <div class="fixed bottom-0 left-0 w-full p-5 flex justify-center gap-10 bg-gray-800">
+            <label @click="adminStore.getSignalements(1)" class="flex justify-center items-center w-10 h-10 bg-red-400 rounded-full">1</label>
+            <label @click="adminStore.getSignalements(adminStore.listeSignalements.page_precedente)" class="flex justify-center items-center w-10 h-10 bg-red-400 rounded-full">{{ adminStore.listeSignalements.page_precedente }}</label>
+            <label class="flex justify-center items-center w-10 h-10 bg-red-400 rounded-full text-white">{{ adminStore.listeSignalements.page_en_cours }}</label>
+            <label @click="adminStore.getSignalements(adminStore.listeSignalements.page_suivante)" class="flex justify-center items-center w-10 h-10 bg-red-400 rounded-full">{{ adminStore.listeSignalements.page_suivante }}</label>
+            <label @click="adminStore.getSignalements(adminStore.listeSignalements.derniere_page)" class="flex justify-center items-center w-10 h-10 bg-red-400 rounded-full">{{ adminStore.listeSignalements.derniere_page }}</label>
         </div>
 </article>
 
