@@ -212,7 +212,7 @@ export const useAppStore = defineStore("app", {
 * @description Modifier bouteille
 */
         async modifierBouteille(donnees, pasRafraichirCellier) {
-            this.leChargement = true
+
             try {
 
                 await axios.put(`/api/contenir/${donnees.id}`, donnees)
@@ -223,8 +223,6 @@ export const useAppStore = defineStore("app", {
             } catch (error) {
                 this.bouteilleErreurs = error.response.data.errors
             }
-
-            this.leChargement = false
 
         },
 
