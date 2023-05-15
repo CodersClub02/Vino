@@ -54,29 +54,24 @@ onMounted(async () => {
             </div>
 
             <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                <form class="space-y-6">
+                <form class="space-y-6" @submit.prevent="authStore.modifierCompte(form), toggleModifier()">
 
                     <Input v-bind:erreur="authStore.erreurs.nom" v-model="form.nom" label="Nom" name="nom"
-                        type="text" />
+                        type="text" :disabled="!modifier" />
 
                     <Input v-bind:erreur="authStore.erreurs.email" v-model="form.courriel" label="Courriel" name="courriel"
-                        type="text" />
+                        type="text" disabled/>
 
-
-                        <Input v-if="modifier" v-bind:erreur="authStore.erreurs.password" v-model="form.mot_de_passe" label="Mot de
-                                Passe" name="mot_de_passe"
-                        type="text" />
-
-                        <Input v-if="modifier" v-bind:erreur="authStore.erreurs.password" v-model="form.confirmer_mot_de_passe" label="Confirmez votre mot de
-                                Passe" name="mot_de_passe"
-                        type="text" />
-
-                    <div class="flex gap-3 justify-between">
-                        <Button v-if="modifier" texteBouton="Sauvegarder" />
-                        <SecButton v-if="modifier" @click="toggleModifier()" texteBouton="Annuler" />
-                    <Button v-else @click="toggleModifier()" texteBouton="Modifier" class="w-full" />
+                    <div v-if="modifier" class="flex gap-3 justify-between">
+                        <Button texteBouton="Sauvegarder" />
+                        <SecButton @click="toggleModifier()" texteBouton="Annuler" />
                     </div>
-                </form>
+
+                    <div v-else class="flex gap-3 justify-between">
+                        <Button @click="toggleModifier()" texteBouton="Modifier" class="w-full" />
+                    </div>
+                
+            </form>
 
             </div>
         </div>

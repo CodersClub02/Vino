@@ -123,10 +123,9 @@ export const useAuthStore = defineStore("auth", {
             }
 
 
-        }
-    },
+        },
 
-    /**
+            /**
      * @author Hanane
      * @param {*} donnees 
      * @returns void
@@ -140,9 +139,6 @@ export const useAuthStore = defineStore("auth", {
         try {
             await axios.put('/update', {
                 name: donnees.nom,
-                email: donnees.courriel,
-                password: donnees.mot_de_passe,
-                password_confirmation: donnees.confirmer_mot_de_passe
             })
 
         } catch (error) {
@@ -151,4 +147,5 @@ export const useAuthStore = defineStore("auth", {
             }
         }
     }
+    },
 })
