@@ -40,7 +40,7 @@ const afficherFiltre = ref(false)
 </script>
 
 <template>
-    <Chargement v-if="appStore.chargement" />
+    <Chargement :estActive="appStore.chargement" />
     <!-- Aucun cellier -->
 
     <div v-if="!appStore.afficherForm && !appStore.afficherFormBouteille && appStore.celliers.length == 0"
