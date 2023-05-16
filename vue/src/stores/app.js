@@ -361,7 +361,7 @@ export const useAppStore = defineStore("app", {
          */
         async getBouteillesCellier(cellier, triPar) {
             this.activerChargement()
-            this.mesBouteilleCellier = []
+
             const cellier_id = cellier ? cellier.id : localStorage.getItem('cellier_id')
             if (cellier_id == -1) return
 
@@ -391,7 +391,6 @@ export const useAppStore = defineStore("app", {
  */
         async getBouteillesArchive(triPar) {
             this.activerChargement()
-            this.mesBouteilleCellier = []
 
             try {
                 const donnees = await axios.get(`/api/archive`, { params: { tri_par: triPar } })
@@ -418,7 +417,6 @@ export const useAppStore = defineStore("app", {
         async getBouteillesFiltre(donnes) {
             this.activerChargement()
             donnes.cellier_id = this.leCellierSelectione.id
-            this.mesBouteilleCellier = []
 
             try {
                 donnes.filtre = 'oui'
@@ -445,7 +443,6 @@ export const useAppStore = defineStore("app", {
         async rechercherBouteilles(motCle, triPar) {
             this.activerChargement()
 
-            this.mesResultatDeRechercheBouteille = []
             try {
                 const donnees = await axios.get(`/api/contenir`, { params: { recherche: 'oui', mot_cle: motCle, tri_par: triPar } })
                 this.mesResultatDeRechercheBouteille = donnees.data
