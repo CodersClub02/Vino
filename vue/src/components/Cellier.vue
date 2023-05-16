@@ -90,6 +90,16 @@ const afficherFiltre = ref(false)
                 <div class="text-center text-xl text-gray-300">Êtes-vous sûr de supprimer
                     <b>{{ appStore.cellierSelectione?.nom }}</b> ?
                 </div>
+                <div v-if="appStore.cellierSelectione.contenirs_count>0 && appStore.celliers>1" class="flex flex-col items-center gap-5 p-4 bg-slate-300/5 text-gray-300">
+                    <span>
+                        cellier {{ appStore.cellierSelectione.nom }} contient {{ appStore.cellierSelectione.contenirs_count }}. selectionez un autre cellier ou déplacer ces bouteilles?
+                    </span>
+                    <select @input="appStore.deplacerBouteille($event.target.value), supprimerCellierForm = false"
+                        class="flex justify-center items-center text-gray-700 rounded cursor-pointer px-2 h-10 bg-gray-200">
+                        <option value="" selected>déplacez</option>
+                        <option v-for="(cellier) in appStore.celliers.filter((fltr)=> fltr.nom != appStore.cellierSelectione.nom)" :value="cellier.id">{{ cellier.nom }}</option>
+                    </select>
+                </div>
                 <div class="flex gap-4 whitespace-nowrap justify-between">
                     <Button texteBouton="Supprimer" />
                     <SecButton texteBouton="Annuler" @click="supprimerCellierForm = false" />

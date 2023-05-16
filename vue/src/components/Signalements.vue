@@ -18,7 +18,7 @@ onMounted(async () => {
 </article>
 <article v-else-if="!adminStore.bouteilleACorriger?.id" class="grid gap-6 lg:gap-10 lg:grid-cols-3 md:gap-10 md:grid-cols-2">
 
-        <div v-for="signalement in adminStore.listeSignalements" class="bg-slate-200">
+        <div v-for="signalement in adminStore.listeSignalements" class="shadow-md bg-white">
 
             <div class="flex p-5">
 
@@ -37,22 +37,34 @@ onMounted(async () => {
                 </div>
             </div>
 
-            <div class="flex flex-col bg-orange-200 p-2">
-                    <span>{{ signalement.name }}</span>
+            <div class="flex flex-col border-t p-2">
+                    <span class="font-semibold text-xs text-rose-600">{{ signalement.name }}</span>
                     <span>{{ signalement.anomalie }}</span>
 
-                    <div class="flex justify-end bg-slate-400 p-2">
-                        <label @click="adminStore.togglerFormSignalement({contenir_id: signalement.contenir_id, bouteille_id: signalement.bouteille_id, name: signalement.name, anomalie: signalement.anomalie})" class="cursor-pointer">Résoudre</label>
+                    <div class="flex justify-end p-2">
+                        <label @click="adminStore.togglerFormSignalement({contenir_id: signalement.contenir_id, bouteille_id: signalement.bouteille_id, name: signalement.name, anomalie: signalement.anomalie})" class="cursor-pointer border border-green-600 text-green-600 bg-green-100 max-w-max p-1 px-2 block rounded mt-4">résoudre</label>
                     </div>
                 </div>
         </div>
 
-        <div class="fixed bottom-0 left-0 w-full p-5 flex justify-center gap-10 bg-gray-800">
-            <label @click="adminStore.getSignalements(1)" class="flex justify-center items-center w-10 h-10 bg-red-400 rounded-full">1</label>
-            <label @click="adminStore.getSignalements(adminStore.listeSignalements.page_precedente)" class="flex justify-center items-center w-10 h-10 bg-red-400 rounded-full">{{ adminStore.listeSignalements.page_precedente }}</label>
-            <label class="flex justify-center items-center w-10 h-10 bg-red-400 rounded-full text-white">{{ adminStore.listeSignalements.page_en_cours }}</label>
-            <label @click="adminStore.getSignalements(adminStore.listeSignalements.page_suivante)" class="flex justify-center items-center w-10 h-10 bg-red-400 rounded-full">{{ adminStore.listeSignalements.page_suivante }}</label>
-            <label @click="adminStore.getSignalements(adminStore.listeSignalements.derniere_page)" class="flex justify-center items-center w-10 h-10 bg-red-400 rounded-full">{{ adminStore.listeSignalements.derniere_page }}</label>
+        <div class="fixed bottom-0 left-0 w-full p-5 bg-rose-800/90 flex justify-center">
+            <div class="flex justify-center items-center gap-10 border-2 border-white/60 rounded-lg">
+                <div @click="adminStore.getSignalements(adminStore.listeSignalements.page_precedente)">
+                    <img src="/icones/gauche.svg" class="w-10 h-10">
+                </div>
+                <span class="flex gap-2 text-white/60">
+                    <span class="font-semibold text-white/90">
+                        {{adminStore.listeSignalements.page_en_cours}}
+                    </span>
+                    / 
+                    <span>
+                       {{ adminStore.listeSignalements.derniere_page}}
+                    </span>
+                </span>
+                <div @click="adminStore.getSignalements(adminStore.listeSignalements.page_suivante)">
+                    <img src="/icones/droite.svg" class="w-10 h-10">
+                </div>
+            </div>
         </div>
 </article>
 

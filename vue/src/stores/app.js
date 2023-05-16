@@ -81,8 +81,10 @@ export const useAppStore = defineStore("app", {
          * @description desactiver et cacher la section/vue de chargement de données depuis l'API
          */
         desactiverChargement(){
-            clearTimeout(this.timeOutChargement)
-            this.leChargement = false
+            setTimeout(()=>{
+                clearTimeout(this.timeOutChargement)
+                this.leChargement = false
+            }, 0)
         }, 
 
         /**
@@ -315,6 +317,13 @@ export const useAppStore = defineStore("app", {
                 this.cellierErreurs = error.response.data.errors
             }
             this.desactiverChargement()
+        },
+
+        async deplacerBouteille(auCellier){
+            await axios.put(`/api/deplacer-bouteilles/${localStorage.getItem('cellier_id')}`, 
+            {cellier_cible: auCellier}
+            )
+            await this.gererCellier()
         },
 
         async gererCellier(donnees) {

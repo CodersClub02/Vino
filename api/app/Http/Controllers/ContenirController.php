@@ -121,6 +121,21 @@ class ContenirController extends Controller
     /**
      * Remove the specified resource from storage.
      */
+    public function deplacerBouteilles(Request $request, Contenir $contenir)
+    {
+        
+        Contenir::where('cellier_id', '=', $request->id)
+        ->update([
+            'cellier_id' => $request->cellier_cible,
+        ]);
+
+        return response()->json(['status' => 'ok', 'message'=>'Bouteilles déplacées avec succès']);
+
+    }
+
+    /**
+     * Signaler erreur de bouteille
+     */
     public function signaler(Request $request, Contenir $contenir)
     {
         $request->validate([
