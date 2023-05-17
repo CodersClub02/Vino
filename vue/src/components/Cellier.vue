@@ -23,15 +23,14 @@ const modeRecherche = ref(false)
 const modeArchive = ref(false)
 let motCle = ref(null)
 const cleTriage = ref([
-    { id: 'type_id', nom: 'type' }, { id: 'pays_id', nom: 'pays' }, { id: 'millesime', nom: 'méllisme' }, { id: 'prix_paye', nom: 'prix payé' }, { id: 'date_achat', nom: 'date achat' }, { id: 'nom', nom: 'nom' }
+    { id: 'type_id', nom: 'type' }, { id: 'pays_id', nom: 'pays' }, { id: 'millesime', nom: 'millesime' }, { id: 'prix_paye', nom: 'prix payé' }, { id: 'date_achat', nom: 'date d\'achat' }, { id: 'nom', nom: 'nom' }
 ])
 
 const trierMesBouteilles = (par) => {
     if (modeRecherche.value == false) {
         appStore.getBouteillesCellier(undefined, par)
-
     } else {
-        appStore.rechercherBouteilles(recherche, par)
+        appStore.rechercherBouteilles(motCle.value, par)
     }
 }
 
@@ -161,8 +160,6 @@ const afficherFiltre = ref(false)
                         <option value="" selected>trier</option>
                         <option v-for="(tri) in cleTriage" :value="tri.id">{{ tri.nom }}</option>
                     </select>
-
-                    
                 </span>
                 Résultat de recherche:
             </div>
@@ -213,15 +210,32 @@ const afficherFiltre = ref(false)
         <template v-else-if="!modeRecherche && !modeFiltre && appStore.celliers.length >= 1">
             <template v-if="!appStore.mesBouteilleCellier.length">
                 <span class=" text-xl text-black  inset-0  flex flex-col justify-center items-center
-                ">Aucune bouteille dans <em class="text-xl font-semibold"> {{ appStore.cellierSelectione?.nom }}
-                    </em></span>
+                ">
+                <template v-if="!modeArchive">
+                Aucune bouteille dans <em class="text-xl font-semibold"> {{ appStore.cellierSelectione?.nom }}
+                    </em>
+                </template>
+                <template v-else>
+                    Aucune bouteille archivée
+                    <SecButton texteBouton="retourner" @click="appStore.getBouteillesCellier(), modeArchive=false" class="w-32 mt-10"/>
+
+                </template>
+                </span>
                 <img src="/aucune-bouteille.png" class="max-w-lg w-full m-auto">
             </template>
 
 
             <template v-else>
-                <div class="flex justify-end items-center gap-5">
+                <div v-if="modeArchive" class="flex items-center gap-5 mt-16 p-2 border-b-2">
 
+                    
+                    <img src="/icones/cacher-archive.svg"
+                        @click="appStore.getBouteillesCellier(), modeArchive = !modeArchive"
+                        class="cursor-pointer drop-shadow w-9 h-9" />
+                    <h1 class="text-2xl font-title font-semibold text-rose-800">Archive</h1>
+
+                </div>
+                <div v-else class="flex justify-end gap-5">
                     <select @input="trierMesBouteilles($event.target.value)"
                         class="w-20 flex justify-center items-center text-gray-700 rounded cursor-pointer px-2 h-10 bg-gray-200">
                         <option value="" selected>trier</option>
@@ -231,11 +245,6 @@ const afficherFiltre = ref(false)
                         class="cursor-pointer w-10 flex justify-center items-center text-gray-700 rounded px-2 h-10 bg-gray-200">
                         <img src="/icones/filtre.svg" class="w-6">
                     </label>
-
-                    <img v-if="modeArchive" src="/icones/archive.svg"
-                        @click="appStore.getBouteillesArchive(), modeArchive = !modeArchive"
-                        class="cursor-pointer drop-shadow w-9 h-9" />
-
                 </div>
                 <div class="grid gap-6 lg:gap-10 lg:grid-cols-4 md:gap-10 md:grid-cols-2">
                     <Bouteille v-for="(bouteille) in appStore.mesBouteilleCellier" :bouteille="bouteille" />
@@ -248,14 +257,14 @@ const afficherFiltre = ref(false)
     </div>
 
     <template v-if="appStore.celliers.length >= 1">
-        <label v-if="!modeRecherche" @click="modeRecherche = !modeRecherche"
+        <label v-if="!modeRecherche" @click="modeRecherche = !modeRecherche, modeFiltre = false"
             class="fixed bottom-2 left-2 bg-rose-900/25 h-10 w-10 rounded-full flex justify-center items-center">
             <img src="/icones/rechercher.svg" class=" h-6 block">
         </label>
         <nav v-if="modeRecherche && !appStore.afficherFormBouteille && appStore.cellierSelectione?.nom"
             class="flex gap-3 items-center fixed bottom-0 bg-rose-900/75 py-2 px-3 w-full">
 
-            <label @click="modeRecherche = !modeRecherche"
+            <label @click="modeRecherche = !modeRecherche, modeFiltre = false"
                 class="bg-rose-900/25 h-10 w-10 rounded-full flex justify-center items-center">
                 <img src="/icones/cacher-recherche.svg" class="h-6 block">
             </label>

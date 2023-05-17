@@ -13,26 +13,26 @@ class ContenirController extends Controller
     */
     public function index(Request $request)
     {
-        $predicate = [['quantite', '>', 0]];
+        $predicate = [['quantite', '>', 0], ['celliers.user_id', '=', auth()->user()->id]];
 
         if($request->has('recherche') || $request->has('filtre')){
 
             if($request->has('cellier_id')) array_push($predicate, ['cellier_id', '=', $request->cellier_id]);
-            if($request->has('mot_cle')) array_push($predicate, ['nom', 'like', $request->mot_cle . '%']);
+            if($request->has('mot_cle')) array_push($predicate, ['bouteilles.nom', 'like', $request->mot_cle . '%']);
             if($request->has('notes')) array_push($predicate, ['notes', '=', $request->notes ]);
             if($request->has('type_id')) array_push($predicate, ['type_id', '=', $request->type_id ]);
             if($request->has('pays_id')) array_push($predicate, ['pays_id', '=', $request->pays_id ]);
             
             $requete = Bouteille::where($predicate)
             ->join('contenirs', 'bouteilles.id', '=', 'contenirs.bouteille_id')
-            ->select('*')
+            ->join('celliers', 'celliers.id', '=', 'contenirs.cellier_id')
+            ->select('bouteilles.*', 'contenirs.*')
             ->with('pays:nom,id', 'type:nom,id');
 
         }else{
             array_push($predicate, ['cellier_id', '=', $request->id]);
-            dd($predicate);
-            $requete = Contenir::where($predicate);
-
+            $requete = Contenir::where($predicate)
+            ->join('celliers', 'celliers.id', '=', 'contenirs.cellier_id');
         }
 
         if($request->has('tri_par')){
@@ -88,7 +88,7 @@ class ContenirController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Contenir $contenir)
+    public function update(Contenir $contenir, Request $request)
     {
          $request->validate([
             'cellier_id' => 'required|exists:celliers,id,user_id,' . auth()->user()->id,
@@ -101,8 +101,8 @@ class ContenirController extends Controller
             'millesime' => 'nullable:integer|gte:1900|lte:2023',
         ]);
 
-        $contenir->update([            
-            'user_id' => auth()->user()->id,
+        $contenir
+        ->update([            
             'cellier_id' => $request->cellier_id,
             'bouteille_id' => Bouteille::where('nom', $request->nom)->firstOrFail()->id,
             'date_achat' => $request->date_achat,
