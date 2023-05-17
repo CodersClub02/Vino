@@ -8,8 +8,8 @@ import GererBouteille from '../components/GererBouteille.vue';
 import Bouteille from '../components/Bouteille.vue';
 import Filtre from '../components/Filtre.vue';
 import Signaler from "./Signaler.vue";
-import { useAppStore } from '../stores/app';
 import Chargement from './Chargement.vue';
+import { useAppStore } from '../stores/app';
 
 
 const appStore = useAppStore()

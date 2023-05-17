@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useAdminStore } from '../stores/admin'
+import Chargement from './Chargement.vue';
 
 
 const adminStore = useAdminStore()
@@ -10,11 +11,18 @@ onMounted(async () => {
 </script>
 
 <template>
+
+    <Chargement :estActive="adminStore.chargement" />
+
     <article v-if="!adminStore.listeMembres" class="flex items-center flex-col gap-6 p-6">
         <h2 class="text-orange-400 text-xl">Aucun membre</h2>
         <div>Bonne chance</div>
     </article>
     <article v-else class="grid cols-2 gap-6 lg:gap-10 lg:grid-cols-3 md:gap-10 md:grid-cols-2">
+
+        <header class="text-rose-400 col-span-full">
+        {{ adminStore.listeMembres.total }} membre(s) (30 par page)
+        </header>
 
         <article v-for="membre in adminStore.listeMembres" class="flex flex-col bg-white shadow-md p-3 rounded">
             <h2>{{ membre.name }} | {{ membre.email }}</h2>
