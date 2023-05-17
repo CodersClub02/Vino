@@ -48,7 +48,7 @@ watch(props.bouteille, (currentState, prevState) => {
             </picture>
             <section class="flex flex-col gap-2 max-w-fit">
                 <header class="flex flex-col gap-0 items-baseline w-full">
-                    <h1 class="text-md w-full md:line-clamp-2 h-10 text-rose-800 leading-5">
+                    <h1 class="text-md w-full md:line-clamp-2 h-10 overflow-hidden text-rose-800 leading-5">
                         {{ bouteille.nom }}
                     </h1>
                     <h2 class="md:truncate lg:truncate xl:truncate text-xs lowercase text-gray-400">

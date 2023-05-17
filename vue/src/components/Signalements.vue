@@ -37,7 +37,7 @@ onMounted(async () => {
 
                 <!-- bouteille -->
                 <div class="flex gap-2 flex-col grow">
-                    <span class="text-md w-full md:line-clamp-2 h-10 text-rose-800 leading-5">{{ signalement.nom }} <span class="text-orange-500 ">{{ signalement.prix_saq }}</span></span>
+                    <span class="text-md w-full md:line-clamp-2 h-10 text-rose-800 leading-5 overflow-hidden">{{ signalement.nom }} <span class="text-orange-500 ">{{ signalement.prix_saq }}</span></span>
                     <span class="text-sm">{{ signalement.description_saq }} | {{ signalement.format }}</span>
                     <span class="flex flex-wrap gap-1 text-sm">
                         {{ signalement.code_saq }} <a :href="signalement.url_saq" target="_blank"
@@ -48,7 +48,7 @@ onMounted(async () => {
 
             <div class="flex flex-col border-t p-2 px-5 bg-slate-100/50">
                     <span class="font-semibold text-xs text-rose-600">{{ signalement.name }}</span>
-                    <span class="md:h-12 lg:line-clamp-2">{{ signalement.anomalie }}</span>
+                    <span class="md:h-12 lg:line-clamp-2 overflow-hidden">{{ signalement.anomalie }}</span>
 
                     <div class="flex justify-end p-2">
                         <label @click="adminStore.togglerFormSignalement({contenir_id: signalement.contenir_id, bouteille_id: signalement.bouteille_id, name: signalement.name, anomalie: signalement.anomalie})" class="cursor-pointer border border-green-600 text-green-600 bg-green-100 max-w-max p-1 px-2 block rounded">résoudre</label>

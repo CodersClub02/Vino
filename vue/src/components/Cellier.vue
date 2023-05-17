@@ -162,10 +162,7 @@ const afficherFiltre = ref(false)
                         <option v-for="(tri) in cleTriage" :value="tri.id">{{ tri.nom }}</option>
                     </select>
 
-                    <label @click="modeFiltre = false, afficherFiltre = false, appStore.getBouteillesCellier()"
-                        class="cursor-pointer w-10 flex justify-center items-center text-gray-700 rounded px-2 h-10 bg-gray-200">
-                        <img src="/icones/annuler-filtre.svg" class="w-6 cursor-pointer">
-                    </label>
+                    
                 </span>
                 Résultat de recherche:
             </div>
