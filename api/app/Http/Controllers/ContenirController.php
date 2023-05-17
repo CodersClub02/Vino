@@ -33,7 +33,6 @@ class ContenirController extends Controller
             array_push($predicate, ['cellier_id', '=', $request->id]);
             $requete = Contenir::where($predicate)
             ->join('celliers', 'celliers.id', '=', 'contenirs.cellier_id');
-
         }
 
         if($request->has('tri_par')){
@@ -89,7 +88,7 @@ class ContenirController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Contenir $contenir)
+    public function update(Contenir $contenir, Request $request)
     {
          $request->validate([
             'cellier_id' => 'required|exists:celliers,id,user_id,' . auth()->user()->id,
@@ -102,8 +101,8 @@ class ContenirController extends Controller
             'millesime' => 'nullable:integer|gte:1900|lte:2023',
         ]);
 
-        $contenir->update([            
-            'user_id' => auth()->user()->id,
+        $contenir
+        ->update([            
             'cellier_id' => $request->cellier_id,
             'bouteille_id' => Bouteille::where('nom', $request->nom)->firstOrFail()->id,
             'date_achat' => $request->date_achat,

@@ -233,8 +233,8 @@ export const useAppStore = defineStore("app", {
 * @description Modifier bouteille
 */
         async modifierBouteille(donnees, pasRafraichirCellier) {
-
-            try {
+console.log(donnees);
+            try { 
 
                 await axios.put(`/api/contenir/${donnees.id}`, donnees)
                 if (!pasRafraichirCellier) await this.getBouteillesCellier(this.leCellierSelectione)
@@ -276,7 +276,7 @@ export const useAppStore = defineStore("app", {
             this.activerChargement()
             try {
                 this.laBouteilleSelectione.quantite = 0
-                await this.modifierBouteille(this.laBouteilleSelectione.id, false)
+                await this.modifierBouteille(this.laBouteilleSelectione, false)
                 await this.getBouteillesCellier(this.leCellierSelectione)
                 await this.togglerFormArchiverBouteille()
 

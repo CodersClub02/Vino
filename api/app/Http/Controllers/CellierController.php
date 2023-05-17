@@ -28,7 +28,10 @@ class CellierController extends Controller
     {
         $requete = Bouteille::where([['quantite', '>', 0], ['cellier_id', '=', $cellier->id]])
             ->join('contenirs', 'bouteilles.id', '=', 'contenirs.bouteille_id')
-            ->with('pays:nom,id', 'type:nom,id');
+            ->join('celliers', 'celliers.id', '=', 'contenirs.cellier_id')
+            ->with('pays:nom,id', 'type:nom,id')
+            ->where('celliers.user_id', '=', auth()->user()->id)
+            ->select('bouteilles.*', 'contenirs.*');
             if($request->has('tri_par')){
                 $requete->orderBy($request->tri_par);
             }
@@ -46,7 +49,9 @@ class CellierController extends Controller
     {
         $requete = Bouteille::where([['quantite', '=', 0]])
             ->join('contenirs', 'bouteilles.id', '=', 'contenirs.bouteille_id')
-            ->with('pays:nom,id', 'type:nom,id');
+            ->join('celliers', 'celliers.id', '=', 'contenirs.cellier_id')
+            ->with('pays:nom,id', 'type:nom,id')
+            ->where('celliers.user_id', '=', auth()->user()->id);
             if($request->has('tri_par')){
                 $requete->orderBy($request->tri_par);
             }
@@ -83,7 +88,8 @@ class CellierController extends Controller
             'nom' => 'required|string|min:4|max:100',
         ]);
 
-        $cellier->update([
+        $cellier->where('user_id', '=', auth()->user()->id)
+        ->update([
             'nom' => $request->nom
         ]);
 

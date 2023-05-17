@@ -36,6 +36,7 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
 
     Route::model('contenir', 'App\Models\Contenir');
     Route::apiResource('contenir', 'App\Http\Controllers\ContenirController');
+
     Route::put('deplacer-bouteilles/{id}', [App\Http\Controllers\ContenirController::class, 'deplacerBouteilles']);
     Route::put('anomalie/{contenir}', [App\Http\Controllers\ContenirController::class, 'signaler']);
 

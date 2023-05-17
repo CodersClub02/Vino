@@ -105,7 +105,7 @@ watch(props.bouteille, (currentState, prevState) => {
 
                     <label v-if="!bouteille.anomalie" @click="appStore.togglerFormSignaler(bouteille)" class="border border-gray p-1 px-2 block rounded ">signaler</label>
                     
-                    <label v-else class="border border-gray p-1 px-2 block rounded ">signalé</label>
+                    <label v-else class="border border-gray p-1 px-2 block rounded ">signalée</label>
                 </span>
 
             </div>
