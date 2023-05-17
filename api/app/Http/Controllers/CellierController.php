@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Cellier;
+use App\Models\Contenir;
 use App\Models\Bouteille;
 
 class CellierController extends Controller
@@ -94,6 +95,10 @@ class CellierController extends Controller
      */
     public function destroy(Cellier $cellier)
     {
+
+        Contenir::where('cellier_id', '=', $cellier->id)
+        ->delete();
+        
         $cellier->delete();
         return response()->json(['status' => 'ok', 'message'=>'cellier supprimé avec succès']);
     }

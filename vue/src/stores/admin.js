@@ -10,10 +10,12 @@ export const useAdminStore = defineStore("admin", {
      * @description initialiser la liste des membres...
      */
     state: () => ({
+        leChargement: true,
         laListeMembres: [],
         laListeSignalements: [],
         laBouteilleACorriger: {},
         lesErreursBouteilleAcorriger: [],
+        timeOutChargement: null
     }),
 
     /**
@@ -21,6 +23,7 @@ export const useAdminStore = defineStore("admin", {
      * @author Hanane
      */
     getters: {
+        chargement: (state) => state.leChargement,
         listeMembres: (state) => state.laListeMembres,
         listeSignalements: (state) => state.laListeSignalements,
         bouteilleACorriger: (state) => state.laBouteilleACorriger,
@@ -34,6 +37,31 @@ export const useAdminStore = defineStore("admin", {
      */
     actions: {
 
+                /**
+         * @author Saddek
+         * @description activer et afficher la section/vue de chargement de données depuis l'API
+         */
+            activerChargement(){
+
+                this.timeOutChargement = setTimeout(() =>{
+                    this.leChargement = true
+                }, 10)
+
+            },
+    
+            /**
+             * @author Saddek
+             * @description desactiver et cacher la section/vue de chargement de données depuis l'API
+             */
+            desactiverChargement(){
+
+                setTimeout(()=>{
+                    clearTimeout(this.timeOutChargement)
+                    this.leChargement = false
+                }, 100)
+
+            }, 
+        
         /**
          * @author Hanane
          * @returns void
@@ -41,27 +69,28 @@ export const useAdminStore = defineStore("admin", {
         */
 
         async getMembres(page) {
-
-            if(page == this.laListeMembres.page_en_cours) return
             
+            this.activerChargement()
             try {
                 const donnees = await axios.get('/api/membres', {params: {page: page||this.laListeMembres.page_en_cours}})
                 this.laListeMembres = donnees.data.data
 
-                Object.assign(this.laListeMembres, this.pagination(donnees.data.current_page, donnees.data.last_page))
+                Object.assign(this.laListeMembres, this.pagination(donnees.data.total, donnees.data.current_page, donnees.data.last_page))
 
             } catch (error) {
 
             }
+            this.desactiverChargement()
+
         },
 
-        pagination(current_page, last_page) {
+        pagination(total, current_page, last_page) {
             const premiere_page = 1
             const page_precedente = (current_page -1) || 1
             const page_en_cours = current_page
             const page_suivante = ((current_page + 1) >= last_page ? last_page : (current_page + 1))
             const derniere_page = last_page
-            return {premiere_page, page_precedente, page_en_cours, page_suivante, derniere_page}
+            return {total, premiere_page, page_precedente, page_en_cours, page_suivante, derniere_page}
         },
 
         /**
@@ -70,11 +99,16 @@ export const useAdminStore = defineStore("admin", {
         * @description Modifier l'état d'un membre(actif/suspendu)
         */
         async modifierStatutMembre(membre) {
+
+            this.activerChargement()
+
             try {
                 await axios.put(`/api/membres/${membre.id}`)
                 this.getMembres()
             } catch (error) {
             }
+            
+            this.desactiverChargement()
 
         },
 
@@ -85,17 +119,20 @@ export const useAdminStore = defineStore("admin", {
          */
         async getSignalements(page) {
 
-            if(page === this.laListeSignalements.page_en_cours) return
+            this.activerChargement()
             
             try {
                 const donnees = await axios.get('/api/signalements', {params: {page: page||this.laListeSignalements.page_en_cours}})
                 this.laListeSignalements = donnees.data.data
 
-                Object.assign(this.laListeSignalements, this.pagination(donnees.data.current_page, donnees.data.last_page))
+                Object.assign(this.laListeSignalements, this.pagination(donnees.data.total, donnees.data.current_page, donnees.data.last_page))
 
             } catch (error) {
 
             }
+
+            this.desactiverChargement()
+
         },
         /*
         * @author Hanane
@@ -104,8 +141,10 @@ export const useAdminStore = defineStore("admin", {
         */
         async togglerFormSignalement(donnees) {
             this.laBouteilleACorriger = {}
+            
             if (!donnees) return
 
+            this.activerChargement()
             try {
                 const response = await axios.get(`/api/bouteille/${donnees.bouteille_id}`)
                 this.laBouteilleACorriger = response.data
@@ -116,6 +155,8 @@ export const useAdminStore = defineStore("admin", {
                 this.lesErreursBouteilleAcorriger = error.response.data.errors
             }
 
+            this.desactiverChargement()
+
         },
 
         /**
@@ -124,6 +165,9 @@ export const useAdminStore = defineStore("admin", {
         * @description signaler une erreur pour une bouteille saq
         */
         async resoudreErreur() {
+            
+            this.activerChargement()
+
             try {
                 await axios.put('/api/signalements', this.laBouteilleACorriger)
                 await this.getSignalements();
@@ -133,8 +177,9 @@ export const useAdminStore = defineStore("admin", {
                 this.lesErreursBouteilleAcorriger = error.response.data.errors
             }
 
-        },
+            this.desactiverChargement()
 
+        },
 
     }
 })

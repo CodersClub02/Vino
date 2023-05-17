@@ -36,6 +36,6 @@ Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
                 ->middleware('auth')
                 ->name('logout');
 
-Route::put('/update', [RegisteredUserController::class, 'sto'])
+Route::put('/update', [RegisteredUserController::class, 'update'])
                 ->middleware('auth')
                 ->name('update');
