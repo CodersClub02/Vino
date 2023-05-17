@@ -13,25 +13,26 @@ class ContenirController extends Controller
     */
     public function index(Request $request)
     {
-        $predicate = [['quantite', '>', 0]];
+        $predicate = [['quantite', '>', 0], ['celliers.user_id', '=', auth()->user()->id]];
 
         if($request->has('recherche') || $request->has('filtre')){
 
             if($request->has('cellier_id')) array_push($predicate, ['cellier_id', '=', $request->cellier_id]);
-            if($request->has('mot_cle')) array_push($predicate, ['nom', 'like', $request->mot_cle . '%']);
+            if($request->has('mot_cle')) array_push($predicate, ['bouteilles.nom', 'like', $request->mot_cle . '%']);
             if($request->has('notes')) array_push($predicate, ['notes', '=', $request->notes ]);
             if($request->has('type_id')) array_push($predicate, ['type_id', '=', $request->type_id ]);
             if($request->has('pays_id')) array_push($predicate, ['pays_id', '=', $request->pays_id ]);
             
             $requete = Bouteille::where($predicate)
             ->join('contenirs', 'bouteilles.id', '=', 'contenirs.bouteille_id')
-            ->select('*')
+            ->join('celliers', 'celliers.id', '=', 'contenirs.cellier_id')
+            ->select('bouteilles.*', 'contenirs.*')
             ->with('pays:nom,id', 'type:nom,id');
 
         }else{
             array_push($predicate, ['cellier_id', '=', $request->id]);
-            dd($predicate);
-            $requete = Contenir::where($predicate);
+            $requete = Contenir::where($predicate)
+            ->join('celliers', 'celliers.id', '=', 'contenirs.cellier_id');
 
         }
 

@@ -248,14 +248,14 @@ const afficherFiltre = ref(false)
     </div>
 
     <template v-if="appStore.celliers.length >= 1">
-        <label v-if="!modeRecherche" @click="modeRecherche = !modeRecherche"
+        <label v-if="!modeRecherche" @click="modeRecherche = !modeRecherche, modeFiltre = false"
             class="fixed bottom-2 left-2 bg-rose-900/25 h-10 w-10 rounded-full flex justify-center items-center">
             <img src="/icones/rechercher.svg" class=" h-6 block">
         </label>
         <nav v-if="modeRecherche && !appStore.afficherFormBouteille && appStore.cellierSelectione?.nom"
             class="flex gap-3 items-center fixed bottom-0 bg-rose-900/75 py-2 px-3 w-full">
 
-            <label @click="modeRecherche = !modeRecherche"
+            <label @click="modeRecherche = !modeRecherche, modeFiltre = false"
                 class="bg-rose-900/25 h-10 w-10 rounded-full flex justify-center items-center">
                 <img src="/icones/cacher-recherche.svg" class="h-6 block">
             </label>
