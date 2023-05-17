@@ -43,7 +43,7 @@ onMounted(async () => {
     <header class="bg-white shadow mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
         <h1 class="text-3xl tracking-tight text-gray-600 font-semibold font-title">
             Salut
-            <span class="font-bold text-rose-800">{{ authStore.user.name }}</span>
+            <span class="font-bold text-rose-800">{{ form.nom }}</span>
         </h1>
     </header>
 

@@ -1,4 +1,4 @@
-import { defineStore } from "pinia";
+import { defineStore, getActivePinia } from "pinia";
 
 import axios from "axios";
 
@@ -93,7 +93,8 @@ export const useAuthStore = defineStore("auth", {
          */
         async deconnecter() {
             await axios.post('/logout')
-            this.authUser = null
+            getActivePinia()._s.forEach(store => store.$reset());
+            localStorage.removeItem('cellier_id')
         },
 
         /**
