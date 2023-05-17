@@ -46,7 +46,7 @@ const tableauNotes = [{ id: 1, nom: '1 étoile' }, { id: 2, nom: '2 étoiles' },
             <template v-if="!appStore.bouteilleSelectione.id">
                 <div>
                     <div class="flex items-center justify-between">
-                        <label class="text-sm leading-6 text-gray-900 font-semibold">Source bouteille</label>
+                        <label class="text-sm leading-6 text-gray-900 font-semibold">Ou vous avez achetés votre bouteille?</label>
                     </div>
 
                     <div
@@ -54,12 +54,12 @@ const tableauNotes = [{ id: 1, nom: '1 étoile' }, { id: 2, nom: '2 étoiles' },
                         <label class="flex items-center gap-2 text-sm leading-6 text-gray-900 ">
                             <input type="radio" class="form-radio accent-rose-600" name="source" value="saq"
                                 v-model="appStore.bouteilleSelectione.source" checked>
-                            la SAQ
+                            magasin de SAQ
                         </label>
                         <label class="flex items-center gap-2 text-sm leading-6 text-gray-900 ">
                             <input type="radio" class="form-radio accent-rose-600" name="source" value="autre"
                                 v-model="appStore.bouteilleSelectione.source">
-                            Autre
+                            Autre magasin
                         </label>
                     </div>
                 </div>
