@@ -97,17 +97,17 @@ watch(props.bouteille, (currentState, prevState) => {
                 <span>Code SAQ: {{ bouteille.code_saq }}</span>
                 <span>{{ bouteille.prix_saq }} $</span>
                 <span class="flex justify-between text-sm">
+                    
                     <a :href="bouteille.url_saq" target="_blank"
                         class="flex gap-1  text-rose-900 items-center cursor-pointer">
                         voir sur saq.com
                     </a>
 
-                    <label @click="appStore.togglerFormSignaler(bouteille)"
-                        class="border border-gray p-1 px-2 block rounded ">
-                        {{ bouteille.anomalie ? 'modifier' : 'signaler' }} </label>
+                    <label v-if="!bouteille.anomalie" @click="appStore.togglerFormSignaler(bouteille)" class="border border-gray p-1 px-2 block rounded ">signaler</label>
+                    
+                    <label v-else class="border border-gray p-1 px-2 block rounded ">signalé</label>
                 </span>
-                <div v-if="bouteille.anomalie" class="border border-gray p-1 px-2 block rounded ">{{ bouteille.anomalie }}
-                </div>
+
             </div>
         </template>
 

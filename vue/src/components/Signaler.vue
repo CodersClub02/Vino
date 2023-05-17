@@ -21,7 +21,7 @@ const signaler = ref({
 </script>
 
 <template>
-    <div class="w-full bg-gray-900/10 fixed inset-0 flex justify-center items-center">
+    <div class="w-full bg-gray-900/10 fixed z-10 inset-0 flex justify-center items-center">
 
         <form @submit.prevent="appStore.signalerErreur(signaler), $emit('cacherFormSignaler')"
             class="flex gap-16 flex-col max-w-md w-full bg-white p-5 ">
