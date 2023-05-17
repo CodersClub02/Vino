@@ -21,8 +21,8 @@ const zone = ref('signalements');
         </label>
 
         <label @click="zone = 'bouteillesaq'"
-            :class="[zone == 'bouteillesaq' ? 'bg-gray-100 text-rose-800 font-semibold' : '', 'flex  gap-2  px-4 py-2 text-sm']"
-            class="cursor-pointer">saq
+            :class="[zone == 'bouteillesaq' ? 'bg-gray-100 text-rose-800 font-semibold' : '', 'flex gap-2 px-4 py-2 text-sm']"
+            class="cursor-pointer">importer
         </label>
 
     </header>
