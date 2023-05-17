@@ -17,6 +17,9 @@ class AdminController extends Controller
      */
     public function membres()
     {
+        if( auth()->user()->est_admin != 1){
+            return response()->json(['status' => 'not ok', 'message'=>'non autorisé']);
+        }
          return response()->json(
             User::withCount('contenirs', 'celliers')
             ->whereNot('id', auth()?->user()?->id)
@@ -30,6 +33,10 @@ class AdminController extends Controller
      */
     public function signalements()
     {
+        if( auth()->user()->est_admin != 1){
+            return response()->json(['status' => 'not ok', 'message'=>'non autorisé']);
+        }
+
          return response()->json(
             Cellier::join('contenirs', 'celliers.id', '=', 'contenirs.cellier_id')
             ->join('users', 'users.id', '=', 'celliers.user_id')
@@ -47,6 +54,10 @@ class AdminController extends Controller
      */
     public function resoudre(Request $request)
     {
+        if( auth()->user()->est_admin != 1){
+            return response()->json(['status' => 'not ok', 'message'=>'non autorisé']);
+        }
+
         $request->validate([
             'type_id' => 'required|exists:types,id',
             'pays_id' => 'required|exists:pays,id',
@@ -86,6 +97,10 @@ class AdminController extends Controller
      */
     public function modifierStatut(User $user)
     {
+        if( auth()->user()->est_admin != 1){
+            return response()->json(['status' => 'not ok', 'message'=>'non autorisé']);
+        }
+        
         $user->update([
             "actif" => !$user->actif
         ]);
