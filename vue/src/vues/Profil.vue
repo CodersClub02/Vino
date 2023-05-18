@@ -21,7 +21,7 @@ const authStore = useAuthStore()
  */
 let modifier = ref(false)
 function toggleModifier() {
-    this.modifier = !this.modifier
+    modifier = !modifier
 }
 
 const form = ref({

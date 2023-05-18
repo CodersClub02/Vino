@@ -32,7 +32,7 @@ class CellierController extends Controller
             ->with('pays:nom,id', 'type:nom,id')
             ->where('celliers.user_id', '=', auth()->user()->id)
             ->select('bouteilles.*', 'contenirs.*');
-            if($request->has('tri_par')){
+            if($request->filled('tri_par')){
                 $requete->orderBy($request->tri_par);
             }
 
@@ -52,7 +52,7 @@ class CellierController extends Controller
             ->join('celliers', 'celliers.id', '=', 'contenirs.cellier_id')
             ->with('pays:nom,id', 'type:nom,id')
             ->where('celliers.user_id', '=', auth()->user()->id);
-            if($request->has('tri_par')){
+            if($request->filled('tri_par')){
                 $requete->orderBy($request->tri_par);
             }
 

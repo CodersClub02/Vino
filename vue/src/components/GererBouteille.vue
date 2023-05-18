@@ -46,7 +46,9 @@ const tableauNotes = [{ id: 1, nom: '1 étoile' }, { id: 2, nom: '2 étoiles' },
             <template v-if="!appStore.bouteilleSelectione.id">
                 <div>
                     <div class="flex items-center justify-between">
-                        <label class="text-sm leading-6 text-gray-900 font-semibold">Ou vous avez achetés votre bouteille?</label>
+                        <label class="text-sm leading-6 text-gray-900 font-semibold">
+                            Où avez-vous acheté votre bouteille ?
+                        </label>
                     </div>
 
                     <div
