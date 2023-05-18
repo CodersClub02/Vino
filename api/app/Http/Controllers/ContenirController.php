@@ -35,7 +35,7 @@ class ContenirController extends Controller
             ->join('celliers', 'celliers.id', '=', 'contenirs.cellier_id');
         }
 
-        if($request->has('tri_par')){
+        if($request->filled('tri_par')){
             $requete->orderBy($request->tri_par);
         }
         return response()->json(

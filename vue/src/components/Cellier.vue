@@ -156,8 +156,8 @@ const afficherFiltre = ref(false)
             <div class="flex flex-col gap-2">
                 <span class="flex gap-2 items-center justify-end">
                     <select @input="trierMesBouteilles($event.target.value)"
-                        class="w-20 flex justify-center items-center text-gray-700 rounded cursor-pointer px-2 h-10 bg-gray-200">
-                        <option value="" selected>trier</option>
+                        class="w-24 flex justify-center items-center text-gray-700 rounded cursor-pointer px-2 h-10 bg-gray-200">
+                        <option value="" selected>trier par</option>
                         <option v-for="(tri) in cleTriage" :value="tri.id">{{ tri.nom }}</option>
                     </select>
                 </span>
@@ -184,8 +184,8 @@ const afficherFiltre = ref(false)
             <div class="flex flex-col gap-2">
                 <span class="flex gap-2 items-center justify-end">
                     <select @input="trierMesBouteilles($event.target.value)"
-                        class="w-20 flex justify-center items-center text-gray-700 rounded cursor-pointer px-2 h-10 bg-gray-200">
-                        <option value="" selected>trier</option>
+                        class="w-24 flex justify-center items-center text-gray-700 rounded cursor-pointer px-2 h-10 bg-gray-200">
+                        <option value="" selected>trier par</option>
                         <option v-for="(tri) in cleTriage" :value="tri.id">{{ tri.nom }}</option>
                     </select>
 
@@ -237,8 +237,8 @@ const afficherFiltre = ref(false)
                 </div>
                 <div v-else class="flex justify-end gap-5">
                     <select @input="trierMesBouteilles($event.target.value)"
-                        class="w-20 flex justify-center items-center text-gray-700 rounded cursor-pointer px-2 h-10 bg-gray-200">
-                        <option value="" selected>trier</option>
+                        class="w-24 flex justify-center items-center text-gray-700 rounded cursor-pointer px-2 h-10 bg-gray-200">
+                        <option value="" selected>trier par</option>
                         <option v-for="(tri) in cleTriage" :value="tri.id">{{ tri.nom }}</option>
                     </select>
                     <label @click="modeFiltre = true, afficherFiltre = true"
