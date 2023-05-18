@@ -66,7 +66,7 @@ export const useAuthStore = defineStore("auth", {
             this.authErreurs = []
             try {
                 await this.getToken()
-                await axios.post('/login', {
+                const connexion = await axios.post('/login', {
                     email: donnees.courriel,
                     password: donnees.mot_de_passe
                 })
@@ -74,14 +74,15 @@ export const useAuthStore = defineStore("auth", {
                 // aller dans la page d'accueil
                 this.router.push({ name: 'Accueil' });
             } catch (error) {
-
-                if (error.response.status == 404) {
+                if (error.response.status == 403) {
+                    //to be reviewed
+                    this.authErreurs.email = [error.response.data.message]
+                } else if (error.response.status == 404) {
                     //to be reviewed
                     this.authErreurs = error.response.data.message
                 } else if (error.response.status == 422) {
                     this.authErreurs = error.response.data.errors
                 }
-
             }
         },
 
