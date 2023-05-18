@@ -17,9 +17,20 @@ class AuthenticatedSessionController extends Controller
     {
         $request->authenticate();
 
-        $request->session()->regenerate();
+        if(auth()->user()->actif == 0){
+            Auth::guard('web')->logout();
 
-        return response()->noContent();
+            $request->session()->invalidate();
+
+            $request->session()->regenerateToken();
+            abort(403, "Compte vérouillé. Contactez l'admin svp");
+
+        }else{
+            
+            $request->session()->regenerate();
+            return response()->noContent();
+        }
+
     }
 
     /**
