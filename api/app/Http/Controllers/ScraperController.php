@@ -10,31 +10,10 @@ use Illuminate\Support\Facades\Http;
 
 class ScraperController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Bouteille $bouteille)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Bouteille $bouteille)
-    {
-        //
-    }
 
      /**
-     * Store a newly created resource in storage.
+     * @author Saddek
+     * Enregistrer les bouteilles recuperée du saq
      */
 	public function store(Request $request) {
 	
@@ -47,8 +26,7 @@ class ScraperController extends Controller
         ]);
 
         while($page == 1 or str_contains($_webpage, '<span class="toolbar-number">1</span>') == false ){
-            echo ($page . ": done<br>");
-            // if($page >= 5) exit($page . ": done");
+
             unset($doc);
             $doc = new \DOMDocument();
             $doc->recover = true;
@@ -82,14 +60,22 @@ class ScraperController extends Controller
 
 	}
 
+    /**
+     * @author Saddek
+     * enleve les espace dans les chaines de characteres
+    */
 	private function nettoyerEspace($chaine)
 	{
 		return preg_replace('/\s+/', ' ',$chaine);
 	}
 
-	private function recupereInfo($noeud) {
 
-        
+    /**
+     * @author Saddek
+     * retrouve l'infos dans le document HTML recuperé du saq
+     */
+	private function recupereInfo($noeud) {
+    
         $lesImages = $noeud->getElementsByTagName("img");
         $img = null;
         for ($i = 0; $i < $lesImages->length; $i++) {
@@ -148,7 +134,10 @@ class ScraperController extends Controller
 		return $info;
 	}
 
-
+    /**
+     * @author Saddek
+     * Sauvegarder les données de bouteille dans la base des données
+     */
     private function insererBouteille(Request $request){
 
         $type = Type::firstOrCreate([

@@ -50,7 +50,7 @@ class AdminController extends Controller
 
     /**
      * @author Saddek
-     * Resoudre une anomalie
+     * Resoudre une anomalie: corriger l'erreur signalée par le membre
      */
     public function resoudre(Request $request)
     {
